@@ -121,13 +121,14 @@ def sendToUser(auth_reps, sk, MAC_key, Ru):
         Hsat = hashlib.sha256(userInfo["userKey"] + userInfo["preRandom"] + Ru).hexdigest()
 
         # 将Eku(Hsat)，MAC发给用户
-        secret = aes_encrypt(Hsat, Ku)
-        msg = "ReqUserSSuccess" + secret + sessionId
-        MAC = hmac.new(MAC_user_key, secret, hashlib.sha256)
+        secretHsat = aes_encrypt(Hsat, Ku)
+        secretSessionId = aes_encrypt(sessionId, Ku)
+        msg = "ReqUserSSuccess" + secretHsat + secretSessionId
+        MAC = hmac.new(MAC_user_key, secretHsat, hashlib.sha256)
         data = {
             "ReqAuth":"ReqUserSuccess",
-            "sessionId":sessionId,
-            "secret":secret,
+            "secretHsat":secretHsat,
+            "sessionId":secretSessionId,
             "MAC":MAC
         }
 

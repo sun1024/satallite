@@ -106,11 +106,11 @@ def sendToUser(auth_reps, sk, MAC_key, Ru):
         IDu = aes_decrypt(auth_reps['data1'], sk)
         Ku = aes_decrypt(auth_reps['data2'], sk)
 
-        global sessions
-        sessions[sessionId] = {
-            "IDu":IDu,
-            "Ku":Ku
-        }
+        # global sessions
+        # sessions[sessionId] = {
+        #     "IDu":IDu,
+        #     "Ku":Ku
+        # }
 
         # 读取用户信息
         with open("userInfo.json", "r") as userInfo:
@@ -132,6 +132,19 @@ def sendToUser(auth_reps, sk, MAC_key, Ru):
             "MAC":MAC
         }
 
+        # 生成会话密钥 sessionKey sessionMACKey
+        sessionKey = ""
+        sessionMACKey = ""
+
+        global sessions
+        sessions[sessionId] = {
+            "IDu":IDu,
+            "Ku":Ku,
+            "sessionKey":sessionKey,
+            "sessionMACKey":sessionMACKey,
+            "time":int(time.time())
+        }
+        
         # 返回用户
         return data
 

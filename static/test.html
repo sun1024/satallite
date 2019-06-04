@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <style type="text/css">
+        #item {
+            width: 100%,
+        }
+        #ico1 {
+            position: absolute;
+            left: 20%;
+            top: 60%
+        }
+
+        #ico2 {
+            position: absolute;
+            left: 47%;
+            top: 20%
+        }
+
+        #ico3 {
+            position: absolute;
+            left: 75%;
+            top: 60%
+        }
+    </style>
+    <title></title>
+</head>
+
+<body>
+    <div id="main">
+        <div id="ico1">
+            <img src="/static/user.png" alt="用户" width="60%" height="60%">
+        </div>
+        <div id="ico2">
+            <img src="/static/sate.png" alt="卫星" width="60%" height="60%">
+        </div>
+        <div id="ico3">
+            <img src="/static/ncc.png" alt="NCC" width="60%" height="60%">
+        </div>
+    </div>
+    <?xml version="1.0" encoding="utf-8"?>
+
+    <svg class="svg1" version="1.1" id="svg_1" xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1334 622"
+        style="enable-background:new 0 0 1334 622; " xml:space="preserve">
+
+        <style type="text/css">
+            .st1 {
+                fill: #FFFFFF;
+                stroke: #000000;
+                stroke-dasharray: 20;
+            }
+
+            .path {
+
+                stroke-dasharray: 1000;
+                stroke-dashoffset: 1000;
+                stroke: #34a4e4;
+                stroke-width: 4px;
+                animation: dash 10s linear forwards;
+
+            }
+
+            .path1 {
+                transition: all 5s;
+            }
+
+            @keyframes dash {
+                from {
+                    stroke-dashoffset: 1000;
+                }
+
+                to {
+                    stroke-dashoffset: 0;
+                }
+            }
+        </style>
+        <line class="st0 path" x1="340" y1="340" x2="600" y2="220" />
+        <line class="st0 path" x1="720" y1="220" x2="1000" y2="400" />
+        <!-- <line class="st1" x1="536" y1="474" x2="754.7" y2="186" /> -->
+    </svg>
+</body>
+
+</html>

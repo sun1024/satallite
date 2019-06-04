@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>卫星接入认证演示</title>
+</head>
+
+<body>
+	<h1 align="center">卫星接入认证演示</h1>
+	
+	<h2>卫星信息:</h2>
+	<table border="1" width="100%" bgcolor="#e9faff" cellpadding="15">
+		<tr>
+			<th>信息字段</th>
+			<th>认证消息</th>
+		</tr>
+		<tr>
+			<td align="center">PIDs:</td>
+			<td>{{conn_data["satalliteData"]["PIDs"]}}</td>
+		</tr>
+		<tr>
+			<td align="center">Rs:</td>
+			<td>{{conn_data["satalliteData"]["Rs"]}}</td>
+		</tr>
+		<tr>
+			<td align="center">MACs:</td>
+			<td>{{conn_data["satalliteData"]["MACs"]}}</td>
+		</tr>
+		<tr>
+			<td align="center">Ts:</td>
+			<td>{{conn_data["satalliteData"]["Ts"]}}</td>
+		</tr>
+		<tr>
+			<td align="center">Hs:</td>
+			<td>{{conn_data["satalliteData"]["Hs"]}}</td>
+		</tr>
+	</table>
+
+	<h2>接入用户信息:</h2>
+	<table border="1" width="100%" bgcolor="#e9faff" cellpadding="15">
+		<tr>
+			<th>信息字段</th>
+			<th>认证消息</th>
+		</tr>
+		<tr>
+			<td align="center">PIDu:</td>
+			<td>{{conn_data["userData"]["PIDu"]}}</td>
+		</tr>
+		<tr>
+			<td align="center">Ru:</td>
+			<td>{{conn_data["userData"]["Ru"]}}</td>
+		</tr>
+		<tr>
+			<td align="center">MACu:</td>
+			<td>{{conn_data["userData"]["MACu"]}}</td>
+		</tr>
+		<tr>
+			<td align="center">Tu:</td>
+			<td>{{conn_data["userData"]["Tu"]}}</td>
+		</tr>
+		<tr>
+			<td align="center">Hu:</td>
+			<td>{{conn_data["userData"]["Hu"]}}</td>
+		</tr>
+	</table>
+
+
+</body>
+
+</html>

@@ -5,6 +5,7 @@ import hmac
 
 from xor1 import *
 from AES_use import *
+from RSA_sign import *
 
 
 # 卫星第一次请求需要的所有数据
@@ -40,58 +41,75 @@ def sendToNcc(satalliteData, userData):
         "userData":userData,
         "satalliteData":satalliteData
     })
-    url = "http://ncc"
-    # url = "http://172.33.15.36:7543/index"
+    url = "http://172.23.22.179:7543/ncc/user/IdentityCheck"
     proxies = {'http': 'http://127.0.0.1:8080'}
     reps = requests.post(url, data=data, proxies=proxies)
     # reps = requests.post(url, data=data)
     auth_reps = json.loads(reps.content)
-    print auth_reps
-    # 通过auth_reps判断认证是否成功
+    print auth_reps["MasterKey"]
+    if auth_reps["Code"] == "0":
+        # 通过auth_reps判断认证是否成功
+        return dealResNcc(auth_reps, satalliteData["Rs"], userData["Ru"], userData["PIDu"])
+    else:
+        data = {"ReqAuth":"ReqAuthFailed"}
+        return data
 
-    # return dealResNcc(auth_reps, satalliteData["Rs"], userData["Ru"], userData["PIDu"])
 
 # 处理Ncc返回信息
 def dealResNcc(auth_reps, Rs, Ru, PIDu):
     timestamp = int(time.time())
 
     # 验证签名
-    # sign = auth_reps["sign"]
-
-    # 读取用户信息
-    with open("userInfo.json", "r") as userInfo:
-        userInfo = json.load(userInfo)
-    masterKey = auth_reps["masterKey"]
-    # 生成sk, MAC_key
-    sk = hashlib.sha256(masterKey + userInfo["userKey"]).hexdigest()
-    MAC_key = hashlib.sha256(userInfo["userKey"] + masterKey + Rs).hexdigest()
-    # 生成MAC
-    msg = "ReqUserInfo" + str(timestamp) + PIDu
-    MAC = hmac.new(MAC_key, msg, hashlib.sha256)
-    # 请求用户身份信息
-    url = "http://ncc/reqUserInfo"
-    data = json.dumps({
-        "ReqAuth":"ReqUserInfo",
-        "Ts":str(timestamp),
-        "PIDu":PIDu,
-        "MAC":MAC
-    })
-    reps = requests.post(url, data=data)
-    auth_reps = json.loads(reps.content)
-    # 返回信息：Esk{IDui，Ki}、MAC、TNCC
-    return sendToUser(auth_reps, sk, MAC_key, Ru)
+    sign = auth_reps["Signiture"].decode('hex')
+    verify = rsa_verify(sign, auth_reps["MasterKey"])
+    if verify:
+        # 读取用户信息
+        with open("userInfo.json", "r") as userInfo:
+            userInfo = json.load(userInfo)
+        masterKey = auth_reps["MasterKey"]
+        # 生成sk, MAC_key
+        sk = hashlib.sha256(masterKey + userInfo["userKey"]).hexdigest()
+        MAC_key = hashlib.sha256(userInfo["userKey"] + masterKey + Rs).hexdigest()
+        # 生成MAC
+        msg = "ReqUserInfo" + str(timestamp) + PIDu
+        MAC = hmac.new(MAC_key, msg, hashlib.sha256).hexdigest()
+        # 请求用户身份信息
+        url = "http://ncc/reqUserInfo"
+        data = json.dumps({
+            "ReqAuth":"ReqUserInfo",
+            "Ts":str(timestamp),
+            "PIDu":PIDu,
+            "MAC":str(MAC)
+        })
+        proxies = {'http': 'http://127.0.0.1:8080'}
+        reps = requests.post(url, data=data, proxies=proxies)
+        # reps = requests.post(url, data=data)
+        auth_reps = json.loads(reps.content)
+        # 返回信息：Esk{IDui，Ki}、MAC、TNCC
+        # return sendToUser(auth_reps, sk, MAC_key, Ru)
+        return "200"
+    else:
+        data = {"ReqAuth":"ReqAuthFailed"}
+        return data
 
 # 处理卫星第二次返回的信息：Esk{IDu，Ku}、MAC、TNCC，并返回给用户
 def sendToUser(auth_reps, sk, MAC_key, Ru):
     # 从auth_reps中取出MAC, 用MAC_key进行验证
     msg = auth_reps["data1"] + auth_reps["data2"] + auth_reps["Tncc"]
-    MAC_compare = hmac.new(MAC_key, msg, hashlib.sha256)
+    MAC_compare = hmac.new(MAC_key, msg, hashlib.sha256).hexdigest()
 
-    if(MAC_compare == auth_reps["MAC"]):
-        
+    if(str(MAC_compare) == auth_reps["MAC"]):
+        # 生成sessionId 并保存session
+        sessionId = random.randint(1000000000, 9999999999)       
         # 用sk解密出用户IDu、Ku, 并进行保存
         IDu = aes_decrypt(auth_reps['data1'], sk)
         Ku = aes_decrypt(auth_reps['data2'], sk)
+
+        # global sesssions
+        # sessions[sessionId] = {
+        #     "IDu":IDu,
+        #     "Ku":Ku
+        # }
 
         # 读取用户信息
         with open("userInfo.json", "r") as userInfo:
@@ -107,6 +125,7 @@ def sendToUser(auth_reps, sk, MAC_key, Ru):
         MAC = hmac.new(MAC_user_key, secret, hashlib.sha256)
         data = {
             "ReqAuth":"ReqUserSuccess",
+            "sessionId":sessionId,
             "secret":secret,
             "MAC":MAC
         }

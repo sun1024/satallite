@@ -6,6 +6,8 @@ import webbrowser
 
 from dealRequest import *
 
+# sessions = {}
+
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
 
@@ -35,7 +37,7 @@ def reqAuthFromUser():
             return Response(status=500, response=data)
     else:
         return Response(status=500)
-    
+
 
 if __name__ == "__main__":
     # webbrowser.open("http://127.0.0.1:2333")

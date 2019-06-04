@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
-from flask import Flask, jsonify, request, render_template, Response
+from flask import Flask, jsonify, request, render_template, Response, send_from_directory
 from flask_cors import CORS
 import json
 import webbrowser
 
 from dealRequest import *
 
-# sessions = {}
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
@@ -19,6 +18,16 @@ def index():
 
     # return render_template('index.html', conn_data = conn_data)
     return app.send_static_file('test.html')
+
+# # 卫星提供服务
+# @app.route('/getImg')
+# def getImg():
+#     verify = requestVerify(request.data)
+#     if(verify):
+#         filename = "sate.png"
+#         return send_from_directory("upload", filename, as_attachment=True)
+#     else:
+#         return Response(status=500)
 
 # 卫星收到用户发来的认证信息，连同自己的认证信息一起发给ncc
 @app.route('/reqAuth', methods=['GET', 'POST'])

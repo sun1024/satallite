@@ -7,6 +7,7 @@ from xor1 import *
 from AES_use import *
 from RSA_sign import *
 
+sessions = {}
 
 # 卫星第一次请求需要的所有数据
 def getReqAuthData():
@@ -105,11 +106,11 @@ def sendToUser(auth_reps, sk, MAC_key, Ru):
         IDu = aes_decrypt(auth_reps['data1'], sk)
         Ku = aes_decrypt(auth_reps['data2'], sk)
 
-        # global sesssions
-        # sessions[sessionId] = {
-        #     "IDu":IDu,
-        #     "Ku":Ku
-        # }
+        global sessions
+        sessions[sessionId] = {
+            "IDu":IDu,
+            "Ku":Ku
+        }
 
         # 读取用户信息
         with open("userInfo.json", "r") as userInfo:
@@ -121,7 +122,7 @@ def sendToUser(auth_reps, sk, MAC_key, Ru):
 
         # 将Eku(Hsat)，MAC发给用户
         secret = aes_encrypt(Hsat, Ku)
-        msg = "ReqUserSSuccess" + secret
+        msg = "ReqUserSSuccess" + secret + sessionId
         MAC = hmac.new(MAC_user_key, secret, hashlib.sha256)
         data = {
             "ReqAuth":"ReqUserSuccess",

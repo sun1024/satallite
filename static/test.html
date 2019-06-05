@@ -3,6 +3,9 @@
 
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <style type="text/css">
         #item {
             width: 100%,
@@ -34,12 +37,55 @@
         <div id="ico1">
             <img src="/static/user.png" alt="用户" width="60%" height="60%">
         </div>
-        <div id="ico2">
+        <div id="ico2" data-toggle="modal" data-target="#myModal">
             <img src="/static/sate.png" alt="卫星" width="60%" height="60%">
         </div>
         <div id="ico3">
             <img src="/static/ncc.png" alt="NCC" width="60%" height="60%">
         </div>
+    </div>
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        卫星认证信息
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>字段</th>
+                                <th>信息</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>userId</td>
+                                <td>2444</td>
+                            </tr>
+                            <tr>
+                                <td>userKey</td>
+                                <td>satelliteKey</td>
+                            </tr>
+                            <tr>
+                                <td>preRandom</td>
+                                <td>preRandom</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
     </div>
     <!-- <?xml version="1.0" encoding="utf-8"?> -->
     <svg class="svg1" version="1.1" id="svg_1" xmlns="http://www.w3.org/2000/svg"
@@ -85,7 +131,21 @@
         <!-- <line class="st1" x1="536" y1="474" x2="754.7" y2="186" /> -->
     </svg>
     <script>
+        // 为图片绑定点击事件
+        document.getElementById("ico1").onclick = displayDataUser;
+        function displayDataUser() {
+            alert("终端信息");
+        }
+        // document.getElementById("ico2").onclick = displayData;
+        // function displayData() {
+        //     alert("卫星信息");
+        // }
+        document.getElementById("ico3").onclick = displayDataNCC;
+        function displayDataNCC() {
+            alert("NCC信息");
+        }
 
+        // 控制line的路径展示
         var line1 = document.getElementById("line1");
         var line2 = document.getElementById("line2");
         var line3 = document.getElementById("line3");
@@ -97,36 +157,18 @@
         setTimeout(function () {
             line1.parentNode.appendChild(line3);
             setTimeout(function () {
-                line1.parentNode.removeChild(line1);    
+                line1.parentNode.removeChild(line1);
                 line3.parentNode.appendChild(line4);
                 line3.parentNode.removeChild(line3);
-                setTimeout(function(){
+                setTimeout(function () {
                     line4.parentNode.append(line2);
-                    setTimeout(function(){
+                    setTimeout(function () {
                         line4.parentNode.removeChild(line4);
                         line2.parentNode.removeChild(line2);
                     }, 4000)
                 }, 3000)
             }, 3500);
         }, 3000);
-
-        // setTimeout(function () {
-        //     line1.parentNode.appendChild(line3);
-        //     line1.parentNode.removeChild(line1);
-        //     setTimeout(function () {
-        //         // line1.parentNode.appendChild(line2);
-        //         line3.parentNode.appendChild(line4);
-        //         line3.parentNode.removeChild(line3);
-        //         setTimeout(function(){
-        //             line4.parentNode.append(line2);
-        //             line4.parentNode.removeChild(line4);
-        //             setTimeout(function(){
-        //                 line2.parentNode.removeChild(line2);
-        //             }, 3000)
-        //         }, 3000)
-        //     }, 3500);
-        // }, 3000);
-
 
     </script>
 </body>

@@ -7,6 +7,7 @@
         #item {
             width: 100%,
         }
+
         #ico1 {
             position: absolute;
             left: 20%;
@@ -40,8 +41,7 @@
             <img src="/static/ncc.png" alt="NCC" width="60%" height="60%">
         </div>
     </div>
-    <?xml version="1.0" encoding="utf-8"?>
-
+    <!-- <?xml version="1.0" encoding="utf-8"?> -->
     <svg class="svg1" version="1.1" id="svg_1" xmlns="http://www.w3.org/2000/svg"
         xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1334 622"
         style="enable-background:new 0 0 1334 622; " xml:space="preserve">
@@ -77,10 +77,56 @@
                 }
             }
         </style>
-        <line class="st0 path" x1="340" y1="340" x2="600" y2="220" />
-        <line class="st0 path" x1="720" y1="220" x2="1000" y2="400" />
+        <line class="st0 path" id="line1" x1="340" y1="340" x2="600" y2="220" />
+        <line class="st0 path" id="line2" x1="600" y1="220" x2="340" y2="340" />
+        <line class="st0 path" id="line3" x1="720" y1="220" x2="1000" y2="400" />
+        <line class="st0 path" id="line4" x1="1000" y1="400" x2="720" y2="220" />
+
         <!-- <line class="st1" x1="536" y1="474" x2="754.7" y2="186" /> -->
     </svg>
-</body>
+    <script>
 
-</html>
+        var line1 = document.getElementById("line1");
+        var line2 = document.getElementById("line2");
+        var line3 = document.getElementById("line3");
+        var line4 = document.getElementById("line4");
+        line2.parentNode.removeChild(line2);
+        line3.parentNode.removeChild(line3);
+        line4.parentNode.removeChild(line4);
+
+        setTimeout(function () {
+            line1.parentNode.appendChild(line3);
+            setTimeout(function () {
+                line1.parentNode.removeChild(line1);    
+                line3.parentNode.appendChild(line4);
+                line3.parentNode.removeChild(line3);
+                setTimeout(function(){
+                    line4.parentNode.append(line2);
+                    setTimeout(function(){
+                        line4.parentNode.removeChild(line4);
+                        line2.parentNode.removeChild(line2);
+                    }, 4000)
+                }, 3000)
+            }, 3500);
+        }, 3500);
+
+        // setTimeout(function () {
+        //     line1.parentNode.appendChild(line3);
+        //     line1.parentNode.removeChild(line1);
+        //     setTimeout(function () {
+        //         // line1.parentNode.appendChild(line2);
+        //         line3.parentNode.appendChild(line4);
+        //         line3.parentNode.removeChild(line3);
+        //         setTimeout(function(){
+        //             line4.parentNode.append(line2);
+        //             line4.parentNode.removeChild(line4);
+        //             setTimeout(function(){
+        //                 line2.parentNode.removeChild(line2);
+        //             }, 3000)
+        //         }, 3000)
+        //     }, 3500);
+        // }, 3000);
+
+
+    </script>
+</body>

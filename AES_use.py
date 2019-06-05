@@ -22,7 +22,9 @@ def padding(text):
 def encrypt(text, key):
     # key = '9999999999999999'
     mode = AES.MODE_CBC
-    iv = b'0000000000000000'
+    # iv = b'0000000000000000'
+    iv = key[0:16]
+    # print len(iv)
     text = pad(text)
     cryptos = AES.new(key, mode, iv)
     cipher_text = cryptos.encrypt(text)
@@ -33,7 +35,8 @@ def encrypt(text, key):
 # 解密后，去掉补足的空格用strip() 去掉
 def decrypt(text, key):
     # key = '9999999999999999'
-    iv = b'0000000000000000'
+    # iv = b'0000000000000000'
+    iv = key[0:16]
     mode = AES.MODE_CBC
     cryptos = AES.new(key, mode, iv)
     plain_text = cryptos.decrypt(a2b_hex(text))
@@ -41,17 +44,17 @@ def decrypt(text, key):
     # return bytes.decode(plain_text).rstrip('\0')
 
 
-if __name__ == '__main__':
-    # key = '9999999999999999' 16 | 24 | 32 个字符
-    key = 'c24f3213ecd0b4532810d2162d1e3daf4c97335552f911835bd1e48ba3ad116d'
-    key = bytes(key.decode('hex'))
-    # print str(key)
-    data = "userKey"
-    # print len(key.decode('hex'))
-    e = encrypt(data, key)
-    # e = "7d8b9fd45d52d842f9cecb4c087e6d22".decode('hex')  # 加密
-    d = decrypt(e, key)  # 解密
-    print "加密:", e
-    print "解密:", d 
+# if __name__ == '__main__':
+#     # key = '9999999999999999' 16 | 24 | 32 个字符
+#     key = 'b0282e1fb6a4cdfc583e44a367b68f635c716db6558e90442388c8bcfab0ca3a'
+#     key = bytes(key.decode('hex'))
+#     # print str(key)
+#     data = "userKey"
+#     # print len(key.decode('hex'))
+#     e = encrypt(data, key)
+#     # e = "e0a42b6596f180d25b2e624b062ba64f"
+#     d = decrypt(e, key)  # 解密
+#     print "加密:", e
+#     print "解密:", d 
 
-    # e0a42b6596f180d25b2e624b062ba6
+    # e0a42b6596f180d25b2e624b062ba64f

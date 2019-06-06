@@ -35,13 +35,16 @@
 <body>
     <div id="main">
         <div id="ico1">
-            <img src="/static/user.png" alt="用户" width="60%" height="60%">
+            <!-- <img src="/static/user.png" alt="用户" id="user" width="60%" height="60%"> -->
+            user
         </div>
         <div id="ico2" data-toggle="modal" data-target="#myModal">
-            <img src="/static/sate.png" alt="卫星" width="60%" height="60%">
+            <!-- <img src="/static/sate.png" alt="卫星" width="60%" height="60%"> -->
+            satellite
         </div>
         <div id="ico3">
-            <img src="/static/ncc.png" alt="NCC" width="60%" height="60%">
+            <!-- <img src="/static/ncc.png" alt="NCC" width="60%" height="60%"> -->
+            ncc
         </div>
     </div>
     <!-- 模态框（Modal） -->
@@ -130,16 +133,22 @@
 
         <!-- <line class="st1" x1="536" y1="474" x2="754.7" y2="186" /> -->
     </svg>
+    <!-- <div>
+        <button type="button" class="btn btn-primary" onclick="runLine()">开始认证</button>
+        <button type="button" class="btn btn-info">认证结果</button>
+    </div> -->
     <script>
+
         // 为图片绑定点击事件
         document.getElementById("ico1").onclick = displayDataUser;
         function displayDataUser() {
             alert("终端信息");
         }
-        // document.getElementById("ico2").onclick = displayData;
-        // function displayData() {
-        //     alert("卫星信息");
-        // }
+
+        var ico1 = document.getElementById('ico1');
+        console.log(ico1.getBoundingClientRect().left);
+        console.log(ico1.getBoundingClientRect().top);
+
         document.getElementById("ico3").onclick = displayDataNCC;
         function displayDataNCC() {
             alert("NCC信息");
@@ -150,25 +159,31 @@
         var line2 = document.getElementById("line2");
         var line3 = document.getElementById("line3");
         var line4 = document.getElementById("line4");
+        line1.parentNode.removeChild(line1);
         line2.parentNode.removeChild(line2);
         line3.parentNode.removeChild(line3);
         line4.parentNode.removeChild(line4);
+        runLine();
 
-        setTimeout(function () {
-            line1.parentNode.appendChild(line3);
+        function runLine() {
+            var svg = document.getElementById("svg_1");
+            svg.appendChild(line1);
             setTimeout(function () {
-                line1.parentNode.removeChild(line1);
-                line3.parentNode.appendChild(line4);
-                line3.parentNode.removeChild(line3);
+                line1.parentNode.appendChild(line3);
                 setTimeout(function () {
-                    line4.parentNode.append(line2);
+                    line1.parentNode.removeChild(line1);
+                    line3.parentNode.appendChild(line4);
+                    line3.parentNode.removeChild(line3);
                     setTimeout(function () {
-                        line4.parentNode.removeChild(line4);
-                        line2.parentNode.removeChild(line2);
-                    }, 4000)
-                }, 3000)
-            }, 3500);
-        }, 3000);
+                        line4.parentNode.append(line2);
+                        setTimeout(function () {
+                            line4.parentNode.removeChild(line4);
+                            line2.parentNode.removeChild(line2);
+                        }, 4000)
+                    }, 3000)
+                }, 3500);
+            }, 3000);
+        }
 
     </script>
 </body>

@@ -17,7 +17,7 @@ def index():
         # conn_data = json.load(conn)
 
     # return render_template('index.html', conn_data = conn_data)
-    return app.send_static_file('test.html')
+    return app.send_static_file('index.html')
 
 
 # 卫星收到用户发来的认证信息，连同自己的认证信息一起发给ncc

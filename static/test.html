@@ -6,47 +6,11 @@
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <style type="text/css">
-        #item {
-            width: 100%,
-        }
 
-        #ico1 {
-            position: absolute;
-            left: 20%;
-            top: 60%
-        }
-
-        #ico2 {
-            position: absolute;
-            left: 47%;
-            top: 20%
-        }
-
-        #ico3 {
-            position: absolute;
-            left: 75%;
-            top: 60%
-        }
-    </style>
     <title></title>
 </head>
 
 <body>
-    <div id="main">
-        <div id="ico1">
-            <!-- <img src="/static/user.png" alt="用户" id="user" width="60%" height="60%"> -->
-            user
-        </div>
-        <div id="ico2" data-toggle="modal" data-target="#myModal">
-            <!-- <img src="/static/sate.png" alt="卫星" width="60%" height="60%"> -->
-            satellite
-        </div>
-        <div id="ico3">
-            <!-- <img src="/static/ncc.png" alt="NCC" width="60%" height="60%"> -->
-            ncc
-        </div>
-    </div>
     <!-- 模态框（Modal） -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -91,54 +55,88 @@
         </div><!-- /.modal -->
     </div>
     <!-- <?xml version="1.0" encoding="utf-8"?> -->
-    <svg class="svg1" version="1.1" id="svg_1" xmlns="http://www.w3.org/2000/svg"
-        xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1334 622"
-        style="enable-background:new 0 0 1334 622; " xml:space="preserve">
-
-        <style type="text/css">
-            .st1 {
-                fill: #FFFFFF;
-                stroke: #000000;
-                stroke-dasharray: 20;
-            }
-
-            .path {
-
-                stroke-dasharray: 1000;
-                stroke-dashoffset: 1000;
-                stroke: #34a4e4;
-                stroke-width: 4px;
-                animation: dash 10s linear forwards;
-
-            }
-
-            .path1 {
-                transition: all 5s;
-            }
-
-            @keyframes dash {
-                from {
-                    stroke-dashoffset: 1000;
+    <div class="container" style="width:100%; height:100%;">
+        <div class="panel panel-default">
+            <div id="ico1">
+                <!-- <img src="/static/user.png" alt="用户" id="user" width="60%" height="60%"> -->
+                user
+            </div>
+            <div id="ico2" data-toggle="modal" data-target="#myModal">
+                <!-- <img src="/static/sate.png" alt="卫星" width="60%" height="60%"> -->
+                satellite
+            </div>
+            <div id="ico3">
+                <!-- <img src="/static/ncc.png" alt="NCC" width="60%" height="60%"> -->
+                ncc
+            </div>
+            <style type="text/css">
+                #ico1 {
+                    position: absolute;
+                    left: 20%;
+                    top: 60%
                 }
 
-                to {
-                    stroke-dashoffset: 0;
+                #ico2 {
+                    position: absolute;
+                    left: 47%;
+                    top: 20%
                 }
-            }
-        </style>
-        <line class="st0 path" id="line1" x1="340" y1="340" x2="600" y2="220" />
-        <line class="st0 path" id="line2" x1="600" y1="220" x2="340" y2="340" />
-        <line class="st0 path" id="line3" x1="720" y1="220" x2="1000" y2="400" />
-        <line class="st0 path" id="line4" x1="1000" y1="400" x2="720" y2="220" />
 
-        <!-- <line class="st1" x1="536" y1="474" x2="754.7" y2="186" /> -->
-    </svg>
-    <!-- <div>
-        <button type="button" class="btn btn-primary" onclick="runLine()">开始认证</button>
-        <button type="button" class="btn btn-info">认证结果</button>
-    </div> -->
+                #ico3 {
+                    position: absolute;
+                    left: 75%;
+                    top: 60%
+                }
+            </style>
+            <svg class="svg1" version="1.1" id="svg_1" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1334 622"
+                style="enable-background:new 0 0 1334 622; " xml:space="preserve">
+
+                <style type="text/css">
+                    .st1 {
+                        fill: #FFFFFF;
+                        stroke: #000000;
+                        stroke-dasharray: 20;
+                    }
+
+                    .path {
+
+                        stroke-dasharray: 1000;
+                        stroke-dashoffset: 1000;
+                        stroke: #34a4e4;
+                        stroke-width: 4px;
+                        animation: dash 10s linear forwards;
+
+                    }
+
+                    .path1 {
+                        transition: all 5s;
+                    }
+
+                    @keyframes dash {
+                        from {
+                            stroke-dashoffset: 1000;
+                        }
+
+                        to {
+                            stroke-dashoffset: 0;
+                        }
+                    }
+                </style>
+                <line class="st0 path" id="line1" x1="340" y1="340" x2="600" y2="220" />
+                <line class="st0 path" id="line2" x1="600" y1="220" x2="340" y2="340" />
+                <line class="st0 path" id="line3" x1="720" y1="220" x2="1000" y2="400" />
+                <line class="st0 path" id="line4" x1="1000" y1="400" x2="720" y2="220" />
+
+                <!-- <line class="st1" x1="536" y1="474" x2="754.7" y2="186" /> -->
+            </svg>
+            <div>
+                <button type="button" class="btn btn-primary" onclick="runLine()">开始认证</button>
+                <button type="button" class="btn btn-info">认证结果</button>
+            </div>
+        </div>
+    </div>
     <script>
-
         // 为图片绑定点击事件
         document.getElementById("ico1").onclick = displayDataUser;
         function displayDataUser() {
@@ -163,7 +161,7 @@
         line2.parentNode.removeChild(line2);
         line3.parentNode.removeChild(line3);
         line4.parentNode.removeChild(line4);
-        runLine();
+        // runLine();
 
         function runLine() {
             var svg = document.getElementById("svg_1");

@@ -17,6 +17,7 @@ def index():
         # conn_data = json.load(conn)
 
     # return render_template('index.html', conn_data = conn_data)
+    # return app.send_static_file('demo/index.html')
     return app.send_static_file('index.html')
 
 
@@ -33,7 +34,7 @@ def reqAuthFromUser():
             return json.dumps(data)
         except Exception, e:
             print e
-            data = json.dumps({"ReqAuth":"ReqAuthFailed"})
+            data = json.dumps({"ReqAuth":"500"})
             return Response(status=500, response=data)
     else:
         return Response(status=500)

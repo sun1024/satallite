@@ -44,7 +44,7 @@ def sendToNcc(satalliteData, userData):
     })
     url = "http://172.23.22.179:7543/ncc/user/IdentityCheck"
     proxies = {'http': 'http://127.0.0.1:8080'}
-    reps = requests.post(url, data=data, proxies=proxies)
+    reps = requests.post(url, data=data, proxies=proxies, timeout=3)
     # reps = requests.post(url, data=data)
     auth_reps = json.loads(reps.content)
     # print auth_reps["MasterKey"]
@@ -52,7 +52,7 @@ def sendToNcc(satalliteData, userData):
         # 通过auth_reps判断认证是否成功
         return dealResNcc(auth_reps, satalliteData["Rs"], userData["Ru"], userData["PIDu"])
     else:
-        data = {"ReqAuth":"ReqAuthFailed"}
+        data = {"ReqAuth":"500"}
         return data
 
 
@@ -83,14 +83,14 @@ def dealResNcc(auth_reps, Rs, Ru, PIDu):
             "MAC":str(MAC)
         })
         proxies = {'http': 'http://127.0.0.1:8080'}
-        reps = requests.post(url, data=data, proxies=proxies)
+        reps = requests.post(url, data=data, proxies=proxies, timeout=3)
         # reps = requests.post(url, data=data)
         auth_reps = json.loads(reps.content)
         # print auth_reps
         # 返回信息：Esk{IDui，Ki}、MAC、TNCC
         return sendToUser(auth_reps, sk, MAC_key, Ru)
     else:
-        data = {"ReqAuth":"ReqAuthFailed"}
+        data = {"ReqAuth":"500"}
         return data
 
 # 处理卫星第二次返回的信息：Esk{IDu，Ku}、MAC、TNCC，并返回给用户
@@ -125,7 +125,7 @@ def sendToUser(auth_reps, sk, MAC_key, Ru):
     msg = "ReqUserSSuccess" + secretHsat + secretSessionId
     MAC = hmac.new(MAC_user_key, secretHsat, hashlib.sha256)
     data = {
-        "ReqAuth":"ReqUserSuccess",
+        "ReqAuth":"200",
         "secretHsat":secretHsat,
         "sessionId":secretSessionId,
         "MAC":MAC

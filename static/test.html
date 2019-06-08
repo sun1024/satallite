@@ -12,7 +12,7 @@
 
 <body>
     <!-- 模态框（Modal） -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="sate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -33,16 +33,59 @@
                         </thead>
                         <tbody>
                             <tr>
+                                <td>sateId</td>
+                                <td>06fa43a4b4a63b622e36e3cd4ef55fcfec070b97</td>
+                            </tr>
+                            <tr>
+                                <td>sateKey</td>
+                                <td>580ade0f132b4228ea4fe1a289f318f2402fdcd2682ed057a3785fed4312f9f3</td>
+                            </tr>
+                            <tr>
+                                <td>preRandom</td>
+                                <td>55868018469076085065818153351715</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="user" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        用户认证信息
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>字段</th>
+                                <th>信息</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
                                 <td>userId</td>
-                                <td>2444</td>
+                                <td>ff4b43ede3bfdaa52ea7f97593f8897fd9a41645</td>
                             </tr>
                             <tr>
                                 <td>userKey</td>
-                                <td>satelliteKey</td>
+                                <td>124640bf2792a0cdce2c04e13326d6bf013bac6ce546616b0488e7c4e68631</td>
                             </tr>
                             <tr>
                                 <td>preRandom</td>
-                                <td>preRandom</td>
+                                <td>93103486375219430322734306483245</td>
                             </tr>
                         </tbody>
                     </table>
@@ -57,11 +100,11 @@
     <!-- <?xml version="1.0" encoding="utf-8"?> -->
     <div class="container" style="width:100%; height:100%;">
         <div class="panel panel-default">
-            <div id="ico1">
+            <div id="ico1" data-toggle="modal" data-target="#user">
                 <img src="/static/user.png" alt="用户" id="user" width="60%" height="60%">
                 <!-- user -->
             </div>
-            <div id="ico2" data-toggle="modal" data-target="#myModal">
+            <div id="ico2" data-toggle="modal" data-target="#sate">
                 <img src="/static/sate.png" alt="卫星" width="60%" height="60%">
                 <!-- satellite -->
             </div>
@@ -137,20 +180,11 @@
         </div>
     </div>
     <script>
-        // 为图片绑定点击事件
-        document.getElementById("ico1").onclick = displayDataUser;
-        function displayDataUser() {
-            alert("终端信息");
-        }
-
-        var ico1 = document.getElementById('ico1');
-        console.log(ico1.getBoundingClientRect().left);
-        console.log(ico1.getBoundingClientRect().top);
-
-        document.getElementById("ico3").onclick = displayDataNCC;
-        function displayDataNCC() {
-            alert("NCC信息");
-        }
+        // // 为图片绑定点击事件
+        // document.getElementById("ico1").onclick = displayDataUser;
+        // function displayDataUser() {
+        //     alert("终端信息");
+        // }
 
         // 控制line的路径展示
         var line1 = document.getElementById("line1");
@@ -164,6 +198,10 @@
         // runLine();
 
         function runLine() {
+            // 通知用户发起认证
+            $.get("http://127.0.0.1:8888/userAuth");
+
+            // 触发线条运动
             var svg = document.getElementById("svg_1");
             svg.appendChild(line1);
             setTimeout(function () {

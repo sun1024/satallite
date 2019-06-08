@@ -11,6 +11,13 @@ app = Flask(__name__)
 CORS(app, supports_credentials=True)
 
 # 卫星展示界面
+@app.route('/reqImg', methods=['GET', 'POST'])
+def reqImg():
+    with open("sate.png", "rb") as img:
+        img_content = img.read()
+    return img_content
+
+# 卫星展示界面
 @app.route('/')
 def index():
     # with open("conn.json", "r") as conn:

@@ -1,8 +1,17 @@
 {
-    "Ru": "UgBUDwwCUlANAw==",
-    "MACu": "efdee1f1bd89ba890dab77ec10c069764cc13050c21b9d779a5c46d3995bf5fd",
-    "Tu": "1559704824",
-    "Hu": "FkFdYwNXUlZa",
-    "R": "4929941657",
-    "PIDu": "dFh1Vw=="
+    "userData": {
+        "Ru": "UglSUgVUUAZYB1dYVgdXWwNRDQgCBlEAUFMAXwMEAFU=",
+        "MACu": "dc85db5871c8d064290ad0d3ca01281ed69d9bc6bc2dd69ded99434a05c09ce1",
+        "Tu": "1559997771",
+        "PIDu": "JVdXKmFEPzUhZS8qMicnYWcJFnUzXlNkbHIVf21vdiUxaCtnZmd6YA==",
+        "Hu": "C1cHUwZQDVMLVFFTUlwBUgdQUAsGUVACUQJSWQNUVgc="
+    },
+    "satalliteData": {
+        "Hs": "VgBcBAoGCVoNA1tSUQ9RDQNVAVFeUwsIVwpXVAlVA1Y=",
+        "PIDs": "ZlEkAnZyDnMhYg54clNCYWc0CmQhYi0ydTMgUGAREC8zFEBvZiNVYQ==",
+        "MACs": "5b498f7e97abcb56a57d5769a65972616b5001be87fa660cbcfae0aca211025e",
+        "Ts": "1559997771",
+        "Rs": "UVUGXgsBBlUHUgNTDwRXDl1QWVMHVwAIDFINDAQHBQw="
+    },
+    "ReqAuth": "ReqAuth"
 }

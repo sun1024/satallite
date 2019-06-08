@@ -12,7 +12,7 @@ sessions = {}
 # 卫星第一次请求需要的所有数据
 def getReqAuthData():
     timestamp = int(time.time())
-    Ru = random.randint(1000000000, 9999999999)
+    Ru = random.randint(10000000000000000000000000000000, 99999999999999999999999999999999)
     # 读取用户信息
     with open("userInfo.json", "r") as userInfo:
         userInfo = json.load(userInfo)
@@ -30,7 +30,6 @@ def getReqAuthData():
             "Hs":H,
             "PIDs":PIDu,
             "MACs":MACu,
-            "R": Ru,
             "Rs":ru
         }
     )

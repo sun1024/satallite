@@ -20,37 +20,37 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title" id="myModalLabel">认证选项</h4>
                 </div>
-                <form action="${pageContext.request.contextPath }/productServlet?type=info" method="post">
+                <form action="" method="post">
                     <div class="modal-body">
                         <div class="input-group">
                             <span class="input-group-addon">hash算法</span>
-                            <input type="text" class="form-control" placeholder="请输入hash算法" id="name1">
+                            <input type="text" class="form-control" placeholder="请输入hash算法" id="hash">
                         </div>
                         <br />
                         <div class="input-group">
                             <span class="input-group-addon">加密算法</span>
-                            <input type="text" class="form-control" placeholder="请输入使用加密算法" id="department1">
+                            <input type="text" class="form-control" placeholder="请输入使用加密算法" id="encrypt">
                         </div>
                         <br />
                         <div class="input-group">
                             <span class="input-group-addon">是否压缩</span>
-                            <input type="text" class="form-control" placeholder="请输入是否压缩" id="unit1">
+                            <input type="text" class="form-control" placeholder="请输入是否压缩" id="isZip">
                         </div>
                         <br />
                         <div class="input-group">
                             <span class="input-group-addon">随机数种子</span>
-                            <input type="text" class="form-control" placeholder="请输入随机数种子" id="xinghao1">
+                            <input type="text" class="form-control" placeholder="请输入随机数种子" id="randomSend">
                         </div>
                         <br />
                         <div class="input-group">
                             <span class="input-group-addon">随机数长度</span>
-                            <input type="text" class="form-control" placeholder="请输入随机数长度" id="address1">
+                            <input type="text" class="form-control" placeholder="请输入随机数长度" id="randomLenth">
                         </div>
                         <br />
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                        <button type="submit" class="btn btn-primary">提交</button>
+                        <button type="submit" class="btn btn-primary">开始认证</button>
                     </div>
                 </form>
             </div>

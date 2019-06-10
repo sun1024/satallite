@@ -24,7 +24,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="name">hash算法</label>
-                            <select class="form-control">
+                            <select class="form-control" id="hashOption" name="hashOption">
                                 <option value="SHA1">SHA1</option>
                                 <option value="SHA256">SHA256</option>
                                 <option value="SHA512">SHA512</option>
@@ -32,7 +32,7 @@
                         </div>
                         <div class="form-group">
                             <label for="name">加密算法</label>
-                            <select class="form-control">
+                            <select class="form-control" id="keyOption" name="keyOption">
                                 <option value="AES">AES</option>
                                 <option value="DES">DES</option>
                                 <option value="3DES">3DES</option>
@@ -40,17 +40,17 @@
                         </div>
                         <div class="input-group">
                             <span class="input-group-addon">随机数种子</span>
-                            <input type="text" class="form-control" placeholder="请输入随机数种子" id="randomSend">
+                            <input type="text" class="form-control" placeholder="请输入随机数种子" id="randomSend" name="randomSend">
                         </div>
                         <br />
                         <div class="input-group">
                             <span class="input-group-addon">随机数长度</span>
-                            <input type="text" class="form-control" placeholder="请输入随机数长度" id="randomLenth">
+                            <input type="text" class="form-control" placeholder="请输入随机数长度" id="randomLenth" name="randomLenth">
                         </div>
                         <br />
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox">是否压缩
+                                <input type="checkbox" id="isZip" name="isZip">是否压缩
                             </label>
                         </div>
                     </div>

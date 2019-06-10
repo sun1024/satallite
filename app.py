@@ -7,11 +7,11 @@ import webbrowser
 from dealRequest import *
 
 sessions = {}
-sessions["01"] = {
+sessions["06fa43a4b4a63b622e36e3cd4ef55fcfec070b97"] = {
     "IDu":"test",
     "Ku":"test",
-    "sessionKey":"test",
-    "sessionMACKey":"test",
+    "sessionKey":"580ade0f132b4228ea4fe1a289f318f2402fdcd2682ed057a3785fed4312f9f3",
+    "sessionMACKey":"55868018469076085065818153351715",
     "time":int(time.time())
 }
 
@@ -21,7 +21,12 @@ CORS(app, supports_credentials=True)
 # 认证结果展示
 @app.route('/authResult', methods=['GET', 'POST'])
 def authResult():
-    return json.dumps(sessions)
+    sessionId = sessions.keys()[0]
+    return json.dumps({
+        "sessionId":sessionId,
+        "sessionKey":sessions[sessionId]["sessionKey"],
+        "MACKey":sessions[sessionId]["sessionMACKey"]
+    })
 
 # 卫星展示界面
 @app.route('/reqImg', methods=['GET', 'POST'])

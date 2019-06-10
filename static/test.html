@@ -12,7 +12,8 @@
 
 <body>
     <!-- 模态框（Modal） -->
-    <div class="modal fade" id="authResult" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="queryInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -31,10 +32,10 @@
                                 <th>信息</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
+                        <tbody id="authMessage">
+                            <!-- <tr>
                                 <td>sessionId</td>
-                                <td>06fa43a4b4a63b622e36e3cd4ef55fcfec070b97</td>
+                                <td></td>
                             </tr>
                             <tr>
                                 <td>sessionKey</td>
@@ -43,7 +44,7 @@
                             <tr>
                                 <td>MACKey</td>
                                 <td>55868018469076085065818153351715</td>
-                            </tr>
+                            </tr> -->
                         </tbody>
                     </table>
                 </div>
@@ -218,7 +219,7 @@
             </svg>
             <div>
                 <button type="button" class="btn btn-primary btn-lg" onclick="runLine()">开始认证</button>
-                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#authResult" onclick="authResult()">认证结果</button>
+                <button type="button" class="btn btn-info btn-lg" onclick="query()">认证结果</button>
             </div>
         </div>
     </div>
@@ -268,7 +269,7 @@
         function authResult() {
             var url = "http://127.0.0.1:2333/authResult";
             $.get(url, function (data) {
-                if(data != "{}"){
+                if (data != "{}") {
                     console.log(data);
                 } else {
                     console.log("认证失败。。。");
@@ -276,5 +277,53 @@
             });
         }
 
+        function query() {
+            $.ajax({
+                url: "http://127.0.0.1:2333/authResult",
+                async: true,
+                type: "GET",
+                // 成功后开启模态框
+                success: showQuery,
+                error: function () {
+                    alert("请求失败");
+                },
+                dataType: "json"
+            });
+        }
+
+        // 查询成功后向模态框插入数据并开启模态框。data是返回的JSON对象
+        function showQuery(data) {
+            if (data != "{}") {
+                console.log(data.sessionId);
+                $("#authMessage").html(
+                            "<tr><td>sessionId</td>"
+                            +"<td>" + data.sessionId + "</td></tr>"
+                            +"<tr><td>sessionKey</td>"
+                            +"<td>" + data.sessionKey + "</td></tr>"
+                            +"<tr><td>MACKey</td>"
+                            +"<td>" + data.MACKey + "</td></tr>"
+                );
+
+                // 显示模态框
+                $('#queryInfo').modal('show');
+            } else {
+                console.log("认证失败。。。");
+            }
+
+        }
+
     </script>
 </body>
+
+                                              <!-- "<tr>
+                                <td>sessionId</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>sessionKey</td>
+                                <td>580ade0f132b4228ea4fe1a289f318f2402fdcd2682ed057a3785fed4312f9f3</td>
+                            </tr>
+                            <tr>
+                                <td>MACKey</td>
+                                <td>55868018469076085065818153351715</td>
+                            </tr>" -->

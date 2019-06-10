@@ -12,6 +12,49 @@
 
 <body>
     <!-- 模态框（Modal） -->
+    <div class="modal fade" id="authResult" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        认证结果
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>字段</th>
+                                <th>信息</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>sessionId</td>
+                                <td>06fa43a4b4a63b622e36e3cd4ef55fcfec070b97</td>
+                            </tr>
+                            <tr>
+                                <td>sessionKey</td>
+                                <td>580ade0f132b4228ea4fe1a289f318f2402fdcd2682ed057a3785fed4312f9f3</td>
+                            </tr>
+                            <tr>
+                                <td>MACKey</td>
+                                <td>55868018469076085065818153351715</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <!-- 模态框（Modal） -->
     <div class="modal fade" id="sate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -175,7 +218,7 @@
             </svg>
             <div>
                 <button type="button" class="btn btn-primary btn-lg" onclick="runLine()">开始认证</button>
-                <button type="button" class="btn btn-info btn-lg">认证结果</button>
+                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#authResult" onclick="authResult()">认证结果</button>
             </div>
         </div>
     </div>
@@ -219,6 +262,18 @@
                     }, 3000)
                 }, 3500);
             }, 3000);
+        }
+
+        // 获取认证结果
+        function authResult() {
+            var url = "http://127.0.0.1:2333/authResult";
+            $.get(url, function (data) {
+                if(data != "{}"){
+                    console.log(data);
+                } else {
+                    console.log("认证失败。。。");
+                }
+            });
         }
 
     </script>

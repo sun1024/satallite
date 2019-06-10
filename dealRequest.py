@@ -7,7 +7,7 @@ from xor1 import *
 from AES_use import *
 from RSA_sign import *
 
-sessions = {}
+
 
 # 卫星第一次请求需要的所有数据
 def getReqAuthData():

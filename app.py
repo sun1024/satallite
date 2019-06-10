@@ -6,9 +6,22 @@ import webbrowser
 
 from dealRequest import *
 
+sessions = {}
+sessions["01"] = {
+    "IDu":"test",
+    "Ku":"test",
+    "sessionKey":"test",
+    "sessionMACKey":"test",
+    "time":int(time.time())
+}
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
+
+# 认证结果展示
+@app.route('/authResult', methods=['GET', 'POST'])
+def authResult():
+    return json.dumps(sessions)
 
 # 卫星展示界面
 @app.route('/reqImg', methods=['GET', 'POST'])

@@ -40,12 +40,14 @@
                         </div>
                         <div class="input-group">
                             <span class="input-group-addon">随机数种子</span>
-                            <input type="text" class="form-control" placeholder="请输入随机数种子" id="randomSend" name="randomSend">
+                            <input type="text" class="form-control" placeholder="请输入随机数种子" id="randomSend"
+                                name="randomSend">
                         </div>
                         <br />
                         <div class="input-group">
                             <span class="input-group-addon">随机数长度</span>
-                            <input type="text" class="form-control" placeholder="请输入随机数长度" id="randomLenth" name="randomLenth">
+                            <input type="text" class="form-control" placeholder="请输入随机数长度" id="randomLenth"
+                                name="randomLenth">
                         </div>
                         <br />
                         <div class="checkbox">
@@ -56,7 +58,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                        <button type="submit" class="btn btn-primary">开始认证</button>
+                        <button type="submit" class="btn btn-primary">提交</button>
                     </div>
                 </form>
             </div>
@@ -271,104 +273,110 @@
                 <!-- <line class="st1" x1="536" y1="474" x2="754.7" y2="186" /> -->
             </svg>
             <div>
-                <button type="button" class="btn btn-primary btn-lg" onclick="startAuth()">开始认证</button>
+                <button type="button" class="btn btn-primary btn-lg" onclick="authMessage()">认证选项</button>
+                <button type="button" class="btn btn-success btn-lg" onclick="lineRun()">开始认证</button>
                 <button type="button" class="btn btn-info btn-lg" onclick="query()">认证结果</button>
             </div>
         </div>
-    </div>
-    <script>
-        // // 为图片绑定点击事件
-        // document.getElementById("ico1").onclick = displayDataUser;
-        // function displayDataUser() {
-        //     alert("终端信息");
-        // }
+        <script>
+            // // 为图片绑定点击事件
+            // document.getElementById("ico1").onclick = displayDataUser;
+            // function displayDataUser() {
+            //     alert("终端信息");
+            // }
 
-        // 控制line的路径展示
-        var line1 = document.getElementById("line1");
-        var line2 = document.getElementById("line2");
-        var line3 = document.getElementById("line3");
-        var line4 = document.getElementById("line4");
-        line1.parentNode.removeChild(line1);
-        line2.parentNode.removeChild(line2);
-        line3.parentNode.removeChild(line3);
-        line4.parentNode.removeChild(line4);
-        // runLine();
+            // 控制line的路径展示
+            var line1 = document.getElementById("line1");
+            var line2 = document.getElementById("line2");
+            var line3 = document.getElementById("line3");
+            var line4 = document.getElementById("line4");
+            line1.parentNode.removeChild(line1);
+            line2.parentNode.removeChild(line2);
+            line3.parentNode.removeChild(line3);
+            line4.parentNode.removeChild(line4);
+            // runLine();
 
-        function startAuth() {
-            // // 通知用户发起认证
-            // $.get("http://127.0.0.1:8888/userAuth");
+            function authMessage() {
+                // // 通知用户发起认证
+                // $.get("http://127.0.0.1:8888/userAuth");
 
-            $('#startAuth').modal('show');
-            // lineRun();
-        }
+                $('#startAuth').modal('show');
+                // 点击开始认证，向用户发起认证，触发线条运动
+                $("#btn-toAuth").click(function () {
+                    console.log("test");
+                    // console.log($("#form-test"));
+                });
+            }
 
-        function lineRun() {
-            // 触发线条运动
-            var svg = document.getElementById("svg_1");
-            svg.appendChild(line1);
-            setTimeout(function () {
-                line1.parentNode.appendChild(line3);
+
+
+            function lineRun() {
+                // 触发线条运动
+                var svg = document.getElementById("svg_1");
+                svg.appendChild(line1);
                 setTimeout(function () {
-                    line1.parentNode.removeChild(line1);
-                    line3.parentNode.appendChild(line4);
-                    line3.parentNode.removeChild(line3);
+                    line1.parentNode.appendChild(line3);
                     setTimeout(function () {
-                        line4.parentNode.append(line2);
+                        line1.parentNode.removeChild(line1);
+                        line3.parentNode.appendChild(line4);
+                        line3.parentNode.removeChild(line3);
                         setTimeout(function () {
-                            line4.parentNode.removeChild(line4);
-                            line2.parentNode.removeChild(line2);
-                        }, 4000)
-                    }, 3000)
-                }, 3500);
-            }, 3000);
-        }
+                            line4.parentNode.append(line2);
+                            setTimeout(function () {
+                                line4.parentNode.removeChild(line4);
+                                line2.parentNode.removeChild(line2);
+                            }, 4000)
+                        }, 3000)
+                    }, 3500);
+                }, 3000);
+            }
 
-        // 获取认证结果
-        function authResult() {
-            var url = "http://127.0.0.1:2333/authResult";
-            $.get(url, function (data) {
+            // 获取认证结果
+            function authResult() {
+                var url = "http://127.0.0.1:2333/authResult";
+                $.get(url, function (data) {
+                    if (data != "{}") {
+                        console.log(data);
+                    } else {
+                        console.log("认证失败。。。");
+                    }
+                });
+            }
+
+            function query() {
+                $.ajax({
+                    url: "http://127.0.0.1:2333/authResult",
+                    async: true,
+                    type: "GET",
+                    // 成功后开启模态框
+                    success: showQuery,
+                    error: function () {
+                        alert("请求失败");
+                    },
+                    dataType: "json"
+                });
+            }
+
+            // 查询成功后向模态框插入数据并开启模态框。data是返回的JSON对象
+            function showQuery(data) {
                 if (data != "{}") {
-                    console.log(data);
+                    console.log(data.sessionId);
+                    $("#authMessage").html(
+                        "<tr><td>sessionId</td>"
+                        + "<td>" + data.sessionId + "</td></tr>"
+                        + "<tr><td>sessionKey</td>"
+                        + "<td>" + data.sessionKey + "</td></tr>"
+                        + "<tr><td>MACKey</td>"
+                        + "<td>" + data.MACKey + "</td></tr>"
+                    );
+
+                    // 显示模态框
+                    $('#queryInfo').modal('show');
                 } else {
                     console.log("认证失败。。。");
                 }
-            });
-        }
 
-        function query() {
-            $.ajax({
-                url: "http://127.0.0.1:2333/authResult",
-                async: true,
-                type: "GET",
-                // 成功后开启模态框
-                success: showQuery,
-                error: function () {
-                    alert("请求失败");
-                },
-                dataType: "json"
-            });
-        }
-
-        // 查询成功后向模态框插入数据并开启模态框。data是返回的JSON对象
-        function showQuery(data) {
-            if (data != "{}") {
-                console.log(data.sessionId);
-                $("#authMessage").html(
-                    "<tr><td>sessionId</td>"
-                    + "<td>" + data.sessionId + "</td></tr>"
-                    + "<tr><td>sessionKey</td>"
-                    + "<td>" + data.sessionKey + "</td></tr>"
-                    + "<tr><td>MACKey</td>"
-                    + "<td>" + data.MACKey + "</td></tr>"
-                );
-
-                // 显示模态框
-                $('#queryInfo').modal('show');
-            } else {
-                console.log("认证失败。。。");
             }
 
-        }
-
-    </script>
-    </b
+        </script>
+        <

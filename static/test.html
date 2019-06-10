@@ -11,6 +11,53 @@
 </head>
 
 <body>
+    <!-- 详细信息模态框（Modal） -->
+    <div class="modal fade" id="startAuth" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">认证选项</h4>
+                </div>
+                <form action="${pageContext.request.contextPath }/productServlet?type=info" method="post">
+                    <div class="modal-body">
+                        <div class="input-group">
+                            <span class="input-group-addon">hash算法</span>
+                            <input type="text" class="form-control" placeholder="请输入hash算法" id="name1">
+                        </div>
+                        <br />
+                        <div class="input-group">
+                            <span class="input-group-addon">加密算法</span>
+                            <input type="text" class="form-control" placeholder="请输入使用加密算法" id="department1">
+                        </div>
+                        <br />
+                        <div class="input-group">
+                            <span class="input-group-addon">是否压缩</span>
+                            <input type="text" class="form-control" placeholder="请输入是否压缩" id="unit1">
+                        </div>
+                        <br />
+                        <div class="input-group">
+                            <span class="input-group-addon">随机数种子</span>
+                            <input type="text" class="form-control" placeholder="请输入随机数种子" id="xinghao1">
+                        </div>
+                        <br />
+                        <div class="input-group">
+                            <span class="input-group-addon">随机数长度</span>
+                            <input type="text" class="form-control" placeholder="请输入随机数长度" id="address1">
+                        </div>
+                        <br />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="submit" class="btn btn-primary">提交</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
     <!-- 模态框（Modal） -->
     <div class="modal fade" id="queryInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
         aria-hidden="true">
@@ -218,7 +265,7 @@
                 <!-- <line class="st1" x1="536" y1="474" x2="754.7" y2="186" /> -->
             </svg>
             <div>
-                <button type="button" class="btn btn-primary btn-lg" onclick="runLine()">开始认证</button>
+                <button type="button" class="btn btn-primary btn-lg" onclick="startAuth()">开始认证</button>
                 <button type="button" class="btn btn-info btn-lg" onclick="query()">认证结果</button>
             </div>
         </div>
@@ -241,10 +288,15 @@
         line4.parentNode.removeChild(line4);
         // runLine();
 
-        function runLine() {
-            // 通知用户发起认证
-            $.get("http://127.0.0.1:8888/userAuth");
+        function startAuth() {
+            // // 通知用户发起认证
+            // $.get("http://127.0.0.1:8888/userAuth");
 
+            $('#startAuth').modal('show');
+            // lineRun();
+        }
+
+        function lineRun() {
             // 触发线条运动
             var svg = document.getElementById("svg_1");
             svg.appendChild(line1);
@@ -296,12 +348,12 @@
             if (data != "{}") {
                 console.log(data.sessionId);
                 $("#authMessage").html(
-                            "<tr><td>sessionId</td>"
-                            +"<td>" + data.sessionId + "</td></tr>"
-                            +"<tr><td>sessionKey</td>"
-                            +"<td>" + data.sessionKey + "</td></tr>"
-                            +"<tr><td>MACKey</td>"
-                            +"<td>" + data.MACKey + "</td></tr>"
+                    "<tr><td>sessionId</td>"
+                    + "<td>" + data.sessionId + "</td></tr>"
+                    + "<tr><td>sessionKey</td>"
+                    + "<td>" + data.sessionKey + "</td></tr>"
+                    + "<tr><td>MACKey</td>"
+                    + "<td>" + data.MACKey + "</td></tr>"
                 );
 
                 // 显示模态框

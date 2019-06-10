@@ -28,7 +28,7 @@ def authResult():
         "MACKey":sessions[sessionId]["sessionMACKey"]
     })
 
-# 卫星展示界面
+# 用户请求卫星文件
 @app.route('/reqImg', methods=['GET', 'POST'])
 def reqImg():
     with open("sate.png", "rb") as img:

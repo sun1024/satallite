@@ -20,23 +20,24 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title" id="myModalLabel">认证选项</h4>
                 </div>
-                <form action="" method="post">
+                <form action="http://47.101.217.127:8888/money" method="post">
                     <div class="modal-body">
-                        <div class="input-group">
-                            <span class="input-group-addon">hash算法</span>
-                            <input type="text" class="form-control" placeholder="请输入hash算法" id="hash">
+                        <div class="form-group">
+                            <label for="name">hash算法</label>
+                            <select class="form-control">
+                                <option value="SHA1">SHA1</option>
+                                <option value="SHA256">SHA256</option>
+                                <option value="SHA512">SHA512</option>
+                            </select>
                         </div>
-                        <br />
-                        <div class="input-group">
-                            <span class="input-group-addon">加密算法</span>
-                            <input type="text" class="form-control" placeholder="请输入使用加密算法" id="encrypt">
+                        <div class="form-group">
+                            <label for="name">加密算法</label>
+                            <select class="form-control">
+                                <option value="AES">AES</option>
+                                <option value="DES">DES</option>
+                                <option value="3DES">3DES</option>
+                            </select>
                         </div>
-                        <br />
-                        <div class="input-group">
-                            <span class="input-group-addon">是否压缩</span>
-                            <input type="text" class="form-control" placeholder="请输入是否压缩" id="isZip">
-                        </div>
-                        <br />
                         <div class="input-group">
                             <span class="input-group-addon">随机数种子</span>
                             <input type="text" class="form-control" placeholder="请输入随机数种子" id="randomSend">
@@ -47,6 +48,11 @@
                             <input type="text" class="form-control" placeholder="请输入随机数长度" id="randomLenth">
                         </div>
                         <br />
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox">是否压缩
+                            </label>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
@@ -365,4 +371,4 @@
         }
 
     </script>
-</body>
+    </b

@@ -41,9 +41,9 @@
                         <div class="form-group">
                             <label for="name">随机数长度</label>
                             <select class="form-control" id="keyOption" name="keyOption">
-                                <option value="AES">短</option>
-                                <option value="DES">较长</option>
-                                <option value="3DES">长</option>
+                                <option value="128">短</option>
+                                <option value="160" selected = "selected">较长</option>
+                                <option value="256">长</option>
                             </select>
                         </div>
                         <!-- <div class="input-group">
@@ -282,16 +282,12 @@
             <div>
                 <button type="button" class="btn btn-primary btn-lg" onclick="authMessage()">认证选项</button>
                 <button type="button" class="btn btn-success btn-lg" onclick="lineRun()">开始认证</button>
-                <button type="button" class="btn btn-info btn-lg" onclick="query()">认证结果</button>
-                <button type="button" class="btn btn-success btn-lg" onclick="imgLoad()">安全传输</button>
+                <button type="button" class="btn btn-info btn-lg" onclick="query()" disabled="disabled">认证结果</button>
+                <button type="button" class="btn btn-success btn-lg" onclick="imgLoad()"
+                    disabled="disabled">安全传输</button>
             </div>
         </div>
         <script>
-            // // 为图片绑定点击事件
-            // document.getElementById("ico1").onclick = displayDataUser;
-            // function displayDataUser() {
-            //     alert("终端信息");
-            // }
 
             // 控制line的路径展示
             var line1 = document.getElementById("line1");
@@ -319,6 +315,9 @@
 
 
             function lineRun() {
+                // 通知用户发起认证
+                $.get("http://127.0.0.1:8888/userAuth");
+
                 // 触发线条运动
                 var svg = document.getElementById("svg_1");
                 svg.appendChild(line1);

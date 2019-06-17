@@ -221,5 +221,5 @@ def imgRepo(data, img_content):
     proxies = {'http': 'http://127.0.0.1:8080'}
     reps = requests.post(url, data=data, proxies=proxies, timeout=3)
 
-    return reps
+    return reps.content
 

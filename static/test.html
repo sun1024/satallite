@@ -20,7 +20,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title" id="myModalLabel">认证选项</h4>
                 </div>
-                <form action="http://47.101.217.127:8888/money" method="post">
+                <form action="/" method="post">
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="name">hash算法</label>
@@ -276,6 +276,7 @@
                 <button type="button" class="btn btn-primary btn-lg" onclick="authMessage()">认证选项</button>
                 <button type="button" class="btn btn-success btn-lg" onclick="lineRun()">开始认证</button>
                 <button type="button" class="btn btn-info btn-lg" onclick="query()">认证结果</button>
+                <button type="button" class="btn btn-success btn-lg" onclick="imgLoad()">安全传输</button>
             </div>
         </div>
         <script>
@@ -329,6 +330,17 @@
                         }, 3000)
                     }, 3500);
                 }, 3000);
+            }
+
+            function imgLoad() {
+                var url = "http://127.0.0.1:2333/reqImg";
+                $.get(url, function (data) {
+                    if (data == "1") {
+                        console.log("传输成功。。。");
+                    } else {
+                        console.log("传输失败。。。");
+                    }
+                });
             }
 
             // 获取认证结果

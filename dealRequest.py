@@ -124,8 +124,8 @@ def sendToUser(auth_reps, sk, MAC_key, Ru):
     Ku_use = bytes(Ku.decode('hex'))
     secretHsat = encrypt(Hsat, Ku_use)
     secretSessionId = encrypt(sessionId, Ku_use)
-    msg = "ReqUserSSuccess" + secretHsat + secretSessionId
-    MAC = hmac.new(MAC_user_key, secretHsat, hashlib.sha256)
+    msg = "ReqUserSuccess" + secretHsat + secretSessionId
+    MAC = hmac.new(MAC_user_key, secretHsat, hashlib.sha256).hexdigest()
     data = {
         "ReqAuth":"200",
         "secretHsat":secretHsat,
@@ -198,4 +198,28 @@ def sendToUser(auth_reps, sk, MAC_key, Ru):
     #     # 返回用户
     #     return data
 
-        
+# 向用户加密传输图片
+def imgRepo(data, img_content):
+
+    sessionId = data['sessionId']
+    sessionKey = data['sessionKey']
+    MACKey = data['MACKey']
+
+    key_use = bytes(sessionKey.decode('hex'))
+    content = encrypt(img_content, key_use)
+
+    MAC_user_key = hashlib.sha256("test").hexdigest()
+    MAC = hmac.new(MAC_user_key, content, hashlib.sha256).hexdigest()
+
+    # 传递给用户
+    url = "http://127.0.0.1:8888/reqImg"
+    data = json.dumps({
+        "sessionId":sessionId,
+        "content":content,
+        "MAC":str(MAC)
+    })
+    proxies = {'http': 'http://127.0.0.1:8080'}
+    reps = requests.post(url, data=data, proxies=proxies, timeout=3)
+
+    return reps
+

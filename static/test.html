@@ -336,8 +336,10 @@
                 var url = "http://127.0.0.1:2333/reqImg";
                 $.get(url, function (data) {
                     if (data == "1") {
+                        alert("传输成功。。。")
                         console.log("传输成功。。。");
                     } else {
+                        alert("传输失败。。。")
                         console.log("传输失败。。。");
                     }
                 });

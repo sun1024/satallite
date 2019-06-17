@@ -203,13 +203,12 @@ def imgRepo(data, img_content):
 
     sessionId = data['sessionId']
     sessionKey = data['sessionKey']
-    MACKey = data['MACKey']
+    MACKey = bytes(data['MACKey'])
 
     key_use = bytes(sessionKey.decode('hex'))
     content = encrypt(img_content, key_use)
 
-    MAC_user_key = hashlib.sha256("test").hexdigest()
-    MAC = hmac.new(MAC_user_key, content, hashlib.sha256).hexdigest()
+    MAC = hmac.new(MACKey, content, hashlib.sha256).hexdigest()
 
     # 传递给用户
     url = "http://127.0.0.1:8888/reqImg"

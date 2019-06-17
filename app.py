@@ -54,7 +54,7 @@ def reqAuth():
     data =  json.loads(resp.content)
     if data['ReqAuth'] == "500":
         print "failed..."
-        return "failed"
+        return "0"
     else:
         secretHsat = data["secretHsat"]
         secretSessionId = data["secretSessionId"]
@@ -86,7 +86,7 @@ def reqAuth():
 
         print sessionKey, sessionMACKey
         print "auth success..."
-        return "success"
+        return "1"
 
         # time.sleep(5)
         # # 向卫星请求一张图片
@@ -118,7 +118,7 @@ def reqImg():
             mySessionId = data['sessionId']
             MACKey = bytes(data['MACKey'])
             sessionKey = data["sessionKey"]
-            
+
             # 验证MAC
             myMAC = hmac.new(MACKey, content, hashlib.sha256).hexdigest()
             if MAC == myMAC:

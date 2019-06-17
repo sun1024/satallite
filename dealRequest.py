@@ -17,7 +17,7 @@ def getReqAuthData():
     with open("userInfo.json", "r") as userInfo:
         userInfo = json.load(userInfo)
 
-    H = hashlib.sha256(userInfo["userKey"] + str(timestamp)).hexdigest()
+    H = hashlib.sha256(userInfo["userKey"] + str(Ru)).hexdigest()
     H = xor_encrypt(userInfo["preRandom"], H)
     PIDu = xor_encrypt(str(userInfo["userId"]), H)
     MACu = hashlib.sha256(userInfo["userId"] + str(Ru) +str(timestamp)).hexdigest()
@@ -107,15 +107,18 @@ def sendToUser(auth_reps, sk, MAC_key, Ru):
     # 先判断HMAC
 
     # 生成sessionId 并保存session
-    sessionId = random.randint(1000000000, 9999999999)       
+    sessionId = random.randint(10000000000000000000000000000000, 99999999999999999999999999999999)   
 
     # 读取用户信息
     with open("userInfo.json", "r") as userInfo:
         userInfo = json.load(userInfo)
+ 
+    # 生成 Ts
+    timestamp = int(time.time())
 
     # 计算MAC_user_key, Hsat
     MAC_user_key = hashlib.sha256(IDu + Ku + Ru).hexdigest()
-    Hsat = hashlib.sha256(userInfo["userKey"] + userInfo["preRandom"] + Ru).hexdigest()
+    Hsat = hashlib.sha256(userInfo["userKey"] + userInfo["preRandom"] + Ru + str(timestamp)).hexdigest()
 
     # 将Eku(Hsat)，MAC发给用户
     Ku_use = bytes(Ku.decode('hex'))

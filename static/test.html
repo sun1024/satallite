@@ -282,8 +282,8 @@
             <div>
                 <button type="button" class="btn btn-primary btn-lg" onclick="authMessage()">认证选项</button>
                 <button type="button" class="btn btn-success btn-lg" onclick="lineRun()">开始认证</button>
-                <button type="button" class="btn btn-info btn-lg" onclick="query()" disabled="disabled">认证结果</button>
-                <button type="button" class="btn btn-success btn-lg" onclick="imgLoad()"
+                <button id="disab1" type="button" class="btn btn-info btn-lg" onclick="query()" disabled="disabled">认证结果</button>
+                <button id="disab2" type="button" class="btn btn-success btn-lg" onclick="imgLoad()"
                     disabled="disabled">安全传输</button>
             </div>
         </div>
@@ -316,7 +316,19 @@
 
             function lineRun() {
                 // 通知用户发起认证
-                $.get("http://127.0.0.1:8888/userAuth");
+                var url = "http://127.0.0.1:8888/userAuth";
+                $("#disab1").attr("disabled",false);
+                $("#disab2").attr("disabled",false);
+                $.get(url, function (data) {
+                    if (data == "1") {
+                        // 将认证结果 安全传输按钮恢复
+                        $("#disab1").attr("disabled",false);
+                        $("#disab2").attr("disabled",false);
+                        console.log("认证成功。。。");
+                    } else {
+                        console.log("认证失败。。。");
+                    }
+                });
 
                 // 触发线条运动
                 var svg = document.getElementById("svg_1");

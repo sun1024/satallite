@@ -11,7 +11,7 @@ sessions["06fa43a4b4a63b622e36e3cd4ef55fcfec070b97"] = {
     "IDu":"test",
     "Ku":"test",
     "sessionKey":"580ade0f132b4228ea4fe1a289f318f2402fdcd2682ed057a3785fed4312f9f3",
-    "sessionMACKey":"55868018469076085065818153351715",
+    "sessionMACKey":"9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
     "time":int(time.time())
 }
 
@@ -33,16 +33,30 @@ def authResult():
 def reqImg():
     with open("sate.png", "rb") as img:
         img_content = img.read()
-    return img_content
+    # 对图像信息进行加密
+    if img_content:
+        try:
+            data = json.loads(authResult())
+            reps = imgRepo(data, img_content)
+            return reps
+        except Exception, e:
+            print e
+            return "0"
+
+    return "1"
 
 # 卫星展示界面
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
     # with open("conn.json", "r") as conn:
         # conn_data = json.load(conn)
 
     # return render_template('index.html', conn_data = conn_data)
     # return app.send_static_file('demo/index.html')
+    # 处理认证选项
+    if request.method == 'POST':
+        return app.send_static_file('test.html')
+
     return app.send_static_file('index.html')
 
 

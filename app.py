@@ -1,12 +1,14 @@
-# -*- coding: utf-8 -*-
+# -*- coding:utf-8 -*-
 from flask import Flask, jsonify, request, render_template, Response, send_from_directory
+from flask_socketio import SocketIO, emit
 from flask_cors import CORS
 import json
 import webbrowser
 
 from dealRequest import *
+from gl import *
 
-sessions = {}
+
 # sessions["06fa43a4b4a63b622e36e3cd4ef55fcfec070b97"] = {
 #     "IDu":"test",
 #     "Ku":"test",
@@ -16,11 +18,35 @@ sessions = {}
 # }
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'secret!'
 CORS(app, supports_credentials=True)
+
+socketio = SocketIO(app)
+
+@app.route('/')
+def index():
+    # return render_template('test.html')
+    return app.send_static_file('display.html')
+
+
+@socketio.on('client_event')
+def client_msg(msg):
+    # emit('server_response', {'data': msg['data']})
+    while 1:
+        global conns
+        emit('server_response', {'data': conns})
+        time.sleep(0.5)
+
+    
+# @socketio.on('connect_event')
+# def connected_msg(msg):
+#     emit('server_response', {'data': msg['data']})
+
 
 # 认证结果展示
 @app.route('/authResult', methods=['GET', 'POST'])
 def authResult():
+    sessions = get_sessions()
     sessionId = sessions.keys()[0]
     return json.dumps({
         "sessionId":sessionId,
@@ -60,8 +86,8 @@ def reqImg():
 #     return json.dumps(resp)
 
 # 卫星展示界面
-@app.route('/', methods=['GET', 'POST'])
-def index():
+@app.route('/old', methods=['GET', 'POST'])
+def index_old():
     # with open("conn.json", "r") as conn:
         # conn_data = json.load(conn)
 
@@ -81,10 +107,13 @@ def reqAuthFromUser():
     satalliteData = json.loads(satalliteData)
     # 这里要对用户信息做出判断
     if(request.data):
+        clear_and_add(request.data)
         userData = json.loads(request.data)
         try:
             data = sendToNcc(satalliteData, userData)
-            return json.dumps(data)
+            data = json.dumps(data)
+            clear_and_add(data)
+            return data
         except Exception, e:
             print e
             data = json.dumps({"ReqAuth":"500"})
@@ -94,9 +123,17 @@ def reqAuthFromUser():
 
 
 if __name__ == "__main__":
+    # sessions = {}
+    # conns = []
     # webbrowser.open("http://127.0.0.1:2333")
-    app.run(
-    # debug = True,
-    port = 2333,
-    host = '0.0.0.0'
-)
+#     app.run(
+#     # debug = True,
+#     port = 2333,
+#     host = '0.0.0.0'
+# )
+    socketio.run(
+        app,
+        debug=True,
+        host='0.0.0.0',
+        port=2333
+        )

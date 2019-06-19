@@ -1,4 +1,7 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/python
+# -*- coding:utf-8 -*-
+# author : b1ng0
+
 import time, random
 import json, hashlib, requests
 import hmac
@@ -6,8 +9,8 @@ import hmac
 from xor1 import *
 from AES_use import *
 from RSA_sign import *
+from gl import *
 
-sessions = {}
 
 # 卫星第一次请求需要的所有数据
 def getReqAuthData():
@@ -41,9 +44,10 @@ def sendToNcc(satalliteData, userData):
         "userData":userData,
         "satalliteData":satalliteData
     })
+    clear_and_add(data)
     url = "http://172.23.22.179:7543/ncc/user/IdentityCheck"
     proxies = {'http': 'http://127.0.0.1:8080'}
-    reps = requests.post(url, data=data, proxies=proxies, timeout=3)
+    reps = requests.post(url, data=data, proxies=proxies)
     # reps = requests.post(url, data=data)
     auth_reps = json.loads(reps.content)
     # print auth_reps["MasterKey"]
@@ -81,8 +85,9 @@ def dealResNcc(auth_reps, Rs, Ru, PIDu):
             "PIDu":PIDu,
             "MAC":str(MAC)
         })
+        clear_and_add(data)
         proxies = {'http': 'http://127.0.0.1:8080'}
-        reps = requests.post(url, data=data, proxies=proxies, timeout=3)
+        reps = requests.post(url, data=data, proxies=proxies)
         # reps = requests.post(url, data=data)
         auth_reps = json.loads(reps.content)
         # print auth_reps
@@ -136,15 +141,15 @@ def sendToUser(auth_reps, sk, MAC_key, Ru):
     sessionKey = hashlib.sha256(Hsat + Ku).hexdigest()
     sessionMACKey = hashlib.sha256(IDu + Hsat).hexdigest()
 
-    global sessions
-    sessions[sessionId] = {
+    sessionDatas = {
         "IDu":IDu,
         "Ku":Ku,
         "sessionKey":sessionKey,
         "sessionMACKey":sessionMACKey,
         "time":int(time.time())
     }
-    print data
+    add_session(sessionId, sessionDatas)
+    
     # 返回用户认证成功
     return data
 

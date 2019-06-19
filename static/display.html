@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>卫星监视界面</title>
+  <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+  <script type="text/javascript" src="//cdn.bootcss.com/socket.io/1.5.1/socket.io.min.js"></script>
+  <script type="text/javascript" charset="utf-8"></script>
+  <style>
+    #header {
+      background-color: blue;
+      color: white;
+      text-align: center;
+      padding: 5px;
+    }
+
+    #nav {
+      line-height: 30px;
+      background-color: #eeeeee;
+      height: 300px;
+      width: 750px;
+      float: left;
+      padding: 5px;
+    }
+
+    #section {
+      width: 350px;
+      float: left;
+      padding: 10px;
+    }
+
+    #footer {
+      background-color: black;
+      color: white;
+      clear: both;
+      text-align: center;
+      padding: 5px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="header">
+    <h1>卫星监视界面</h1>
+    <button onclick="send()">开始</button>
+  </div>
+
+  <div id="nav">
+    <h2>请求<h2>
+        <form>
+          <p5 id="simple"> 这里将用于显示一些简要信息 </p5>
+          <p5 id="simpleResult"> 并显示请求结果 </p5>
+        </form>
+  </div>
+
+  <div id="section">
+    <h2>详细请求</h2>
+
+  </div>
+
+  <div id="footer">
+    卫星日志
+  </div>
+
+  <label id="result">认证消息：</label>
+  <div id='log'></div>
+  <br><br>
+
+
+
+
+  <!-- <script type="text/javascript">
+    var sock = null;
+    var wsuri = "ws://127.0.0.1:7543/statusImport";
+    sock = new WebSocket(wsuri);
+    sock.onmessage = function(e) {
+
+      obj = window.JSON.parse(e.data)
+
+      var simple = document.getElementById('simple');
+      var simpleResult = document.getElementById('simpleResult');
+      var details = document.getElementById('section');
+
+    
+      if (obj.ReqAuth == 'ReqAuth') {
+        simple.innerHTML = "接收到卫星\n"+ obj.SatalliteData.PIDs +"发起的用户身份认证请求\n";
+        if(obj.Ret == '0'){
+          simpleResult.innerHTML = "认证用户为：" + obj.UserData.PIDu + "\n<font color = \"red\">认证成功 </h6>";
+          time = fnDate();
+          details.innerHTML = "<p6> 时间：" + time +"</p6>\n" + "<p6>用户信息" + obj.UserData + "</p6>\n" + "<p6>卫星信息" + obj.SatalliteData + "</p6>";
+        }else if(obj.Ret == '1'){
+          simpleResult.innerHTML = "认证用户为：" + obj.UserData.PIDu + "\n<font color = \"blue\">认证失败 </h6>";
+          time = fnDate();
+          details.innerHTML = "<p6> 时间：" + time +"\n" + "用户信息" + obj.UserData + "\n" + "卫星信息" + obj.SatalliteData + "</p6>";
+        }
+      }else if(obj.Req == 'ReqUserInfo'){
+
+      }
+    }
+
+    function send() {
+      var msg = document.getElementById('header').value;
+      sock.send(msg);
+    }
+
+    function fnDate(){
+      var date=new Date();
+      var year=date.getFullYear();
+      var month=date.getMonth();
+      var data=date.getDate();
+      var hours=date.getHours();
+      var minute=date.getMinutes();
+      var second=date.getSeconds();
+      var time=year+"-"+fnW((month+1))+"-"+fnW(data)+" "+fnW(hours)+":"+fnW(minute)+":"+fnW(second);
+      return time;
+    }
+    function fnW(str){
+      var num;
+      str>10?num=str:num="0"+str;
+      return num;
+    }
+  </script> -->
+  <script type="text/javascript" charset="utf-8">
+    $(document).ready(function () {
+      var socket = io.connect();
+
+      socket.on('connect', function () {
+        // socket.emit('connect_event', { data: 'connected!' });
+        socket.emit('client_event', { data: 'test' });
+      })
+
+      var tmp = ''
+      socket.on('server_response', function (msg) {
+        console.log(msg);
+        if(msg.data.length != 0 && tmp != msg.data[0]){
+          change_tmp(msg.data)
+
+          // $('#log').append('<br>' + $('<div/>').text('Received #' + ': ' + msg.data).html());
+          $('#log').prepend('<br>' + $('<div/>').text('Received #' + ': ' + tmp).html());
+        }
+      });
+      // 改变全局变量tmp的值
+      function change_tmp(data) {
+        $.ajax({
+            async: false,
+            success: function() {
+                tmp = data;
+            }
+        })
+    }
+
+    });
+
+  </script>
+</body>
+
+</html>

@@ -44,7 +44,7 @@
 
   <div id="header">
     <h1>卫星监视界面</h1>
-    <button onclick="send()">开始</button>
+    <!-- <button onclick="send()">开始</button> -->
   </div>
 
   <div id="nav">
@@ -75,7 +75,7 @@
     var sock = null;
     var wsuri = "ws://127.0.0.1:7543/statusImport";
     sock = new WebSocket(wsuri);
-    sock.onmessage = function(e) {
+    sock.onmessage = function (e) {
 
       obj = window.JSON.parse(e.data)
 
@@ -83,19 +83,19 @@
       var simpleResult = document.getElementById('simpleResult');
       var details = document.getElementById('section');
 
-    
+
       if (obj.ReqAuth == 'ReqAuth') {
-        simple.innerHTML = "接收到卫星\n"+ obj.SatalliteData.PIDs +"发起的用户身份认证请求\n";
-        if(obj.Ret == '0'){
+        simple.innerHTML = "接收到卫星\n" + obj.SatalliteData.PIDs + "发起的用户身份认证请求\n";
+        if (obj.Ret == '0') {
           simpleResult.innerHTML = "认证用户为：" + obj.UserData.PIDu + "\n<font color = \"red\">认证成功 </h6>";
           time = fnDate();
-          details.innerHTML = "<p6> 时间：" + time +"</p6>\n" + "<p6>用户信息" + obj.UserData + "</p6>\n" + "<p6>卫星信息" + obj.SatalliteData + "</p6>";
-        }else if(obj.Ret == '1'){
+          details.innerHTML = "<p6> 时间：" + time + "</p6>\n" + "<p6>用户信息" + obj.UserData + "</p6>\n" + "<p6>卫星信息" + obj.SatalliteData + "</p6>";
+        } else if (obj.Ret == '1') {
           simpleResult.innerHTML = "认证用户为：" + obj.UserData.PIDu + "\n<font color = \"blue\">认证失败 </h6>";
           time = fnDate();
-          details.innerHTML = "<p6> 时间：" + time +"\n" + "用户信息" + obj.UserData + "\n" + "卫星信息" + obj.SatalliteData + "</p6>";
+          details.innerHTML = "<p6> 时间：" + time + "\n" + "用户信息" + obj.UserData + "\n" + "卫星信息" + obj.SatalliteData + "</p6>";
         }
-      }else if(obj.Req == 'ReqUserInfo'){
+      } else if (obj.Req == 'ReqUserInfo') {
 
       }
     }
@@ -105,20 +105,20 @@
       sock.send(msg);
     }
 
-    function fnDate(){
-      var date=new Date();
-      var year=date.getFullYear();
-      var month=date.getMonth();
-      var data=date.getDate();
-      var hours=date.getHours();
-      var minute=date.getMinutes();
-      var second=date.getSeconds();
-      var time=year+"-"+fnW((month+1))+"-"+fnW(data)+" "+fnW(hours)+":"+fnW(minute)+":"+fnW(second);
+    function fnDate() {
+      var date = new Date();
+      var year = date.getFullYear();
+      var month = date.getMonth();
+      var data = date.getDate();
+      var hours = date.getHours();
+      var minute = date.getMinutes();
+      var second = date.getSeconds();
+      var time = year + "-" + fnW((month + 1)) + "-" + fnW(data) + " " + fnW(hours) + ":" + fnW(minute) + ":" + fnW(second);
       return time;
     }
-    function fnW(str){
+    function fnW(str) {
       var num;
-      str>10?num=str:num="0"+str;
+      str > 10 ? num = str : num = "0" + str;
       return num;
     }
   </script> -->
@@ -134,22 +134,58 @@
       var tmp = ''
       socket.on('server_response', function (msg) {
         console.log(msg);
-        if(msg.data.length != 0 && tmp != msg.data[0]){
+        if (msg.data.length != 0 && tmp != msg.data[0]) {
           change_tmp(msg.data)
 
           // $('#log').append('<br>' + $('<div/>').text('Received #' + ': ' + msg.data).html());
           $('#log').prepend('<br>' + $('<div/>').text('Received #' + ': ' + tmp).html());
+
+          obj = JSON.parse(msg.data[0])
+          console.log(obj)
+
+          var simple = document.getElementById('simple');
+          var simpleResult = document.getElementById('simpleResult');
+          var details = document.getElementById('section');
+
+
+          if (obj.Ru) {
+            simple.innerHTML = "接收到用户\n" + obj.PIDu + "发起的用户身份认证请求\n";
+            simpleResult.innerHTML = "\n正在进行转发处理 </h6>";
+            time = fnDate();
+            var toHTML = "<p6> 时间：" + time + "</p6><br>" + "<p6>用户信息:</p6><br>";
+            for (var i in obj) {
+              // alert(obj[i]);
+                toHTML +=  "<p6>" + i + ":" + obj[i] + "</p6><br>"
+            }
+            details.innerHTML = toHTML;
+          }
         }
       });
+      function fnDate() {
+        var date = new Date();
+        var year = date.getFullYear();
+        var month = date.getMonth();
+        var data = date.getDate();
+        var hours = date.getHours();
+        var minute = date.getMinutes();
+        var second = date.getSeconds();
+        var time = year + "-" + fnW((month + 1)) + "-" + fnW(data) + " " + fnW(hours) + ":" + fnW(minute) + ":" + fnW(second);
+        return time;
+      }
+      function fnW(str) {
+        var num;
+        str > 10 ? num = str : num = "0" + str;
+        return num;
+      }
       // 改变全局变量tmp的值
       function change_tmp(data) {
         $.ajax({
-            async: false,
-            success: function() {
-                tmp = data;
-            }
+          async: false,
+          success: function () {
+            tmp = data;
+          }
         })
-    }
+      }
 
     });
 

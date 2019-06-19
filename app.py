@@ -94,7 +94,7 @@ def reqAuthFromUser():
 
 
 if __name__ == "__main__":
-    webbrowser.open("http://127.0.0.1:2333")
+    # webbrowser.open("http://127.0.0.1:2333")
     app.run(
     # debug = True,
     port = 2333,

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, jsonify, request
-from flask_cors import CORS
+from flask_cors import *
 import json, hashlib, random, time, hmac
 import requests
 
@@ -8,13 +8,13 @@ from xor1 import *
 from AES_use import *
 
 sessions = {}
-sessions["06fa43a4b4a63b622e36e3cd4ef55fcfec070b97"] = {
-    "IDu":"test",
-    "Ku":"test",
-    "sessionKey":"580ade0f132b4228ea4fe1a289f318f2402fdcd2682ed057a3785fed4312f9f3",
-    "sessionMACKey":hashlib.sha256("test").hexdigest(),
-    "time":int(time.time())
-}
+# sessions["06fa43a4b4a63b622e36e3cd4ef55fcfec070b97"] = {
+#     "IDu":"test",
+#     "Ku":"test",
+#     "sessionKey":"580ade0f132b4228ea4fe1a289f318f2402fdcd2682ed057a3785fed4312f9f3",
+#     "sessionMACKey":hashlib.sha256("test").hexdigest(),
+#     "time":int(time.time())
+# }
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
@@ -49,15 +49,15 @@ def getReqAuthData():
 # 用户向卫星发起第一次请求
 def reqAuth():
     url = "http://127.0.0.1:2333/reqAuth"
-    data = getReqAuthData()
-    resp = requests.post(url, data=data)
+    reqData = getReqAuthData()
+    resp = requests.post(url, data=reqData)
     data =  json.loads(resp.content)
     if data['ReqAuth'] == "500":
         print "failed..."
         return "0"
     else:
         secretHsat = data["secretHsat"]
-        secretSessionId = data["secretSessionId"]
+        sessionId = data["sessionId"]
         MAC = data["MAC"]
         # 对MAC进行验证
 
@@ -68,7 +68,6 @@ def reqAuth():
         IDu = userInfo["userId"]
         Ku_use = bytes(Ku.decode('hex'))
         Hsat = decrypt(secretHsat, Ku_use)
-        sessionId = decrypt(secretSessionId, Ku_use)
 
 
         # 生成会话密钥 sessionKey sessionMACKey
@@ -104,6 +103,7 @@ def authResult():
 
 # 接收卫星图片
 @app.route('/reqImg', methods=['GET','POST'])
+@cross_origin()
 def reqImg():
     if(request.data):
         try:
@@ -138,6 +138,7 @@ def reqImg():
 
 
 @app.route('/userAuth', methods=['GET','POST'])
+@cross_origin()
 def userAuth():
     status = reqAuth()
     return status
@@ -154,10 +155,13 @@ def testJsonRecv():
     return json.dumps(data)
 
 if __name__ == "__main__":
-    # status = reqAuth()
+    status = reqAuth()
     # print status
-    app.run(
-    debug = True,
-    port = 8888,
-    host = '0.0.0.0'
-)
+#     app.run(
+#     debug = True,
+#     port = 8888,
+#     host = '0.0.0.0'
+# )
+    # while 1:
+    #     reqAuth()
+    #     time.sleep(3)

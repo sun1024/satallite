@@ -7,13 +7,13 @@ import webbrowser
 from dealRequest import *
 
 sessions = {}
-sessions["06fa43a4b4a63b622e36e3cd4ef55fcfec070b97"] = {
-    "IDu":"test",
-    "Ku":"test",
-    "sessionKey":"580ade0f132b4228ea4fe1a289f318f2402fdcd2682ed057a3785fed4312f9f3",
-    "sessionMACKey":"9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
-    "time":int(time.time())
-}
+# sessions["06fa43a4b4a63b622e36e3cd4ef55fcfec070b97"] = {
+#     "IDu":"test",
+#     "Ku":"test",
+#     "sessionKey":"580ade0f132b4228ea4fe1a289f318f2402fdcd2682ed057a3785fed4312f9f3",
+#     "sessionMACKey":"9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
+#     "time":int(time.time())
+# }
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
@@ -44,6 +44,20 @@ def reqImg():
             return "0"
 
     return "1"
+
+# @app.route('/test', methods=['GET', 'POST'])
+# def test():
+#     with open('conn.log', 'r') as conn:
+#         resp = {}
+#         index = 1
+#         while 1:
+#             conn_data = conn.readline()[:-1]
+#             if not conn_data:
+#                 break
+#             resp[index] = conn_data
+#             index += 1
+
+#     return json.dumps(resp)
 
 # 卫星展示界面
 @app.route('/', methods=['GET', 'POST'])
@@ -80,9 +94,9 @@ def reqAuthFromUser():
 
 
 if __name__ == "__main__":
-    # webbrowser.open("http://127.0.0.1:2333")
+    webbrowser.open("http://127.0.0.1:2333")
     app.run(
-    debug = True,
+    # debug = True,
     port = 2333,
     host = '0.0.0.0'
 )

@@ -132,7 +132,6 @@ def sendToUser(auth_reps, sk, MAC_key, Ru):
         "sessionId":secretSessionId,
         "MAC":MAC
     }
-
     # 生成会话密钥 sessionKey sessionMACKey
     sessionKey = hashlib.sha256(Hsat + Ku).hexdigest()
     sessionMACKey = hashlib.sha256(IDu + Hsat).hexdigest()

@@ -116,7 +116,7 @@
             }
             details.innerHTML = toHTML;
 
-            $('#log').prepend('<br>' + $('<div/>').text('\n' + time +' -- 接收到用户请求：\n' + tmp).html());
+            $('#log').prepend('<br>' + $('<div/>').text('\n# ' + time +' -- 接收到用户请求：\n' + tmp).html());
           }
           else if (obj.userData) {
             simple.innerHTML = "正在转发用户:<h3>" + obj.userData.PIDu + "</h3>发起的身份认证请求\n";
@@ -134,7 +134,7 @@
             }
             details.innerHTML = toHTML;
 
-            $('#log').prepend('<br>' + $('<div/>').text('\n' + time +' -- 转发用户请求到NCC：\n' + tmp).html());
+            $('#log').prepend('<br>' + $('<div/>').text('\n# ' + time +' -- 转发用户请求到NCC：\n' + tmp).html());
           }
           else if (obj.ReqAuth == "ReqUserInfo") {
             simple.innerHTML = "正在向NCC请求用户:<h3>" + obj.PIDu + "</h3>的身份信息\n";
@@ -147,7 +147,7 @@
             }
             details.innerHTML = toHTML;
 
-            $('#log').prepend('<br>' + $('<div/>').text('\n' + time +' -- 向NCC请求用户信息：\n' + tmp).html());
+            $('#log').prepend('<br>' + $('<div/>').text('\n# ' + time +' -- 向NCC请求用户信息：\n' + tmp).html());
           }
 
           else if (obj.ReqAuth == "200") {
@@ -164,7 +164,7 @@
             }
             details.innerHTML = toHTML;
 
-            $('#log').prepend('<br>' + $('<div/>').text('\n' + time +' -- 用户认证成功：\n' + tmp).html());
+            $('#log').prepend('<br>' + $('<div/>').text('\n# ' + time +' -- 用户认证成功：\n' + tmp).html());
           }
 
           //错误处理
@@ -181,7 +181,7 @@
             }
             details.innerHTML = toHTML;
 
-            $('#log').prepend('<br>' + $('<div/>').text('\n' + time +' -- 用户认证失败：\n' + tmp).html());
+            $('#log').prepend('<br>' + $('<div/>').text('\n # ' + time +' -- 用户认证失败：\n' + tmp).html());
           }
         }
       });

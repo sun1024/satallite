@@ -6,7 +6,9 @@
   <title>卫星监视界面</title>
   <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
   <script type="text/javascript" src="//cdn.bootcss.com/socket.io/1.5.1/socket.io.min.js"></script>
-  <script type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <style>
     #header {
       background-color: blue;
@@ -69,59 +71,6 @@
   <br><br>
 
 
-
-
-  <!-- <script type="text/javascript">
-    var sock = null;
-    var wsuri = "ws://127.0.0.1:7543/statusImport";
-    sock = new WebSocket(wsuri);
-    sock.onmessage = function (e) {
-
-      obj = window.JSON.parse(e.data)
-
-      var simple = document.getElementById('simple');
-      var simpleResult = document.getElementById('simpleResult');
-      var details = document.getElementById('section');
-
-
-      if (obj.ReqAuth == 'ReqAuth') {
-        simple.innerHTML = "接收到卫星\n" + obj.SatalliteData.PIDs + "发起的用户身份认证请求\n";
-        if (obj.Ret == '0') {
-          simpleResult.innerHTML = "认证用户为：" + obj.UserData.PIDu + "\n<font color = \"red\">认证成功 </h6>";
-          time = fnDate();
-          details.innerHTML = "<p6> 时间：" + time + "</p6>\n" + "<p6>用户信息" + obj.UserData + "</p6>\n" + "<p6>卫星信息" + obj.SatalliteData + "</p6>";
-        } else if (obj.Ret == '1') {
-          simpleResult.innerHTML = "认证用户为：" + obj.UserData.PIDu + "\n<font color = \"blue\">认证失败 </h6>";
-          time = fnDate();
-          details.innerHTML = "<p6> 时间：" + time + "\n" + "用户信息" + obj.UserData + "\n" + "卫星信息" + obj.SatalliteData + "</p6>";
-        }
-      } else if (obj.Req == 'ReqUserInfo') {
-
-      }
-    }
-
-    function send() {
-      var msg = document.getElementById('header').value;
-      sock.send(msg);
-    }
-
-    function fnDate() {
-      var date = new Date();
-      var year = date.getFullYear();
-      var month = date.getMonth();
-      var data = date.getDate();
-      var hours = date.getHours();
-      var minute = date.getMinutes();
-      var second = date.getSeconds();
-      var time = year + "-" + fnW((month + 1)) + "-" + fnW(data) + " " + fnW(hours) + ":" + fnW(minute) + ":" + fnW(second);
-      return time;
-    }
-    function fnW(str) {
-      var num;
-      str > 10 ? num = str : num = "0" + str;
-      return num;
-    }
-  </script> -->
   <script type="text/javascript" charset="utf-8">
     $(document).ready(function () {
       var socket = io.connect();
@@ -149,7 +98,7 @@
 
 
           if (obj.Ru) {
-            simple.innerHTML = "接收到用户:<br>" + obj.PIDu + "<br>发起的身份认证请求\n";
+            simple.innerHTML = "接收到用户:<h3>" + obj.PIDu + "</h3>发起的身份认证请求\n";
             simpleResult.innerHTML = "<br>正在进行转发处理 </h6>";
             time = fnDate();
             var toHTML = "<p6> 时间：" + time + "</p6><br>" + "<p6>用户信息:</p6><br>";
@@ -160,7 +109,7 @@
             details.innerHTML = toHTML;
           }
           else if (obj.userData) {
-            simple.innerHTML = "正在转发用户:<br>\n" + obj.userData.PIDu + "<br>发起的身份认证请求\n";
+            simple.innerHTML = "正在转发用户:<h3>" + obj.userData.PIDu + "</h3>发起的身份认证请求\n";
             simpleResult.innerHTML = "<br>正在进行转发处理 </h6>";
             time = fnDate();
             var toHTML = "<p6> 时间：" + time + "</p6><br>" + "<p6>用户信息:</p6><br>";
@@ -176,7 +125,7 @@
             details.innerHTML = toHTML;
           }
           else if (obj.ReqAuth == "ReqUserInfo") {
-            simple.innerHTML = "正在向NCC请求用户:<br>" + obj.PIDu + "<br>的身份信息\n";
+            simple.innerHTML = "正在向NCC请求用户:<h3>" + obj.PIDu + "</h3>的身份信息\n";
             simpleResult.innerHTML = "<br></h6>";
             time = fnDate();
             var toHTML = "<p6> 时间：" + time + "</p6><br>" + "<p6>请求用户信息:</p6><br>";
@@ -189,7 +138,7 @@
 
           else if (obj.ReqAuth == "200") {
             // simple.innerHTML = "正在向NCC请求用户\n" + obj.PIDu + "<br>的身份信息\n";
-            simple.innerHTML = "用户:<br>" + obj.PIDu + "<br>认证成功<br>正在向用户返回成功认证消息";
+            simple.innerHTML = "用户:<h3>" + obj.PIDu + "</h3>认证成功<br>正在向用户返回成功认证消息";
             simpleResult.innerHTML = "<br></h6>";
             time = fnDate();
             var toHTML = "<p6> 时间：" + time + "</p6><br>" + "<p6>返回用户信息:</p6><br>";
@@ -202,7 +151,7 @@
 
           //错误处理
           else if (obj.ReqAuth == "500") {
-            simple.innerHTML = "用户:<br>" + obj.PIDu + "<br>认证失败";
+            simple.innerHTML = "用户:<h3>" + obj.PIDu + "</h3>认证失败";
             simpleResult.innerHTML = "</h6>";
           }
         }

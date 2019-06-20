@@ -67,8 +67,10 @@
   </div>
 
   <label id="result">认证消息：</label>
-  <div id='log'></div>
-  <br><br>
+  <div>
+    <textarea id="log" readonly="readonly" cols="30" rows="10" style="margin: 0px;width: 1907px;height: 508px;align-self: center;">
+    </textarea>
+  </div>
 
 
   <script type="text/javascript" charset="utf-8">
@@ -87,7 +89,7 @@
           change_tmp(msg.data)
 
           // $('#log').append('<br>' + $('<div/>').text('Received #' + ': ' + msg.data).html());
-          $('#log').prepend('<br>' + $('<div/>').text('Received #' + ': ' + tmp).html());
+          $('#log').prepend('<br>' + $('<div/>').text('\nReceived #' + ': ' + tmp).html());
 
           obj = JSON.parse(msg.data[0])
           console.log(obj)
@@ -144,7 +146,9 @@
             var toHTML = "<p6> 时间：" + time + "</p6><br>" + "<p6>返回用户信息:</p6><br>";
             for (var i in obj) {
               // alert(obj[i]);
-              toHTML += "<p6>" + i + ":" + obj[i] + "</p6><br>"
+              if (i != "secretHsat"){
+                toHTML += "<p6>" + i + ":" + obj[i] + "</p6><br>"
+              }
             }
             details.innerHTML = toHTML;
           }
@@ -153,6 +157,15 @@
           else if (obj.ReqAuth == "500") {
             simple.innerHTML = "用户:<h3>" + obj.PIDu + "</h3>认证失败";
             simpleResult.innerHTML = "</h6>";
+            time = fnDate();
+            var toHTML = "<p6> 时间：" + time + "</p6><br>" + "<p6>返回用户信息:</p6><br>";
+            for (var i in obj) {
+              // alert(obj[i]);
+              if (i != "secretHsat"){
+                toHTML += "<p6>" + i + ":" + obj[i] + "</p6><br>"
+              }
+            }
+            details.innerHTML = toHTML;
           }
         }
       });

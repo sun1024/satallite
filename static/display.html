@@ -149,7 +149,7 @@
 
 
           if (obj.Ru) {
-            simple.innerHTML = "接收到用户\n" + obj.PIDu + "<br>发起的身份认证请求\n";
+            simple.innerHTML = "接收到用户:<br>" + obj.PIDu + "<br>发起的身份认证请求\n";
             simpleResult.innerHTML = "<br>正在进行转发处理 </h6>";
             time = fnDate();
             var toHTML = "<p6> 时间：" + time + "</p6><br>" + "<p6>用户信息:</p6><br>";
@@ -158,8 +158,9 @@
               toHTML += "<p6>" + i + ":" + obj[i] + "</p6><br>"
             }
             details.innerHTML = toHTML;
-          } else if (obj.userData) {
-            simple.innerHTML = "正在转发用户\n" + obj.userData.PIDu + "<br>发起的身份认证请求\n";
+          }
+          else if (obj.userData) {
+            simple.innerHTML = "正在转发用户:<br>\n" + obj.userData.PIDu + "<br>发起的身份认证请求\n";
             simpleResult.innerHTML = "<br>正在进行转发处理 </h6>";
             time = fnDate();
             var toHTML = "<p6> 时间：" + time + "</p6><br>" + "<p6>用户信息:</p6><br>";
@@ -173,6 +174,36 @@
               toHTML += "<p6>" + i + ":" + obj.satalliteData[i] + "</p6><br>"
             }
             details.innerHTML = toHTML;
+          }
+          else if (obj.ReqAuth == "ReqUserInfo") {
+            simple.innerHTML = "正在向NCC请求用户:<br>" + obj.PIDu + "<br>的身份信息\n";
+            simpleResult.innerHTML = "<br></h6>";
+            time = fnDate();
+            var toHTML = "<p6> 时间：" + time + "</p6><br>" + "<p6>请求用户信息:</p6><br>";
+            for (var i in obj) {
+              // alert(obj[i]);
+              toHTML += "<p6>" + i + ":" + obj[i] + "</p6><br>"
+            }
+            details.innerHTML = toHTML;
+          }
+
+          else if (obj.ReqAuth == "200") {
+            // simple.innerHTML = "正在向NCC请求用户\n" + obj.PIDu + "<br>的身份信息\n";
+            simple.innerHTML = "用户:<br>" + obj.PIDu + "<br>认证成功<br>正在向用户返回成功认证消息";
+            simpleResult.innerHTML = "<br></h6>";
+            time = fnDate();
+            var toHTML = "<p6> 时间：" + time + "</p6><br>" + "<p6>返回用户信息:</p6><br>";
+            for (var i in obj) {
+              // alert(obj[i]);
+              toHTML += "<p6>" + i + ":" + obj[i] + "</p6><br>"
+            }
+            details.innerHTML = toHTML;
+          }
+
+          //错误处理
+          else if (obj.ReqAuth == "500") {
+            simple.innerHTML = "用户:<br>" + obj.PIDu + "<br>认证失败";
+            simpleResult.innerHTML = "</h6>";
           }
         }
       });

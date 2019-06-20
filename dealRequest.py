@@ -55,7 +55,10 @@ def sendToNcc(satalliteData, userData):
         # 通过auth_reps判断认证是否成功
         return dealResNcc(auth_reps, satalliteData["Rs"], userData["Ru"], userData["PIDu"])
     else:
-        data = {"ReqAuth":"500"}
+        data = {
+            "ReqAuth":"500",
+            "PIDu":userData["PIDu"]
+            }
         return data
 
 
@@ -92,13 +95,16 @@ def dealResNcc(auth_reps, Rs, Ru, PIDu):
         auth_reps = json.loads(reps.content)
         # print auth_reps
         # 返回信息：Esk{IDui，Ki}、MAC、TNCC
-        return sendToUser(auth_reps, sk, MAC_key, Ru)
+        return sendToUser(auth_reps, sk, MAC_key, Ru, PIDu)
     else:
-        data = {"ReqAuth":"500"}
+        data = {
+            "ReqAuth":"500",
+            "PIDu":PIDu
+            }
         return data
 
 # 处理卫星第二次返回的信息：Esk{IDu，Ku}、MAC、TNCC，并返回给用户
-def sendToUser(auth_reps, sk, MAC_key, Ru):
+def sendToUser(auth_reps, sk, MAC_key, Ru, PIDu):
     # print sk
     # print auth_reps
     # 从auth_reps中取出MAC, 用MAC_key进行验证
@@ -135,7 +141,8 @@ def sendToUser(auth_reps, sk, MAC_key, Ru):
         "ReqAuth":"200",
         "secretHsat":secretHsat,
         "sessionId":secretSessionId,
-        "MAC":MAC
+        "MAC":MAC,
+        "PIDu":PIDu
     }
     # 生成会话密钥 sessionKey sessionMACKey
     sessionKey = hashlib.sha256(Hsat + Ku).hexdigest()

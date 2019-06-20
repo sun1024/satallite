@@ -116,7 +116,11 @@ def reqAuthFromUser():
             return data
         except Exception, e:
             print e
-            data = json.dumps({"ReqAuth":"500"})
+            data = json.dumps({
+                "ReqAuth":"500",
+                "PIDu":userData["PIDu"]
+                })
+            clear_and_add(data)
             return Response(status=500, response=data)
     else:
         return Response(status=500)

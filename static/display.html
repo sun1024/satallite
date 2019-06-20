@@ -19,7 +19,7 @@
       line-height: 30px;
       background-color: #eeeeee;
       height: 300px;
-      width: 886px;
+      width: 925px;
       float: left;
       padding: 5px;
     }
@@ -155,7 +155,22 @@
             var toHTML = "<p6> 时间：" + time + "</p6><br>" + "<p6>用户信息:</p6><br>";
             for (var i in obj) {
               // alert(obj[i]);
-                toHTML +=  "<p6>" + i + ":" + obj[i] + "</p6><br>"
+              toHTML += "<p6>" + i + ":" + obj[i] + "</p6><br>"
+            }
+            details.innerHTML = toHTML;
+          } else if (obj.userData) {
+            simple.innerHTML = "正在转发用户\n" + obj.userData.PIDu + "<br>发起的身份认证请求\n";
+            simpleResult.innerHTML = "<br>正在进行转发处理 </h6>";
+            time = fnDate();
+            var toHTML = "<p6> 时间：" + time + "</p6><br>" + "<p6>用户信息:</p6><br>";
+            for (var i in obj.userData) {
+              // alert(obj[i]);
+              toHTML += "<p6>" + i + ":" + obj.userData[i] + "</p6><br>"
+            }
+            toHTML += "<p6>卫星信息:</p6><br>"
+            for (var i in obj.satalliteData) {
+              // alert(obj[i]);
+              toHTML += "<p6>" + i + ":" + obj.satalliteData[i] + "</p6><br>"
             }
             details.innerHTML = toHTML;
           }

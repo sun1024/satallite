@@ -14,13 +14,13 @@
       background-color: blue;
       color: white;
       text-align: center;
-      padding: 5px;
+      padding: 10px;
     }
 
     #nav {
       line-height: 30px;
       background-color: #eeeeee;
-      height: 300px;
+      height: 310px;
       width: 959px;
       float: left;
       padding: 5px;
@@ -39,6 +39,12 @@
       text-align: center;
       padding: 5px;
     }
+
+    #result {
+      padding:7px;
+    }
+    /* 禁止拖动 */
+    textarea{ resize:none;}
   </style>
 </head>
 
@@ -67,8 +73,8 @@
   </div>
 
   <label id="result">认证消息：</label>
-  <div>
-    <textarea id="log" readonly="readonly" cols="30" rows="10" style="margin: 0px;width: 1907px;height: 508px;align-self: center;">
+  <div align="center">
+      <textarea id="log" readonly="readonly" cols="30" rows="10" style="margin: 0px; width: 1906px; height: 483px; align-self: center;">
     </textarea>
   </div>
 
@@ -89,7 +95,7 @@
           change_tmp(msg.data)
 
           // $('#log').append('<br>' + $('<div/>').text('Received #' + ': ' + msg.data).html());
-          $('#log').prepend('<br>' + $('<div/>').text('\nReceived #' + ': ' + tmp).html());
+          // $('#log').prepend('<br>' + $('<div/>').text('\n' + time +' #' + ': ' + tmp).html());
 
           obj = JSON.parse(msg.data[0])
           console.log(obj)
@@ -101,7 +107,7 @@
 
           if (obj.Ru) {
             simple.innerHTML = "接收到用户:<h3>" + obj.PIDu + "</h3>发起的身份认证请求\n";
-            simpleResult.innerHTML = "<br>正在进行转发处理 </h6>";
+            simpleResult.innerHTML = "<br><br>正在进行转发处理 </h6>";
             time = fnDate();
             var toHTML = "<p6> 时间：" + time + "</p6><br>" + "<p6>用户信息:</p6><br>";
             for (var i in obj) {
@@ -109,10 +115,12 @@
               toHTML += "<p6>" + i + ":" + obj[i] + "</p6><br>"
             }
             details.innerHTML = toHTML;
+
+            $('#log').prepend('<br>' + $('<div/>').text('\n' + time +' -- 接收到用户请求：\n' + tmp).html());
           }
           else if (obj.userData) {
             simple.innerHTML = "正在转发用户:<h3>" + obj.userData.PIDu + "</h3>发起的身份认证请求\n";
-            simpleResult.innerHTML = "<br>正在进行转发处理 </h6>";
+            simpleResult.innerHTML = "<br><br>正在进行转发处理 </h6>";
             time = fnDate();
             var toHTML = "<p6> 时间：" + time + "</p6><br>" + "<p6>用户信息:</p6><br>";
             for (var i in obj.userData) {
@@ -125,6 +133,8 @@
               toHTML += "<p6>" + i + ":" + obj.satalliteData[i] + "</p6><br>"
             }
             details.innerHTML = toHTML;
+
+            $('#log').prepend('<br>' + $('<div/>').text('\n' + time +' -- 转发用户请求到NCC：\n' + tmp).html());
           }
           else if (obj.ReqAuth == "ReqUserInfo") {
             simple.innerHTML = "正在向NCC请求用户:<h3>" + obj.PIDu + "</h3>的身份信息\n";
@@ -136,11 +146,13 @@
               toHTML += "<p6>" + i + ":" + obj[i] + "</p6><br>"
             }
             details.innerHTML = toHTML;
+
+            $('#log').prepend('<br>' + $('<div/>').text('\n' + time +' -- 向NCC请求用户信息：\n' + tmp).html());
           }
 
           else if (obj.ReqAuth == "200") {
             // simple.innerHTML = "正在向NCC请求用户\n" + obj.PIDu + "<br>的身份信息\n";
-            simple.innerHTML = "用户:<h3>" + obj.PIDu + "</h3>认证成功<br>正在向用户返回成功认证消息";
+            simple.innerHTML = "用户:<h3>" + obj.PIDu + "</h3>认证成功<br><br>正在向用户返回成功认证消息";
             simpleResult.innerHTML = "<br></h6>";
             time = fnDate();
             var toHTML = "<p6> 时间：" + time + "</p6><br>" + "<p6>返回用户信息:</p6><br>";
@@ -151,6 +163,8 @@
               }
             }
             details.innerHTML = toHTML;
+
+            $('#log').prepend('<br>' + $('<div/>').text('\n' + time +' -- 用户认证成功：\n' + tmp).html());
           }
 
           //错误处理
@@ -166,6 +180,8 @@
               }
             }
             details.innerHTML = toHTML;
+
+            $('#log').prepend('<br>' + $('<div/>').text('\n' + time +' -- 用户认证失败：\n' + tmp).html());
           }
         }
       });

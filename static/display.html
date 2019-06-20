@@ -19,7 +19,7 @@
       line-height: 30px;
       background-color: #eeeeee;
       height: 300px;
-      width: 750px;
+      width: 886px;
       float: left;
       padding: 5px;
     }
@@ -149,8 +149,8 @@
 
 
           if (obj.Ru) {
-            simple.innerHTML = "接收到用户\n" + obj.PIDu + "发起的用户身份认证请求\n";
-            simpleResult.innerHTML = "\n正在进行转发处理 </h6>";
+            simple.innerHTML = "接收到用户\n" + obj.PIDu + "<br>发起的身份认证请求\n";
+            simpleResult.innerHTML = "<br>正在进行转发处理 </h6>";
             time = fnDate();
             var toHTML = "<p6> 时间：" + time + "</p6><br>" + "<p6>用户信息:</p6><br>";
             for (var i in obj) {

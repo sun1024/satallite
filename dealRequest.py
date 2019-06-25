@@ -45,7 +45,7 @@ def sendToNcc(satalliteData, userData):
         "satalliteData":satalliteData
     })
     clear_and_add(data)
-    url = "http://172.23.22.179:7543/ncc/user/IdentityCheck"
+    url = "http://127.0.0.1:7543/ncc/user/IdentityCheck"
     proxies = {'http': 'http://127.0.0.1:8080'}
     reps = requests.post(url, data=data, proxies=proxies)
     # reps = requests.post(url, data=data)
@@ -81,7 +81,7 @@ def dealResNcc(auth_reps, Rs, Ru, PIDu):
         msg = "ReqUserInfo" + str(timestamp) + PIDu
         MAC = hmac.new(MAC_key, msg, hashlib.sha256).hexdigest()
         # 请求用户身份信息
-        url = "http://172.23.22.179:7543/ncc/user/ReqUserInfo"
+        url = "http://127.0.0.1:7543/ncc/user/ReqUserInfo"
         data = json.dumps({
             "ReqAuth":"ReqUserInfo",
             "Ts":str(timestamp),

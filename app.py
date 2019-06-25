@@ -103,8 +103,7 @@ def index_old():
 # 卫星收到用户发来的认证信息，连同自己的认证信息一起发给ncc
 @app.route('/reqAuth', methods=['GET', 'POST'])
 def reqAuthFromUser():
-    satalliteData = getReqAuthData()
-    satalliteData = json.loads(satalliteData)
+
     # 这里要对用户信息做出判断
     if(request.data):
         clear_and_add(request.data)
@@ -124,6 +123,10 @@ def reqAuthFromUser():
             new_options_exists = True
         if new_options_exists:
             change_options(new_options)
+        # 获取卫星认证数据
+        satalliteData = getReqAuthData()
+        satalliteData = json.loads(satalliteData)
+
         # sendToNcc
         try:
             data = sendToNcc(satalliteData, userData)

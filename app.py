@@ -109,6 +109,22 @@ def reqAuthFromUser():
     if(request.data):
         clear_and_add(request.data)
         userData = json.loads(request.data)
+        # 处理认证选项
+        try:
+            new_options = userData['options']
+            # new_options = {
+            #     'Hash_option': 1,
+            #     'Key_option': 1,
+            #     'Len_Ru': 2,
+            #     'Zip': 0
+            # }
+        except Exception, e:
+            new_options_exists = False
+        else:
+            new_options_exists = True
+        if new_options_exists:
+            change_options(new_options)
+        # sendToNcc
         try:
             data = sendToNcc(satalliteData, userData)
             data = json.dumps(data)

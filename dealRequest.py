@@ -5,6 +5,7 @@
 import time, random
 import json, hashlib, requests
 import hmac
+import zlib
 
 from xor1 import *
 from AES_use import *
@@ -285,3 +286,7 @@ def decryptData(data, key):
         return des_decrypt(data, key)
     elif options['Key_option'] == 3: # 3DES
         return three_des_decrypt(data, key)
+
+# 处理数据压缩
+def compress(data):
+    return zlib.compress(data)

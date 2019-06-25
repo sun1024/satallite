@@ -113,8 +113,8 @@ def sendToUser(auth_reps, sk, MAC_key, Ru, PIDu):
     msg = auth_reps["AesIDu"] + auth_reps["AesKIu"] + auth_reps["Tncc"]
     # MAC_compare = hmac.new(MAC_key, msg, hashlib.sha256).hexdigest()
     # sk = bytes(sk.decode('hex'))
-    IDu = aes_decrypt(auth_reps['AesIDu'], sk)
-    Ku = aes_decrypt(auth_reps['AesKIu'], sk)
+    IDu = decryptData(auth_reps['AesIDu'], sk)
+    Ku = decryptData(auth_reps['AesKIu'], sk)
     # print "IDu:" + IDu, "Ku:" + Ku
 
     # 先判断HMAC
@@ -136,8 +136,8 @@ def sendToUser(auth_reps, sk, MAC_key, Ru, PIDu):
 
     # 将Eku(Hsat)，MAC发给用户
     # Ku_use = bytes(Ku.decode('hex'))
-    secretHsat = aes_encrypt(Hsat, Ku)
-    secretSessionId = aes_encrypt(str(sessionId), Ku)
+    secretHsat = encryptData(Hsat, Ku)
+    secretSessionId = encryptData(str(sessionId), Ku)
     msg = "ReqUserSuccess" + secretHsat + secretSessionId
     MAC = getHmac(MAC_user_key, secretHsat)
     data = {
@@ -220,7 +220,7 @@ def imgRepo(data, img_content):
     MACKey = bytes(data['MACKey'])
 
     # key_use = bytes(sessionKey.decode('hex'))
-    content = aes_encrypt(img_content, sessionKey)
+    content = encryptData(img_content, sessionKey)
 
     MAC = getHmac(MACKey, content)
 
@@ -276,7 +276,7 @@ def encryptData(data, key):
     elif options['Key_option'] == 3: # 3DES
         pass
 
-def encryptData(data, key):
+def decryptData(data, key):
     options = get_options()
     if options['Key_option'] == 1: # AES
         return aes_decrypt(data, key)

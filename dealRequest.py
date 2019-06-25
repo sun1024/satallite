@@ -267,7 +267,7 @@ def getHmac(MAC_key, msg):
         return hmac.new(MAC_key, msg, hashlib.sha512).hexdigest()
 
 # 处理options['Key_option']
-def encryptKey(data, key):
+def encryptData(data, key):
     options = get_options()
     if options['Key_option'] == 1: # AES
         return aes_encrypt(data, key)
@@ -276,7 +276,7 @@ def encryptKey(data, key):
     elif options['Key_option'] == 3: # 3DES
         pass
 
-def encryptKey(data, key):
+def encryptData(data, key):
     options = get_options()
     if options['Key_option'] == 1: # AES
         return aes_decrypt(data, key)

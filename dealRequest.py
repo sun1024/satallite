@@ -9,6 +9,7 @@ import hmac
 from xor1 import *
 from AES_use import *
 from DES_use import *
+from DES_3_use import *
 from RSA_sign import *
 from gl import *
 
@@ -274,7 +275,7 @@ def encryptData(data, key):
     elif options['Key_option'] == 2: # DES
         return des_encrypt(data, key)
     elif options['Key_option'] == 3: # 3DES
-        pass
+        return three_des_encrypt(data, key)
 
 def decryptData(data, key):
     options = get_options()
@@ -283,4 +284,4 @@ def decryptData(data, key):
     elif options['Key_option'] == 2: # DES
         return des_decrypt(data, key)
     elif options['Key_option'] == 3: # 3DES
-        pass
+        return three_des_decrypt(data, key)

@@ -15,16 +15,17 @@ from gl import *
 # 卫星第一次请求需要的所有数据
 def getReqAuthData():
     timestamp = int(time.time())
-    Ru = random.randint(10000000000000000000000000000000, 99999999999999999999999999999999)
+    # Ru = random.randint(10000000000000000000000000000000, 99999999999999999999999999999999)
+    Ru = getRandom()
     # 读取用户信息
     with open("userInfo.json", "r") as userInfo:
         userInfo = json.load(userInfo)
 
-    H = hashlib.sha256(userInfo["userKey"] + str(Ru)).hexdigest()
+    H = getHash(userInfo["userKey"] + str(Ru))
     H = xor_encrypt(userInfo["preRandom"], H)
     PIDu = xor_encrypt(str(userInfo["userId"]), H)
-    MACu = hashlib.sha256(userInfo["userId"] + str(Ru) +str(timestamp)).hexdigest()
-    ru = hashlib.sha256(userInfo["userKey"] + userInfo['preRandom']).hexdigest()
+    MACu = getHash(userInfo["userId"] + str(Ru) +str(timestamp))
+    ru = getHash(userInfo["userKey"] + userInfo['preRandom'])
     ru = xor_encrypt(str(Ru), ru)
 
     return json.dumps(
@@ -75,11 +76,11 @@ def dealResNcc(auth_reps, Rs, Ru, PIDu):
             userInfo = json.load(userInfo)
         masterKey = auth_reps["MasterKey"]
         # 生成sk, MAC_key
-        sk = hashlib.sha256(masterKey + userInfo["userKey"]).hexdigest()
-        MAC_key = hashlib.sha256(userInfo["userKey"] + masterKey + Rs).hexdigest()
+        sk = getHash(masterKey + userInfo["userKey"])
+        MAC_key = getHash(userInfo["userKey"] + masterKey + Rs)
         # 生成MAC
         msg = "ReqUserInfo" + str(timestamp) + PIDu
-        MAC = hmac.new(MAC_key, msg, hashlib.sha256).hexdigest()
+        MAC = getHmac(MAC_key, msg)
         # 请求用户身份信息
         url = "http://127.0.0.1:7543/ncc/user/ReqUserInfo"
         data = json.dumps({
@@ -111,14 +112,15 @@ def sendToUser(auth_reps, sk, MAC_key, Ru, PIDu):
     msg = auth_reps["AesIDu"] + auth_reps["AesKIu"] + auth_reps["Tncc"]
     # MAC_compare = hmac.new(MAC_key, msg, hashlib.sha256).hexdigest()
     sk = bytes(sk.decode('hex'))
-    IDu = decrypt(auth_reps['AesIDu'], sk)
-    Ku = decrypt(auth_reps['AesKIu'], sk)
+    IDu = aes_decrypt(auth_reps['AesIDu'], sk)
+    Ku = aes_decrypt(auth_reps['AesKIu'], sk)
     # print "IDu:" + IDu, "Ku:" + Ku
 
     # 先判断HMAC
 
     # 生成sessionId 并保存session
-    sessionId = random.randint(10000000000000000000000000000000, 99999999999999999999999999999999)   
+    # sessionId = random.randint(10000000000000000000000000000000, 99999999999999999999999999999999)   
+    sessionId = getRandom()
 
     # 读取用户信息
     with open("userInfo.json", "r") as userInfo:
@@ -128,15 +130,15 @@ def sendToUser(auth_reps, sk, MAC_key, Ru, PIDu):
     timestamp = int(time.time())
 
     # 计算MAC_user_key, Hsat
-    MAC_user_key = hashlib.sha256(IDu + Ku + Ru).hexdigest()
-    Hsat = hashlib.sha256(userInfo["userKey"] + userInfo["preRandom"] + Ru + str(timestamp)).hexdigest()
+    MAC_user_key = getHash(IDu + Ku + Ru)
+    Hsat = getHash(userInfo["userKey"] + userInfo["preRandom"] + Ru + str(timestamp))
 
     # 将Eku(Hsat)，MAC发给用户
     Ku_use = bytes(Ku.decode('hex'))
-    secretHsat = encrypt(Hsat, Ku_use)
-    secretSessionId = encrypt(str(sessionId), Ku_use)
+    secretHsat = aes_encrypt(Hsat, Ku_use)
+    secretSessionId = aes_encrypt(str(sessionId), Ku_use)
     msg = "ReqUserSuccess" + secretHsat + secretSessionId
-    MAC = hmac.new(MAC_user_key, secretHsat, hashlib.sha256).hexdigest()
+    MAC = getHmac(MAC_user_key, secretHsat)
     data = {
         "ReqAuth":"200",
         "secretHsat":secretHsat,
@@ -145,8 +147,8 @@ def sendToUser(auth_reps, sk, MAC_key, Ru, PIDu):
         "PIDu":PIDu
     }
     # 生成会话密钥 sessionKey sessionMACKey
-    sessionKey = hashlib.sha256(Hsat + Ku).hexdigest()
-    sessionMACKey = hashlib.sha256(IDu + Hsat).hexdigest()
+    sessionKey = getHash(Hsat + Ku)
+    sessionMACKey = getHash(IDu + Hsat)
 
     sessionDatas = {
         "IDu":IDu,
@@ -217,9 +219,9 @@ def imgRepo(data, img_content):
     MACKey = bytes(data['MACKey'])
 
     key_use = bytes(sessionKey.decode('hex'))
-    content = encrypt(img_content, key_use)
+    content = aes_encrypt(img_content, key_use)
 
-    MAC = hmac.new(MACKey, content, hashlib.sha256).hexdigest()
+    MAC = getHmac(MACKey, content)
 
     # 传递给用户
     url = "http://127.0.0.1:8888/reqImg"
@@ -233,3 +235,42 @@ def imgRepo(data, img_content):
 
     return reps.content
 
+# 处理options['Len_Ru']
+def getRandom():
+    options = get_options()
+    if options['Len_Ru'] == 1: # 16
+        return random.randint(1000000000000000, 9999999999999999)
+    elif options['Len_Ru'] == 2: # 32
+        return random.randint(10000000000000000000000000000000, 99999999999999999999999999999999)
+    elif options['Len_Ru'] == 3: # 48
+        return random.randint(100000000000000000000000000000000000000000000000, 999999999999999999999999999999999999999999999999)
+
+# 处理options['Hash_option']
+def getHash(msg):
+    options = get_options()
+    if options['Hash_option'] == 1: # sha1
+        return hashlib.sha1(msg).hexdigest()
+    elif options['Hash_option'] == 2: # sha256
+        return hashlib.sha256(msg).hexdigest()
+    elif options['Hash_option'] == 3: # sha512
+        return hashlib.sha512(msg).hexdigest()
+
+# 处理hmac
+def getHmac(MAC_key, msg):
+    options = get_options()
+    if options['Hash_option'] == 1: # sha1
+        return hmac.new(MAC_key, msg, hashlib.sha1).hexdigest()
+    elif options['Hash_option'] == 2: # sha256
+        return hmac.new(MAC_key, msg, hashlib.sha256).hexdigest()
+    elif options['Hash_option'] == 3: # sha512
+        return hmac.new(MAC_key, msg, hashlib.sha512).hexdigest()
+
+# 处理options['Key_option']
+def encryptKey(data, key):
+    options = get_options()
+    if options['Key_option'] == 1: # AES
+        aes_encrypt(data, key)
+    elif options['Key_option'] == 2: # DES
+        pass
+    elif options['Key_option'] == 3: # 3DES
+        pass

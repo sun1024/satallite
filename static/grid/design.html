@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>卫星监视界面</title>
+	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<style>
+		#header {
+			background-color: #286090;
+			color: white;
+			text-align: center;
+			padding: 11px;
+		}
+
+		#footer {
+			background-color: #286090;
+			color: white;
+			/* clear: both; */
+			text-align: center;
+			padding: 10px;
+		}
+
+		#nav1 {
+			height: 370px;
+			background-color: #eeeeee;
+			/* line-height: 30px;
+			width: 959px;
+			float: left;
+			padding: 12px; */
+		}
+
+		#table {
+			height: 370px;
+		}
+
+		#log {
+			width: 100%;
+			height: 417px;
+		}
+
+		/* 禁止拖动 */
+		textarea {
+			resize: none;
+		}
+	</style>
+</head>
+
+<body style="font-size:16px;font-weight:bold;">
+
+	<div class="container-fluid">
+		<div class="row clearfix">
+			<div class="col-md-12 column" id="header">
+				<h1 class="text-center">
+					卫星监视界面
+				</h1>
+			</div>
+		</div>
+		<div class="row clearfix">
+			<div class="col-md-6 column" id="nav1">
+				<div>
+					<h2>用户消息<h2>
+							<form>
+								<p5 id="simple"> 这里将用于显示用户消息 </p5>
+								<p5 id="simpleResult"> 并显示请求结果 </p5>
+							</form>
+				</div>
+			</div>
+			<div class="col-md-6 column">
+				<div>
+					<h2>卫星消息<h2>
+							<form>
+								<p5 id="simple"> 这里将用于显示卫星消息 </p5>
+								<p5 id="simpleResult"> 并显示请求结果 </p5>
+							</form>
+				</div>
+			</div>
+		</div>
+		<div class="row clearfix">
+			<div class="col-md-6 column" id="footer">
+				<div>
+					用户信息
+				</div>
+			</div>
+			<div class="col-md-6 column" id="footer">
+				<div>
+					卫星日志
+				</div>
+			</div>
+		</div>
+		<div class="row clearfix">
+			<div class="col-md-6 column">
+				<br>
+				<table class="table table-hover table-striped" id="table">
+					<thead>
+						<tr>
+							<th>
+								接入用户
+							</th>
+							<th>
+								接入时间
+							</th>
+							<th>
+								接入状态
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								1
+							</td>
+							<td>
+								01/04/2012
+							</td>
+							<td>
+								Default
+							</td>
+						</tr>
+						<tr class="success">
+							<td>
+								1
+							</td>
+							<td>
+								01/04/2012
+							</td>
+							<td>
+								Approved
+							</td>
+						</tr>
+						<tr class="error">
+							<td>
+								2
+							</td>
+							<td>
+								02/04/2012
+							</td>
+							<td>
+								Declined
+							</td>
+						</tr>
+						<tr class="warning">
+							<td>
+								3
+							</td>
+							<td>
+								03/04/2012
+							</td>
+							<td>
+								Pending
+							</td>
+						</tr>
+						<tr class="info">
+							<td>
+								4
+							</td>
+							<td>
+								04/04/2012
+							</td>
+							<td>
+								Call in to confirm
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-md-6 column">
+				<!-- <label id="result">认证消息：</label> -->
+				<br>
+				<div align="center">
+					<textarea id="log" readonly="readonly" cols="30" rows="10">
+						  </textarea>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+
+</html>

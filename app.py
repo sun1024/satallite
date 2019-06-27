@@ -38,9 +38,16 @@ def client_msg(msg):
         time.sleep(0.5)
 
     
-# @socketio.on('connect_event')
+# @socketio.on('table_event')
 # def connected_msg(msg):
-#     emit('server_response', {'data': msg['data']})
+#     table = {
+#         'user':'IgpX****',
+#         'time':'2019-06-27 09:52:38',
+#         'status':'请求卫星'
+#     }
+#     while 1:
+#         emit('table_response', {'data': table})
+#         time.sleep(0.5)
 
 
 # 认证结果展示

@@ -34,8 +34,8 @@
 		}
 
 		#table {
-			height: 370px;
-			margin: 0px; 
+			/* height: 370px; */
+			/* margin: 0px;  */
 			align-self: center; 
 			color:#333
 		}
@@ -75,8 +75,8 @@
 			<div class="col-md-6 column">
 				<div>
 					<h2>NCC消息<h2>
-							<form>
-								<p5 id="simple2"> 这里将用于显示卫星消息 </p5>
+							<foNCC
+								<p5 id="simple2"> 这里将用于显示NCC消息 </p5>
 								<p5 id="simpleResult2"> 并显示请求结果 </p5>
 							</form>
 				</div>
@@ -114,59 +114,16 @@
 					<tbody>
 						<tr>
 							<td>
-								1
+								IgpX****
 							</td>
 							<td>
-								01/04/2012
+								2019-06-27 09:52:38
 							</td>
 							<td>
-								Default
+								请求卫星
 							</td>
 						</tr>
-						<tr class="success">
-							<td>
-								1
-							</td>
-							<td>
-								01/04/2012
-							</td>
-							<td>
-								Approved
-							</td>
-						</tr>
-						<tr class="error">
-							<td>
-								2
-							</td>
-							<td>
-								02/04/2012
-							</td>
-							<td>
-								Declined
-							</td>
-						</tr>
-						<tr class="warning">
-							<td>
-								3
-							</td>
-							<td>
-								03/04/2012
-							</td>
-							<td>
-								Pending
-							</td>
-						</tr>
-						<tr class="info">
-							<td>
-								4
-							</td>
-							<td>
-								04/04/2012
-							</td>
-							<td>
-								Call in to confirm
-							</td>
-						</tr>
+						
 					</tbody>
 				</table>
 			</div>
@@ -187,9 +144,13 @@
 			var socket = io.connect();
 
 			socket.on('connect', function () {
-				// socket.emit('connect_event', { data: 'connected!' });
-				socket.emit('client_event', { data: 'test' });
+				// socket.emit('table_event', { data: 'table' });
+				socket.emit('client_event', { data: 'client' });
 			})
+
+			// socket.on('table_response', function (msg){
+			// 	console.log(msg);
+			// })
 
 			var tmp = ''
 			socket.on('server_response', function (msg) {

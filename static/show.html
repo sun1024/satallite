@@ -36,8 +36,8 @@
 		#table {
 			/* height: 370px; */
 			/* margin: 0px;  */
-			align-self: center; 
-			color:#333
+			align-self: center;
+			color: #333
 		}
 
 		#log {
@@ -123,7 +123,7 @@
 								请求卫星
 							</td>
 						</tr> -->
-						
+
 					</tbody>
 				</table>
 			</div>
@@ -170,7 +170,7 @@
 					var simple2 = document.getElementById('simple2');
 					var simpleResult2 = document.getElementById('simpleResult2');
 
-					time = fnDate();	
+					time = fnDate();
 
 					if (obj.Ru) { //收到用户信息
 						simple1.innerHTML = "<h3>" + time + "</h3><br>接收到用户:<h3>" + obj.PIDu + "</h3>发起的身份认证请求\n";
@@ -179,9 +179,9 @@
 						$('#log').prepend('<br>' + $('<div/>').text('\n# ' + time + ' ---------- 接收到用户请求：\n' + tmp).html());
 
 						var user = obj.PIDu.substring(0, 5) + "****";
-						setTable(user);
-						console.log(table);
-						var status = '请求卫星';
+						// setTable(user);
+						// console.log(table);
+						var status = '用户请求卫星';
 						// console.log(user + time + status)
 						toTable = '<tr><td>' + user + '</td><td>' + time + '</td><td>' + status + '</td></tr>';
 						$('#table tbody').prepend(toTable);
@@ -191,6 +191,12 @@
 						simpleResult2.innerHTML = "<br><br>正在进行转发处理 </h6>";
 
 						$('#log').prepend('<br>' + $('<div/>').text('\n# ' + time + ' ---------- 转发用户请求到NCC：\n' + tmp).html());
+
+						var user = obj.userData.PIDu.substring(0, 5) + "****";
+						var status = '转发信息到NCC';
+						// 获取table中的该user行，并将status修改
+						changeTable(user, status);
+
 					}
 					else if (obj.ReqAuth == "ReqUserInfo") { //向ncc请求用户身份
 						simple2.innerHTML = "<h3>" + time + "</h3><br>正在向NCC请求用户:<h3>" + obj.PIDu + "</h3>的身份信息\n";
@@ -248,6 +254,17 @@
 						table.push(data)
 					}
 				})
+			}
+
+			function changeTable(user, status) {
+				var v = "";
+				$("#table tr td:nth-child(1)").each(function () {
+					// console.log($(this).text());
+					if (user == $(this).text()) {
+						// 改变status
+						
+					}
+				});
 			}
 
 		});

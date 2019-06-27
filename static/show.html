@@ -181,7 +181,7 @@
 						var user = obj.PIDu.substring(0, 5) + "****";
 						// setTable(user);
 						// console.log(table);
-						var status = '用户请求卫星';
+						var status = '请求卫星';
 						// console.log(user + time + status)
 						toTable = '<tr><td>' + user + '</td><td>' + time + '</td><td>' + status + '</td></tr>';
 						$('#table tbody').prepend(toTable);
@@ -193,7 +193,7 @@
 						$('#log').prepend('<br>' + $('<div/>').text('\n# ' + time + ' ---------- 转发用户请求到NCC：\n' + tmp).html());
 
 						var user = obj.userData.PIDu.substring(0, 5) + "****";
-						var status = '转发信息到NCC';
+						var status = '转发NCC';
 						// 获取table中的该user行，并将status修改
 						changeTable(user, status);
 
@@ -203,6 +203,11 @@
 						simpleResult2.innerHTML = "<br></h6>";
 
 						$('#log').prepend('<br>' + $('<div/>').text('\n# ' + time + ' ---------- 向NCC请求用户信息：\n' + tmp).html());
+												
+						var user = obj.PIDu.substring(0, 5) + "****";
+						var status = '请求用户';
+						// 获取table中的该user行，并将status修改
+						changeTable(user, status);
 					}
 
 					else if (obj.ReqAuth == "200") { //ncc回复卫星，用户认证成功
@@ -211,6 +216,11 @@
 						simpleResult1.innerHTML = "<br></h6>";
 
 						$('#log').prepend('<br>' + $('<div/>').text('\n# ' + time + ' ---------- 用户认证成功：\n' + tmp).html());
+
+						var user = obj.PIDu.substring(0, 5) + "****";
+						var status = '认证成功';
+						// 获取table中的该user行，并将status修改
+						changeTable(user, status);
 					}
 
 					//错误处理
@@ -219,6 +229,11 @@
 						simpleResult1.innerHTML = "</h6>";
 
 						$('#log').prepend('<br>' + $('<div/>').text('\n # ' + time + ' ---------- 用户认证失败：\n' + tmp).html());
+					j
+						var user = obj.PIDu.substring(0, 5) + "****";
+						var status = '认证失败';
+						// 获取table中的该user行，并将status修改
+						changeTable(user, status);
 					}
 				}
 			});
@@ -258,12 +273,16 @@
 
 			function changeTable(user, status) {
 				var v = "";
+				var key = 0;
 				$("#table tr td:nth-child(1)").each(function () {
 					// console.log($(this).text());
 					if (user == $(this).text()) {
+						v = $("#table tr:gt(0):eq(" + key + ") td:eq(2)").text();
+						console.log(v);
 						// 改变status
-						
+						$("#table tr:gt(0):eq(" + key + ") td:eq(2)").text(status);
 					}
+					key += 1;
 				});
 			}
 

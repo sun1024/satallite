@@ -26,7 +26,7 @@ socketio = SocketIO(app)
 @app.route('/')
 def index():
     # return render_template('test.html')
-    return app.send_static_file('display.html')
+    return app.send_static_file('show.html')
 
 
 @socketio.on('client_event')
@@ -97,7 +97,8 @@ def index_old():
     if request.method == 'POST':
         return app.send_static_file('test.html')
 
-    return app.send_static_file('index.html')
+    # return app.send_static_file('index.html')
+    return app.send_static_file('display.html')
 
 
 # 卫星收到用户发来的认证信息，连同自己的认证信息一起发给ncc

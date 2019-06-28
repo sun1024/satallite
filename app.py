@@ -126,10 +126,8 @@ def reqAuthFromUser():
             #     'Zip': 0
             # }
         except Exception, e:
-            new_options_exists = False
+            pass
         else:
-            new_options_exists = True
-        if new_options_exists:
             change_options(new_options)
         # 获取卫星认证数据
         satalliteData = getReqAuthData()

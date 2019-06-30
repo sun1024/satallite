@@ -7,11 +7,11 @@ import json, hashlib, requests
 import hmac
 import zlib
 
-from xor1 import *
-from AES_use import *
-from DES_use import *
-from DES_3_use import *
-from RSA_sign import *
+from crypty_helper.xor import *
+from crypty_helper.AES_use import *
+from crypty_helper.DES_use import *
+from crypty_helper.DES_3_use import *
+from crypty_helper.RSA_sign import *
 from gl import *
 
 

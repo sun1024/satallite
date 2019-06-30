@@ -47,10 +47,8 @@ def identityCheck():
             #     'Zip': 0
             # }
         except Exception, e:
-            new_options_exists = False
+            pass
         else:
-            new_options_exists = True
-        if new_options_exists:
             change_options(new_options)
 
         # 认证用户和卫星

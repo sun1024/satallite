@@ -80,7 +80,7 @@ def getUserInfo(data):
     sk, MAC_key = get_sessions(PIDu)
     # 验证MAC
     MAC = data['MAC']
-    msg = Hu
+    msg = "ReqUserInfo" + Ts + PIDu + Hu
     my_MAC = getHmac(MAC_key, msg)
     if MAC == my_MAC:
         # 读取用户信息 返回给卫星

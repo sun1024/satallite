@@ -48,6 +48,8 @@ def reqUserInfo():
         try:
             data = json.loads(request.data)
             retUserInfo = getUserInfo(data)
+            if retUserInfo == "0":
+                return "someting error...", 500
             return json.dumps(retUserInfo)
         except Exception, e:
             print e

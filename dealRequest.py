@@ -51,10 +51,10 @@ def authCheck(userData, satalliteData):
 
     if MACu == real_MACu and MACs == real_MACs:
         # 生成masterKey 同时产生sk、mac_key
-        masterKey = getHash(real_user_data['userKey'] + real_sata_data['preRandom'] + Rs)
+        masterKey = getHash(real_user_data['userKey'] + real_sata_data['preRandom'] + rs)
 
         sk = getHash(masterKey + real_sata_data["userKey"])
-        MAC_key = getHash(real_sata_data["userKey"] + masterKey + Rs)
+        MAC_key = getHash(real_sata_data["userKey"] + masterKey + rs)
         keys = {
             "sk": sk,
             "MAC_Key": MAC_key
@@ -75,27 +75,31 @@ def retSatallite(masterKey):
 def getUserInfo(data):
     PIDu = data['PIDu']
     Hu = data['Hu']
+    Ts = data['Ts']
     # 通过PIDu拿到sk、MAC_key
     sk, MAC_key = get_sessions(PIDu)
     # 验证MAC
     MAC = data['MAC']
+    msg = Hu
+    my_MAC = getHmac(MAC_key, msg)
+    if MAC == my_MAC:
+        # 读取用户信息 返回给卫星
+        IDu = xor_decrypt(PIDu, Hu) 
+        user_data = getAuthData(IDu)
 
-    # 读取用户信息 返回给卫星
-    IDu = xor_decrypt(PIDu, Hu) 
-    user_data = getAuthData(IDu)
+        AesIDu = encryptData(user_data['userId'], sk)
+        AesKIu = encryptData(user_data['userKey'], sk)
+        Tncc = str(int(time.time()))
+        msg = AesIDu + AesKIu + Tncc
+        HMAC = getHmac(MAC_key, msg)
 
-    AesIDu = encryptData(user_data['userId'], sk)
-    AesKIu = encryptData(user_data['userKey'], sk)
-    Tncc = str(int(time.time()))
-    msg = AesIDu + AesKIu + Tncc
-    HMAC = getHmac(MAC_key, msg)
-
-    return {
-        "AesIDu": AesIDu,
-        "AesKIu": AesKIu,
-        "Tncc": Tncc,
-        "HMAC": HMAC
-    }
+        return {
+            "AesIDu": AesIDu,
+            "AesKIu": AesKIu,
+            "Tncc": Tncc,
+            "HMAC": HMAC
+        }
+    return "0"
 
 
 

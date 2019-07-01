@@ -5,7 +5,6 @@
 import time, random
 import json, hashlib, requests
 import hmac
-import zlib
 
 from crypty_helper.xor import *
 from crypty_helper.AES_use import *
@@ -59,11 +58,10 @@ def sendToNcc(satalliteData, userData):
         # 通过auth_reps判断认证是否成功
         return dealResNcc(auth_reps, satalliteData["Rs"], userData["Ru"], userData["PIDu"], userData['Hu'])
     else:
-        data = {
+        return {
             "ReqAuth":"500",
             "PIDu":userData["PIDu"]
             }
-        return data
 
 
 # 处理Ncc返回信息
@@ -102,118 +100,74 @@ def dealResNcc(auth_reps, Rs, Ru, PIDu, Hu):
         # 返回信息：Esk{IDui，Ki}、MAC、TNCC
         return sendToUser(auth_reps, sk, MAC_key, Ru, PIDu)
     else:
-        data = {
+        return {
             "ReqAuth":"500",
             "PIDu":PIDu
             }
-        return data
 
 # 处理卫星第二次返回的信息：Esk{IDu，Ku}、MAC、TNCC，并返回给用户
 def sendToUser(auth_reps, sk, MAC_key, Ru, PIDu):
-    # print sk
-    # print auth_reps
     # 从auth_reps中取出MAC, 用MAC_key进行验证
-    msg = auth_reps["AesIDu"] + auth_reps["AesKIu"] + auth_reps["Tncc"]
-    # MAC_compare = hmac.new(MAC_key, msg, hashlib.sha256).hexdigest()
-    # sk = bytes(sk.decode('hex'))
-    IDu = decryptData(auth_reps['AesIDu'], sk)
-    Ku = decryptData(auth_reps['AesKIu'], sk)
-    # print "IDu:" + IDu, "Ku:" + Ku
-
     # 先判断HMAC
+    msg = auth_reps["AesIDu"] + auth_reps["AesKIu"] + auth_reps["Tncc"]
+    MAC = auth_reps['HMAC']
+    my_MAC = getHmac(MAC_key, msg)
 
-    # 生成sessionId 并保存session
-    # sessionId = random.randint(10000000000000000000000000000000, 99999999999999999999999999999999)   
-    sessionId = getRandom()
+    if MAC == my_MAC:
+        IDu = decryptData(auth_reps['AesIDu'], sk)
+        Ku = decryptData(auth_reps['AesKIu'], sk)
+        # print "IDu:" + IDu, "Ku:" + Ku
 
-    # 读取用户信息
-    with open("userInfo.json", "r") as userInfo:
-        userInfo = json.load(userInfo)
- 
-    # 生成 Ts
-    timestamp = int(time.time())
 
-    # 计算MAC_user_key, Hsat
-    MAC_user_key = getHash(IDu + Ku + Ru)
-    Hsat = getHash(userInfo["userKey"] + userInfo["preRandom"] + Ru + str(timestamp))
+        # 生成sessionId 并保存session
+        # sessionId = random.randint(10000000000000000000000000000000, 99999999999999999999999999999999)   
+        sessionId = getRandom()
 
-    # 将Eku(Hsat)，MAC发给用户
-    # Ku_use = bytes(Ku.decode('hex'))
-    secretHsat = encryptData(Hsat, Ku)
-    secretSessionId = encryptData(str(sessionId), Ku)
-    msg = "ReqUserSuccess" + secretHsat + secretSessionId
-    MAC = getHmac(MAC_user_key, secretHsat)
-    data = {
-        "ReqAuth":"200",
-        "secretHsat":secretHsat,
-        "sessionId":secretSessionId,
-        "MAC":MAC,
-        "PIDu":PIDu
-    }
-    # 生成会话密钥 sessionKey sessionMACKey
-    sessionKey = getHash(Hsat + Ku)
-    sessionMACKey = getHash(IDu + Hsat)
-
-    sessionDatas = {
-        "IDu":IDu,
-        "Ku":Ku,
-        "sessionKey":sessionKey,
-        "sessionMACKey":sessionMACKey,
-        "time":int(time.time())
-    }
-    add_session(sessionId, sessionDatas)
+        # 读取用户信息
+        with open("userInfo.json", "r") as userInfo:
+            userInfo = json.load(userInfo)
     
-    # 返回用户认证成功
-    return data
+        # 生成 Ts
+        timestamp = int(time.time())
 
-    # if(str(MAC_compare) == auth_reps["HMAC"]):
-    #     # 生成sessionId 并保存session
-    #     sessionId = random.randint(1000000000, 9999999999)       
-    #     # 用sk解密出用户IDu、Ku, 并进行保存
-    #     IDu = aes_decrypt(auth_reps['data1'], sk)
-    #     Ku = aes_decrypt(auth_reps['data2'], sk)
+        # 计算MAC_user_key, Hsat
+        MAC_user_key = getHash(IDu + Ku + Ru)
+        Hsat = getHash(userInfo["userKey"] + userInfo["preRandom"] + Ru + str(timestamp))
 
-    #     # global sessions
-    #     # sessions[sessionId] = {
-    #     #     "IDu":IDu,
-    #     #     "Ku":Ku
-    #     # }
+        # 将Eku(Hsat)，MAC发给用户
+        # Ku_use = bytes(Ku.decode('hex'))
+        secretHsat = encryptData(Hsat, Ku)
+        secretSessionId = encryptData(str(sessionId), Ku)
+        msg = "ReqUserSuccess" + secretHsat + secretSessionId
+        MAC = getHmac(MAC_user_key, secretHsat)
+        data = {
+            "ReqAuth":"200",
+            "secretHsat":secretHsat,
+            "sessionId":secretSessionId,
+            "MAC":MAC,
+            "PIDu":PIDu
+        }
+        # 生成会话密钥 sessionKey sessionMACKey
+        sessionKey = getHash(Hsat + Ku)
+        sessionMACKey = getHash(IDu + Hsat)
 
-    #     # 读取用户信息
-    #     with open("userInfo.json", "r") as userInfo:
-    #         userInfo = json.load(userInfo)
-
-    #     # 计算MAC_user_key, Hsat
-    #     MAC_user_key = hashlib.sha256(IDu + Ku + Ru).hexdigest()
-    #     Hsat = hashlib.sha256(userInfo["userKey"] + userInfo["preRandom"] + Ru).hexdigest()
-
-    #     # 将Eku(Hsat)，MAC发给用户
-    #     secretHsat = aes_encrypt(Hsat, Ku)
-    #     secretSessionId = aes_encrypt(sessionId, Ku)
-    #     msg = "ReqUserSSuccess" + secretHsat + secretSessionId
-    #     MAC = hmac.new(MAC_user_key, secretHsat, hashlib.sha256)
-    #     data = {
-    #         "ReqAuth":"ReqUserSuccess",
-    #         "secretHsat":secretHsat,
-    #         "sessionId":secretSessionId,
-    #         "MAC":MAC
-    #     }
-
-    #     # 生成会话密钥 sessionKey sessionMACKey
-    #     sessionKey = ""
-    #     sessionMACKey = ""
-
-    #     global sessions
-    #     sessions[sessionId] = {
-    #         "IDu":IDu,
-    #         "Ku":Ku,
-    #         "sessionKey":sessionKey,
-    #         "sessionMACKey":sessionMACKey,
-    #         "time":int(time.time())
-    #     }
+        sessionDatas = {
+            "IDu":IDu,
+            "Ku":Ku,
+            "sessionKey":sessionKey,
+            "sessionMACKey":sessionMACKey,
+            "time":int(time.time())
+        }
+        add_session(sessionId, sessionDatas)
         
-    #     # 返回用户
-    #     return data
+        # 返回用户认证成功
+        return data
+    else:
+        return {
+            "ReqAuth":"500",
+            "PIDu":PIDu
+            }
+
 
 # 向用户加密传输图片
 def imgRepo(data, img_content):
@@ -287,7 +241,3 @@ def decryptData(data, key):
         return des_decrypt(data, key)
     elif options['Key_option'] == 3: # 3DES
         return three_des_decrypt(data, key)
-
-# 处理数据压缩
-def compress(data):
-    return zlib.compress(data)

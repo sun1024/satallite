@@ -7,12 +7,36 @@ import webbrowser
 
 from dealRequest import *
 from gl import *
-
-
+from models import *
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///user.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+db.init_app(app)
 CORS(app, supports_credentials=True)
 
+# 创建表格、插入数据
+@app.before_first_request
+def create_db():
+    # Recreate database each time for demo
+    db.drop_all()
+    db.create_all()
+    test = User('0', 'test', 'test', 'test')
+    db.session.add(test)
+    users = [User(
+        '0',
+        '06fa43a4b4a63b622e36e3cd4ef55fcfec070b97', 
+        '580ade0f132b4228ea4fe1a289f318f2402fdcd2682ed057a3785fed4312f9f3',
+        '55868018469076085065818153351715'
+        ),
+        User(
+        '1',
+        'ff4b43ede3bfdaa52ea7f97593f8897fd9a41645', 
+        '124640bf2792a0cdce2c04e13326d67bf013bac6ce546616b04888e7c4e68631',
+        '93103486375219430322734306483245'
+        )]
+    db.session.add_all(users)
+    db.session.commit()
 
 @app.route('/')
 def index():

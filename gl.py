@@ -23,8 +23,10 @@ def clear_and_add(data):
 def add_session(key, value):
     sessions[key] = value
 
-def get_sessions():
-    return sessions
+def get_sessions(PIDu):
+    keys = sessions[PIDu]
+
+    return keys['sk'], keys['MAC_Key']
 
 # 处理全局变量options
 def get_options():

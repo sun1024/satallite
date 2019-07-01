@@ -20,6 +20,15 @@ def index():
 
 @app.route('/reqUserInfo', methods=['GET', 'POST'])
 def reqUserInfo():
+    if(request.data):
+        try:
+            data = json.loads(request.data)
+            retUserInfo = getUserInfo(data)
+            return json.dumps(retUserInfo)
+        except Exception, e:
+            print e
+            return "someting error...", 500
+            
     return 'tbc', 500
 
 # 接收卫星发来的satalliteData, userData

@@ -53,13 +53,22 @@ def authCheck(userData, satalliteData):
     Rs = xor_decrypt(rs, tmp)
     tmp = getHash(real_user_data['userKey'] + real_user_data['preRandom'])
     Ru = xor_decrypt(ru, tmp)
-    
+
     # 验证MACs MACu
     real_MACs = getHash(real_sata_data['userId'] + Rs + Ts)
     real_MACu = getHash(real_user_data['userId'] + Ru + Tu)
 
     if MACu == real_MACu and MACs == real_MACs:
+        # 生成masterKey 同时产生sk、mac_key
         masterKey = getHash(real_user_data['userKey'] + real_sata_data['preRandom'] + Rs)
+
+        sk = getHash(masterKey + real_sata_data["userKey"])
+        MAC_key = getHash(real_sata_data["userKey"] + masterKey + Rs)
+        keys = {
+            "sk": sk,
+            "MAC_Key": MAC_key
+        }
+        add_session(PIDu, keys)
     return masterKey
 
 # 返回认证信息
@@ -70,6 +79,36 @@ def retSatallite(masterKey):
         "Signiture": sign,
         "MasterKey": masterKey
     }
+
+# 向卫星返回用户信息
+def getUserInfo(data):
+    PIDu = data['PIDu']
+    # 通过PIDu拿到sk、MAC_key
+    sk, MAC_key = get_sessions(PIDu)
+    # 验证MAC
+    MAC = data['MAC']
+
+    # 读取用户信息 返回给卫星
+    # user_data = getAuthData(IDu)
+    user_data = {
+        "userId": "ff4b43ede3bfdaa52ea7f97593f8897fd9a41645",
+        "userKey": "124640bf2792a0cdce2c04e13326d67bf013bac6ce546616b04888e7c4e68631",
+        "preRandom": "93103486375219430322734306483245"
+    }
+    AesIDu = encryptData(user_data['userId'], sk)
+    AesKIu = encryptData(user_data['userKey'], sk)
+    Tncc = str(int(time.time()))
+    msg = AesIDu + AesKIu + Tncc
+    HMAC = getHmac(MAC_key, msg)
+
+    return {
+        "AesIDu": AesIDu,
+        "AesKIu": AesKIu,
+        "Tncc": Tncc,
+        "HMAC": HMAC
+    }
+
+
 
 # 处理options['Len_Ru']
 def getRandom():

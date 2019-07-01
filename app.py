@@ -18,6 +18,9 @@ CORS(app, supports_credentials=True)
 def index():
     return 'NCC'
 
+@app.route('/reqUserInfo', methods=['GET', 'POST'])
+def reqUserInfo():
+    return 'tbc', 500
 
 # 接收卫星发来的satalliteData, userData
 @app.route('/identityCheck', methods=['GET', 'POST'])
@@ -29,10 +32,8 @@ def identityCheck():
         try:
             userData = data['userData']
             satalliteData = data['satalliteData']
-            # load 认证信息
-            userData = json.loads(userData)
-            satalliteData = json.loads(satalliteData)
         except Exception, e:
+            print e
             return json.dumps({
                 'Code':"1"
             }), 500
@@ -48,18 +49,25 @@ def identityCheck():
             # }
         except Exception, e:
             pass
+            # print e
         else:
             change_options(new_options)
 
         # 认证用户和卫星
-        masterKey = authCheck(userData, satalliteData)
-        if masterKey == '0':
+        try:
+            masterKey = authCheck(userData, satalliteData)
+            if masterKey == '0':
+                return json.dumps({
+                    'Code':"1"
+                }), 500
+            
+            retData = retSatallite(masterKey)
+            return json.dumps(retData)
+        except Exception, e:
+            print e
             return json.dumps({
                 'Code':"1"
             }), 500
-        
-        retData = retSatallite(masterKey)
-        return json.dumps(retData)
     else:
         return 'invalide method', 500
 
@@ -67,7 +75,7 @@ def identityCheck():
 if __name__ == "__main__":
     # webbrowser.open("http://127.0.0.1:2333")
     app.run(
-    # debug = True,
+    debug = True,
     port = 7543,
     host = '0.0.0.0'
 )

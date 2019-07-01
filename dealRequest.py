@@ -49,15 +49,15 @@ def sendToNcc(satalliteData, userData):
         "satalliteData":satalliteData
     })
     clear_and_add(data)
-    url = "http://127.0.0.1:7543/ncc/user/IdentityCheck"
-    proxies = {'http': 'http://127.0.0.1:8080'}
-    reps = requests.post(url, data=data, proxies=proxies)
-    # reps = requests.post(url, data=data)
+    url = "http://127.0.0.1:7543/identityCheck"
+    # proxies = {'http': 'http://127.0.0.1:8080'}
+    # reps = requests.post(url, data=data, proxies=proxies)
+    reps = requests.post(url, data=data)
     auth_reps = json.loads(reps.content)
     # print auth_reps["MasterKey"]
     if auth_reps["Code"] == "0":
         # 通过auth_reps判断认证是否成功
-        return dealResNcc(auth_reps, satalliteData["Rs"], userData["Ru"], userData["PIDu"])
+        return dealResNcc(auth_reps, satalliteData["Rs"], userData["Ru"], userData["PIDu"], userData['Hu'])
     else:
         data = {
             "ReqAuth":"500",
@@ -67,7 +67,7 @@ def sendToNcc(satalliteData, userData):
 
 
 # 处理Ncc返回信息
-def dealResNcc(auth_reps, Rs, Ru, PIDu):
+def dealResNcc(auth_reps, Rs, Ru, PIDu, Hu):
     timestamp = int(time.time())
 
     # 验证签名
@@ -82,20 +82,21 @@ def dealResNcc(auth_reps, Rs, Ru, PIDu):
         sk = getHash(masterKey + userInfo["userKey"])
         MAC_key = getHash(userInfo["userKey"] + masterKey + Rs)
         # 生成MAC
-        msg = "ReqUserInfo" + str(timestamp) + PIDu
+        msg = "ReqUserInfo" + str(timestamp) + PIDu + Hu
         MAC = getHmac(MAC_key, msg)
         # 请求用户身份信息
-        url = "http://127.0.0.1:7543/ncc/user/ReqUserInfo"
+        url = "http://127.0.0.1:7543/reqUserInfo"
         data = json.dumps({
             "ReqAuth":"ReqUserInfo",
             "Ts":str(timestamp),
             "PIDu":PIDu,
+            "Hu": Hu,
             "MAC":str(MAC)
         })
         clear_and_add(data)
-        proxies = {'http': 'http://127.0.0.1:8080'}
-        reps = requests.post(url, data=data, proxies=proxies)
-        # reps = requests.post(url, data=data)
+        # proxies = {'http': 'http://127.0.0.1:8080'}
+        # reps = requests.post(url, data=data, proxies=proxies)
+        reps = requests.post(url, data=data)
         auth_reps = json.loads(reps.content)
         # print auth_reps
         # 返回信息：Esk{IDui，Ki}、MAC、TNCC

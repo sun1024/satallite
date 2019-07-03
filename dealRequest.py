@@ -168,6 +168,14 @@ def sendToUser(auth_reps, sk, MAC_key, Ru, PIDu):
             "PIDu":PIDu
             }
 
+# 获取用户的认证信息
+def authResult(sessionId):
+    sessions = get_sessions()
+    return {
+        "sessionId":sessionId,
+        "sessionKey":sessions[sessionId]["sessionKey"],
+        "MACKey":sessions[sessionId]["sessionMACKey"]
+    }
 
 # 向用户加密传输图片
 def imgRepo(data, img_content):

@@ -50,47 +50,46 @@ def client_msg(msg):
 #         time.sleep(0.5)
 
 
-# 认证结果展示
-@app.route('/authResult', methods=['GET', 'POST'])
-def authResult():
-    sessions = get_sessions()
-    sessionId = sessions.keys()[0]
-    return json.dumps({
-        "sessionId":sessionId,
-        "sessionKey":sessions[sessionId]["sessionKey"],
-        "MACKey":sessions[sessionId]["sessionMACKey"]
-    })
-
-# 用户请求卫星文件
+# 用户请求卫星图片
 @app.route('/reqImg', methods=['GET', 'POST'])
 def reqImg():
-    with open("sate.png", "rb") as img:
-        img_content = img.read()
-    # 对图像信息进行加密
-    if img_content:
+    if request.method == 'POST':
+        sessionId = request.form.get('sessionId')
+
+        sessions = get_sessions()
         try:
-            data = json.loads(authResult())
-            reps = imgRepo(data, img_content)
-            return reps
-        except Exception, e:
-            print e
-            return "0"
+            session_data = sessions[sessionId]
+        except KeyError:
+            return 'you not auth success', 500
+        
+        with open("sate.png", "rb") as img:
+            img_content = img.read()
+        # 对图像信息进行加密
+        if img_content:
+            try:
+                data = authResult(sessionId)
+                reps = imgRepo(data, img_content)
+                return reps
+            except Exception, e:
+                print e
+                return "0"
 
     return "1"
 
-# @app.route('/test', methods=['GET', 'POST'])
-# def test():
-#     with open('conn.log', 'r') as conn:
-#         resp = {}
-#         index = 1
-#         while 1:
-#             conn_data = conn.readline()[:-1]
-#             if not conn_data:
-#                 break
-#             resp[index] = conn_data
-#             index += 1
+# 认证成功访问页面
+@app.route('/success', methods=['GET', 'POST'])
+def success():
+    if request.method == 'POST':
+        sessionId = request.form.get('sessionId')
 
-#     return json.dumps(resp)
+        sessions = get_sessions()
+        try:
+            session_data = sessions[sessionId]
+            return 'user: {} auth success'.format(session_data['IDu'])
+        except KeyError:
+            return 'you not auth success', 500
+
+    return 'method error', 500
 
 # 卫星展示界面
 @app.route('/old', methods=['GET', 'POST'])

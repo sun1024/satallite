@@ -25,8 +25,8 @@ socketio = SocketIO(app)
 
 @app.route('/')
 def index():
-    # return render_template('test.html')
-    return app.send_static_file('show.html')
+    # return app.send_static_file('show.html')
+    return app.send_static_file('display/index.html')
 
 
 @socketio.on('client_event')

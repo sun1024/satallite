@@ -72,9 +72,9 @@ def reqImg():
                 return reps
             except Exception, e:
                 print e
-                return "0"
+                return "0", 500
 
-    return "1"
+    return "1", 500
 
 # 认证成功访问页面
 @app.route('/success', methods=['GET', 'POST'])

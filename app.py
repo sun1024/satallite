@@ -85,20 +85,16 @@ def success():
         sessions = get_sessions()
         try:
             session_data = sessions[sessionId]
-            return 'user: {} auth success'.format(session_data['IDu'])
+            # return 'user: {} auth success'.format(session_data['IDu'])
+            return render_template('failed.html', user=session_data['IDu'])
         except KeyError:
-            return 'you not auth success', 500
+            return render_template('failed.html'), 500
 
-    return 'method error', 500
+    return render_template('failed.html'), 500
 
 # 卫星展示界面
 @app.route('/old', methods=['GET', 'POST'])
 def index_old():
-    # with open("conn.json", "r") as conn:
-        # conn_data = json.load(conn)
-
-    # return render_template('index.html', conn_data = conn_data)
-    # return app.send_static_file('demo/index.html')
     # 处理认证选项
     if request.method == 'POST':
         return app.send_static_file('test.html')

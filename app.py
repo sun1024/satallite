@@ -88,15 +88,6 @@ def success():
 
     return render_template('failed.html'), 500
 
-# 卫星展示界面
-@app.route('/old', methods=['GET', 'POST'])
-def index_old():
-    # 处理认证选项
-    if request.method == 'POST':
-        return app.send_static_file('test.html')
-
-    # return app.send_static_file('index.html')
-    return app.send_static_file('display.html')
 
 
 # 卫星收到用户发来的认证信息，连同自己的认证信息一起发给ncc

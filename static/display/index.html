@@ -22,44 +22,44 @@
         });
     });
 </script>
-<script type="text/javascript">
-	$(document).ready(function(){
-		var html=$(".wrap ul").html()
-		$(".wrap ul").append(html)
-		var ls=$(".wrap li").length/2+1
-		i=0
-		ref = setInterval(function(){
-			i++
-			if(i==ls){
-				i=1
-				$(".wrap ul").css({marginTop:0})
-				$(".wrap ul").animate({marginTop:-'.52'*i+'rem'},1000)
-			}
-	    	$(".wrap ul").animate({marginTop:-'.52'*i+'rem'},1000)
+<!-- <script type="text/javascript">
+    $(document).ready(function () {
+        var html = $(".wrap ul").html()
+        $(".wrap ul").append(html)
+        var ls = $(".wrap li").length / 2 + 1
+        i = 0
+        ref = setInterval(function () {
+            i++
+            if (i == ls) {
+                i = 1
+                $(".wrap ul").css({ marginTop: 0 })
+                $(".wrap ul").animate({ marginTop: -'.52' * i + 'rem' }, 1000)
+            }
+            $(".wrap ul").animate({ marginTop: -'.52' * i + 'rem' }, 1000)
 
 
-		},2400);
+        }, 2400);
 
 
 
-				var html2=$(".adduser ul").html()
-		$(".adduser ul").append(html2)
-		var ls2=$(".adduser li").length/2+1
-		a=0
-		ref = setInterval(function(){
-			a++
-			if(a==ls2){
-				a=1
-				$(".adduser ul").css({marginTop:0})
-				$(".adduser ul").animate({marginTop:-'.5'*a+'rem'},800)
-			}
-	    	$(".adduser ul").animate({marginTop:-'.5'*a+'rem'},800)
+        var html2 = $(".adduser ul").html()
+        $(".adduser ul").append(html2)
+        var ls2 = $(".adduser li").length / 2 + 1
+        a = 0
+        ref = setInterval(function () {
+            a++
+            if (a == ls2) {
+                a = 1
+                $(".adduser ul").css({ marginTop: 0 })
+                $(".adduser ul").animate({ marginTop: -'.5' * a + 'rem' }, 800)
+            }
+            $(".adduser ul").animate({ marginTop: -'.5' * a + 'rem' }, 800)
 
 
-		},4300);
+        }, 4300);
 
-	})
-</script>
+    })
+</script> -->
 <!-- <script type="text/javascript" src="js/echarts.min.js"></script> -->
 <!-- <script language="JavaScript" src="js/js.js"></script> -->
 
@@ -136,11 +136,24 @@
                         <div class="tit02"><span>新增用户列表</span></div>
                         <div class="adduser">
                             <ul class="clearfix">
-                                <li class="clearfix"> <span class="pulll_left"><img src="static/display/images/head.jpg">用户ID1111</span> <span class="pulll_right">2019-07-03 21:53:02 -- 请求卫星 </span> </li>
-                                <li class="clearfix"> <span class="pulll_left"><img src="static/display/images/head.jpg">用户ID2221</span> <span class="pulll_right">2019-07-03 21:53:02 -- 接入成功 </span> </li>
-                                <li class="clearfix"> <span class="pulll_left"><img src="static/display/images/head.jpg">用户ID3333</span> <span class="pulll_right">2019-07-03 21:53:02 -- 接入成功 </span> </li>
-                                <li class="clearfix"> <span class="pulll_left"><img src="static/display/images/head.jpg">用户ID4444</span> <span class="pulll_right">2019-07-03 21:53:02 -- 接入失败 </span> </li>
-                                <li class="clearfix"> <span class="pulll_left"><img src="static/display/images/head.jpg">用户ID5555</span> <span class="pulll_right">2019-07-03 21:53:02 -- 接入成功 </span> </li>
+                                <li class="clearfix"> <span class="pulll_left"><img
+                                            src="static/display/images/head.jpg">用户ID1111</span> <span
+                                        class="pulll_right">2019-07-03 21:53:02 -- 请求卫星 </span> </li>
+                                <li class="clearfix"> <span class="pulll_left"><img
+                                            src="static/display/images/head.jpg">用户ID2221</span> <span
+                                        class="pulll_right">2019-07-03 21:53:02 -- 接入成功 </span> </li>
+                                <li class="clearfix"> <span class="pulll_left"><img
+                                            src="static/display/images/head.jpg">用户ID3333</span> <span
+                                        class="pulll_right">2019-07-03 21:53:02 -- 接入成功 </span> </li>
+                                <li class="clearfix"> <span class="pulll_left"><img
+                                            src="static/display/images/head.jpg">用户ID4444</span> <span
+                                        class="pulll_right">2019-07-03 21:53:02 -- 接入失败 </span> </li>
+                                <li class="clearfix"> <span class="pulll_left"><img
+                                            src="static/display/images/head.jpg">用户ID5555</span> <span
+                                        class="pulll_right">2019-07-03 21:53:02 -- 接入成功 </span> </li>
+                                <li class="clearfix"> <span class="pulll_left"><img
+                                            src="static/display/images/head.jpg">用户ID5555</span> <span
+                                        class="pulll_right">2019-07-03 21:53:02 -- 接入成功 </span> </li>
                             </ul>
                         </div>
                     </div>

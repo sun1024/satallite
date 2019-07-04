@@ -10,13 +10,11 @@ def xor_encrypt(tips,key):
             num=num%lkey
         secret.append( chr( ord(each)^ord(key[num]) ) )
         num+=1
-    # return b64.b64encode( "".join( secret ).encode() ).decode()
-    return "".join( secret )
+    return b64.b64encode( "".join( secret ).encode() ).decode()
 
 
 def xor_decrypt(secret,key):
-    # tips = b64.b64decode( secret.encode() ).decode()
-    tips = secret
+    tips = b64.b64decode( secret.encode() ).decode()
     ltips=len(tips)
     lkey=len(key)
     secret=[]
@@ -28,7 +26,7 @@ def xor_decrypt(secret,key):
         num+=1
     return "".join( secret )
 
-# test1 = "testasdfsfasdfsadf"
+# test1 = "test"
 # test2 = "keyafdsafdsafs"
 # test = xor_encrypt(test1,test2)
 # print test

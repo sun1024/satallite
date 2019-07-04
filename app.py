@@ -4,9 +4,9 @@ from flask_cors import *
 import json, hashlib, random, time, hmac
 import requests
 
-from xor1 import *
+from xor import *
 from AES_use import *
-
+from gl import *
 
 sessions = {}
 # sessions["06fa43a4b4a63b622e36e3cd4ef55fcfec070b97"] = {
@@ -49,7 +49,8 @@ def getReqAuthData():
 
 # 用户向卫星发起第一次请求
 def reqAuth():
-    url = "http://127.0.0.1:2333/reqAuth"
+    # url = "http://127.0.0.1:2333/reqAuth"
+    url = "http://" + satallite_ip +":2333/reqAuth"
     reqData = getReqAuthData()
     resp = requests.post(url, data=reqData)
     data =  json.loads(resp.content)
@@ -84,7 +85,7 @@ def reqAuth():
         #     "time":int(time.time())
         # }
 
-        print sessionKey, sessionMACKey
+        # print sessionKey, sessionMACKey
         print "auth success..."
         return "1"
 
@@ -145,24 +146,15 @@ def userAuth():
     return status
 
 
-def requestUrl(url):
-    data = requests.get(url).content
-    return json.loads(data)
-
-@app.route('/test', methods=['GET','POST'])
-def testJsonRecv():
-    url = "http://47.101.217.127:8888/money"
-    data = requestUrl(url)
-    return json.dumps(data)
 
 if __name__ == "__main__":
-    status = reqAuth()
+    # status = reqAuth()
     # print status
 #     app.run(
 #     debug = True,
 #     port = 8888,
 #     host = '0.0.0.0'
 # )
-    # while 1:
-    #     reqAuth()
-    #     time.sleep(3)
+    while 1:
+        reqAuth()
+        time.sleep(1)

@@ -48,7 +48,7 @@ def sendToNcc(satalliteData, userData):
         "satalliteData":satalliteData
     })
     clear_and_add(data)
-    url = "http://127.0.0.1:7543/identityCheck"
+    url = "http://" + ncc_ip + ":7543/identityCheck"
     # proxies = {'http': 'http://127.0.0.1:8080'}
     # reps = requests.post(url, data=data, proxies=proxies)
     reps = requests.post(url, data=data)
@@ -83,7 +83,7 @@ def dealResNcc(auth_reps, Rs, Ru, PIDu, Hu):
         msg = "ReqUserInfo" + str(timestamp) + PIDu + Hu
         MAC = getHmac(MAC_key, msg)
         # 请求用户身份信息
-        url = "http://127.0.0.1:7543/reqUserInfo"
+        url = "http://" + ncc_ip + ":7543/reqUserInfo"
         data = json.dumps({
             "ReqAuth":"ReqUserInfo",
             "Ts":str(timestamp),
@@ -190,14 +190,15 @@ def imgRepo(data, img_content):
     MAC = getHmac(MACKey, content)
 
     # 传递给用户
-    url = "http://127.0.0.1:8888/reqImg"
+    url = "http://" + user_ip + ":8888/reqImg"
     data = json.dumps({
         "sessionId":sessionId,
         "content":content,
         "MAC":str(MAC)
     })
-    proxies = {'http': 'http://127.0.0.1:8080'}
-    reps = requests.post(url, data=data, proxies=proxies, timeout=3)
+    # proxies = {'http': 'http://127.0.0.1:8080'}
+    # reps = requests.post(url, data=data, proxies=proxies, timeout=3)
+    reps = requests.post(url, data=data, timeout=3)
 
     return reps.content
 

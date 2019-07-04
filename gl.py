@@ -3,8 +3,15 @@
 # author : b1ng0
 import time
 
+# 设置ip地址
+ncc_ip = '127.0.0.1'
+user_ip = '127.0.0.1'
+
+
 sessions = {}
+
 conns = []
+
 options = {
     'Hash_option': 2,
     'Key_option': 1,

@@ -1,11 +1,27 @@
 ﻿<!doctype html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <title>卫星接入认证监视系统</title>
     <script type="text/javascript" src="static/display/js/jquery.js"></script>
     <link rel="stylesheet" href="static/display/css/comon0.css">
 </head>
+<script>
+    $(window).load(function () {
+        $(".loading").fadeOut()
+    })
+
+
+    $(document).ready(function () {
+        var whei = $(window).width()
+        $("html").css({ fontSize: whei / 20 })
+        $(window).resize(function () {
+            var whei = $(window).width()
+            $("html").css({ fontSize: whei / 20 })
+        });
+    });
+</script>
 <script type="text/javascript">
 	$(document).ready(function(){
 		var html=$(".wrap ul").html()
@@ -42,59 +58,54 @@
 
 		},4300);
 
-
-
-
-
-
-
-
 	})
 </script>
+<!-- <script type="text/javascript" src="js/echarts.min.js"></script> -->
+<!-- <script language="JavaScript" src="js/js.js"></script> -->
+
 <body>
+    <div class="canvas" style="opacity: .2">
+        <iframe frameborder="0" src="static/display/js/index.html" style="width: 100%; height: 100%"></iframe>
+    </div>
     <div class="loading">
         <div class="loadbox"> <img src="static/display/images/loading.gif"> 页面加载中... </div>
     </div>
     <div class="head">
         <h1>卫星接入认证监视系统</h1>
-        <!-- <div class="weather"><img src="images/weather.png"><span>多云转小雨</span><span>2017-12-30</span></div> -->
+        <div class="weather">
+            <!--<img src="images/weather.png"><span>多云转小雨</span>--><span id="showTime"></span></div>
+
+        <script>
+            var t = null;
+            t = setTimeout(time, 1000);
+            function time() {
+                clearTimeout(t);
+                dt = new Date();
+                var y = dt.getFullYear();
+                var mt = dt.getMonth() + 1;
+                var day = dt.getDate();
+                var h = dt.getHours();
+                var m = dt.getMinutes();
+                var s = dt.getSeconds();
+                document.getElementById("showTime").innerHTML = y + "年" + mt + "月" + day + "-" + h + "时" + m + "分" + s + "秒";
+                t = setTimeout(time, 1000);
+            }
+
+        </script>
+
+
     </div>
     <div class="mainbox">
         <ul class="clearfix">
             <li>
-                <div class="boxall" style="height: 4.1rem">
+                <div class="boxall" style="height: 4.3rem">
                     <div class="alltitle">用户消息</div>
-
-                    <!-- <div class="sycm">
-                        <ul class="clearfix">
-                            <li><h2>1824</h2><span>今日销售额</span></li>
-                            <li><h2>1920</h2><span>昨日销售额</span></li>
-                            <li><h2>19%</h2><span>环比增长</span></li>
-                        </ul>
-                        <div style="border-bottom: 1px solid rgba(255,255,255,.1)"></div>
-                        <ul class="clearfix">
-                            <li><h2>1824</h2><span>今日销售额</span></li>
-                            <li><h2>1920</h2><span>昨日销售额</span></li>
-                            <li><h2>19%</h2><span>环比增长</span></li>
-                        </ul>
-
-
-                    </div> -->
                     <div class="boxfoot"></div>
                 </div>
-                <div class="boxall" style="height: 4.1rem">
+                <div class="boxall" style="height: 4.3rem">
                     <div class="alltitle">NCC消息</div>
                     <div class="boxfoot"></div>
-                    <!-- <div class="sy" id="echarts1"></div>
-                    <div class="sy" id="echarts2"></div>
-                    <div class="sy" id="echarts3"></div>
-                    <div class="boxfoot"></div> -->
                 </div>
-                <!-- <div class="boxall" style="height: 2.95rem">
-                    <div class="alltitle">行业区分比例</div>
-                    <div id="echarts4" style="height: 2.2rem; width: 100%;"></div>
-                    <div class="boxfoot"></div>
-                </div> -->
             </li>
             <li>
                 <div class="bar">
@@ -119,70 +130,59 @@
                 </div>
             </li>
             <li>
-                <div class="boxall" style="height:4.1rem">
+                <div class="boxall" style="height:4.3rem">
                     <div class="alltitle">实时接入状况</div>
-                    <!-- <div class="tabs">
-                        <ul class="clearfix">
-                            <li><a class="active" href="#">7天</a></li>
-                            <li><a href="#">15天</a></li>
-                            <li><a href="#">30天</a></li>
-                        </ul>
-                    </div> -->
-                    <!-- <div class="clearfix">
-                        <div class="sy" id="echarts6"></div>
-                        <div class="sy" id="echarts7"></div>
-                        <div class="sy" id="echarts8"></div>
-                    </div> -->
                     <div class="addnew">
                         <div class="tit02"><span>新增用户列表</span></div>
-                        <!-- <div class="adduser">
+                        <div class="adduser">
                             <ul class="clearfix">
-                                <li class="clearfix"> <span class="pulll_left"><img src="images/head.jpg">用户ID1111</span> <span class="pulll_right">2019-07-03 21:53:02 -- 请求卫星 </span> </li>
-                                <li class="clearfix"> <span class="pulll_left"><img src="images/head.jpg">用户ID2221</span> <span class="pulll_right">2019-07-03 21:53:02 -- 接入成功 </span> </li>
-                                <li class="clearfix"> <span class="pulll_left"><img src="images/head.jpg">用户ID3333</span> <span class="pulll_right">2019-07-03 21:53:02 -- 接入成功 </span> </li>
-                                <li class="clearfix"> <span class="pulll_left"><img src="images/head.jpg">用户ID4444</span> <span class="pulll_right">2019-07-03 21:53:02 -- 接入失败 </span> </li>
-                                <li class="clearfix"> <span class="pulll_left"><img src="images/head.jpg">用户ID5555</span> <span class="pulll_right">2019-07-03 21:53:02 -- 接入成功 </span> </li>
+                                <li class="clearfix"> <span class="pulll_left"><img src="static/display/images/head.jpg">用户ID1111</span> <span class="pulll_right">2019-07-03 21:53:02 -- 请求卫星 </span> </li>
+                                <li class="clearfix"> <span class="pulll_left"><img src="static/display/images/head.jpg">用户ID2221</span> <span class="pulll_right">2019-07-03 21:53:02 -- 接入成功 </span> </li>
+                                <li class="clearfix"> <span class="pulll_left"><img src="static/display/images/head.jpg">用户ID3333</span> <span class="pulll_right">2019-07-03 21:53:02 -- 接入成功 </span> </li>
+                                <li class="clearfix"> <span class="pulll_left"><img src="static/display/images/head.jpg">用户ID4444</span> <span class="pulll_right">2019-07-03 21:53:02 -- 接入失败 </span> </li>
+                                <li class="clearfix"> <span class="pulll_left"><img src="static/display/images/head.jpg">用户ID5555</span> <span class="pulll_right">2019-07-03 21:53:02 -- 接入成功 </span> </li>
                             </ul>
-                        </div> -->
+                        </div>
                     </div>
                     <div class="boxfoot"></div>
                 </div>
-                <div class="boxall" style="height: 4.1rem">
+                <div class="boxall" style="height: 4.3rem">
                     <div class="alltitle">接入日志信息</div>
-                    <!-- <div class="wrap">
+                    <div class="wrap">
                         <ul>
                             <li>
-                                <p>1李东梁-支付宝支付-120元-XXX门店</p>
+                                <p>用户ID55552019-07-03 21:53:02 -- 接入成功</p>
                             </li>
                             <li>
-                                <p>2李东梁-支付宝支付-120元-XXX门店</p>
+                                <p>用户ID55552019-07-03 21:53:02 -- 接入成功</p>
                             </li>
                             <li>
-                                <p>3李东梁-支付宝支付-120元-XXX门店</p>
+                                <p>用户ID55552019-07-03 21:53:02 -- 接入成功</p>
                             </li>
                             <li>
-                                <p>4李东梁-支付宝支付-120元-XXX门店</p>
+                                <p>用户ID55552019-07-03 21:53:02 -- 接入成功</p>
                             </li>
                             <li>
-                                <p>5李东梁-支付宝支付-120元-XXX门店</p>
+                                <p>用户ID55552019-07-03 21:53:02 -- 接入成功</p>
                             </li>
                             <li>
-                                <p>6李东梁-支付宝支付-120元-XXX门店</p>
+                                <p>用户ID55552019-07-03 21:53:02 -- 接入成功</p>
+                            </li>
+                            <li>
+                                <p>用户ID55552019-07-03 21:53:02 -- 接入成功</p>
                             </li>
                         </ul>
-                    </div> -->
+                    </div>
                     <div class="boxfoot"></div>
                 </div>
             </li>
         </ul>
- 
     </div>
     <div class="back"></div>
-    <script language="JavaScript" src="static/display/js/js.js"></script>
-    <script type="text/javascript" src="static/display/js/echarts.min.js"></script>
-    <script type="text/javascript" src="static/display/js/china.js"></script>
-    <!-- <script type="text/javascript" src="js/area_echarts.js"></script> -->
 
+
+    <!-- <script type="text/javascript" src="js/china.js"></script> -->
+    <!-- <script type="text/javascript" src="js/area_echarts.js"></script> -->
     <script type="text/javascript" src="static/display/js/jquery.waypoints.min.js"></script>
     <script type="text/javascript" src="static/display/js/jquery.countup.min.js"></script>
     <script type="text/javascript">
@@ -190,4 +190,5 @@
     </script>
 
 </body>
+
 </html>

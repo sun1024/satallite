@@ -110,7 +110,7 @@ def identityCheck():
 if __name__ == "__main__":
     # webbrowser.open("http://127.0.0.1:2333")
     app.run(
-    debug = True,
+    # debug = True,
     port = 7543,
     host = '0.0.0.0'
 )

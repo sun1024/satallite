@@ -9,14 +9,6 @@ from dealRequest import *
 from gl import *
 
 
-# sessions["06fa43a4b4a63b622e36e3cd4ef55fcfec070b97"] = {
-#     "IDu":"test",
-#     "Ku":"test",
-#     "sessionKey":"580ade0f132b4228ea4fe1a289f318f2402fdcd2682ed057a3785fed4312f9f3",
-#     "sessionMACKey":"9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
-#     "time":int(time.time())
-# }
-
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 CORS(app, supports_credentials=True)
@@ -27,6 +19,10 @@ socketio = SocketIO(app)
 def index():
     # return app.send_static_file('show.html')
     return app.send_static_file('display/index.html')
+
+@app.route('/show')
+def show():
+    return app.send_static_file('show.html')
 
 
 @socketio.on('client_event')

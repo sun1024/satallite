@@ -46,7 +46,7 @@ $(document).ready(function () {
                 showTable();
 
                 // 接入用户总数加一
-                // $(#userCount)
+                updateUserCount();
             }
             else if (obj.userData) { //转发用户信息到ncc
                 var user = obj.userData.PIDu.substring(0, 5) + "****";
@@ -163,4 +163,10 @@ function showTable() {
             $("#table tr:eq(" + showNumber[i] + ")").show();
         }
     }
+}
+
+//接入用户总数更新
+function updateUserCount() {
+    userCount = document.getElementById("userCount").innerHTML;
+    document.getElementById("userCount").innerHTML = Number(userCount) + 1;
 }

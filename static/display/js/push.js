@@ -13,7 +13,7 @@ $(document).ready(function () {
     var tmp = '';
     var table = [];
     socket.on('server_response', function (msg) {
-        console.log(msg);
+        // console.log(msg);
         if (msg.data.length != 0 && tmp != msg.data[0]) {
             change_tmp(msg.data)
 
@@ -21,7 +21,7 @@ $(document).ready(function () {
             // $('#log').prepend('<br>' + $('<div/>').text('\n' + time +' #' + ': ' + tmp).html());
 
             obj = JSON.parse(msg.data[0])
-            console.log(obj)
+            // console.log(obj)
 
             var simple1 = document.getElementById('simple1');
             var simpleResult1 = document.getElementById('simpleResult1');
@@ -44,6 +44,9 @@ $(document).ready(function () {
                 toTable = '<tr><td>' + user + '</td><td>' + time + '</td><td>' + status + '</td></tr>';
                 $('#table tbody').prepend(toTable);
                 showTable();
+
+                // 接入用户总数加一
+                // $(#userCount)
             }
             else if (obj.userData) { //转发用户信息到ncc
                 var user = obj.userData.PIDu.substring(0, 5) + "****";
@@ -137,7 +140,7 @@ $(document).ready(function () {
             // console.log($(this).text());
             if (user == $(this).text()) {
                 v = $("#table tr:gt(0):eq(" + key + ") td:eq(2)").text();
-                console.log(v);
+                // console.log(v);
                 // 改变status
                 $("#table tr:gt(0):eq(" + key + ") td:eq(2)").text(status);
             }

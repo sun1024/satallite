@@ -1,5 +1,5 @@
 # -*- coding:utf-8 -*-
-from flask import Flask, jsonify, request, render_template, Response, send_from_directory
+from flask import Flask, jsonify, request, render_template, Response, send_from_directory, abort
 from flask_socketio import SocketIO, emit
 from flask_cors import CORS
 import json
@@ -75,18 +75,30 @@ def reqImg():
 # 认证成功访问页面
 @app.route('/success', methods=['GET', 'POST'])
 def success():
-    if request.method == 'POST':
-        sessionId = request.form.get('sessionId')
-
-        sessions = get_sessions()
+    # if request.method == 'POST':
+    if(request.data):
         try:
-            session_data = sessions[sessionId]
-            # return 'user: {} auth success'.format(session_data['IDu'])
-            return render_template('failed.html', user=session_data['IDu'])
-        except KeyError:
-            return render_template('failed.html'), 500
+            sessionId = json.loads(request.data)["sessionId"]
+            sessionId = str(sessionId)
+            temp_sessions = get_sessions()
+            # session_data = temp_sessions[sessionId]
+            session_data = temp_sessions.get(sessionId)
+            # session_data = get_sessionkey(sessionId)
 
-    return render_template('failed.html'), 500
+            return "200"
+
+            # data = {
+            #     "sessions": temp_sessions.keys(),
+            #     "session_data":session_data,
+            #     "sessionId": sessionId
+            # }
+            # return json.dumps(data)
+
+        except Exception, e:
+            print e
+            return "500", 500
+
+    return "500", 500
 
 
 

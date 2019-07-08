@@ -49,9 +49,9 @@ def sendToNcc(satalliteData, userData):
     })
     clear_and_add(data)
     url = "http://" + ncc_ip + ":7543/identityCheck"
-    # proxies = {'http': 'http://127.0.0.1:8080'}
-    # reps = requests.post(url, data=data, proxies=proxies)
-    reps = requests.post(url, data=data)
+    proxies = {'http': 'http://127.0.0.1:8080'}
+    reps = requests.post(url, data=data, proxies=proxies)
+    # reps = requests.post(url, data=data)
     auth_reps = json.loads(reps.content)
     # print auth_reps["MasterKey"]
     if auth_reps["Code"] == "0":
@@ -121,7 +121,7 @@ def sendToUser(auth_reps, sk, MAC_key, Ru, PIDu):
 
         # 生成sessionId 并保存session
         # sessionId = random.randint(10000000000000000000000000000000, 99999999999999999999999999999999)   
-        sessionId = getRandom()
+        sessionId = str(getRandom())
 
         # 读取用户信息
         with open("userInfo.json", "r") as userInfo:

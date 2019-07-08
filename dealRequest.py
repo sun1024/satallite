@@ -48,10 +48,13 @@ def sendToNcc(satalliteData, userData):
         "satalliteData":satalliteData
     })
     clear_and_add(data)
-    url = "http://" + ncc_ip + ":7543/identityCheck"
-    proxies = {'http': 'http://127.0.0.1:8080'}
-    reps = requests.post(url, data=data, proxies=proxies)
-    # reps = requests.post(url, data=data)
+    # 读取用户信息
+    with open("userInfo.json", "r") as userInfo:
+        userInfo = json.load(userInfo)
+    url = "http://" + userInfo['ncc_ip'] + ":7543/identityCheck"
+    # proxies = {'http': 'http://127.0.0.1:8080'}
+    # reps = requests.post(url, data=data, proxies=proxies)
+    reps = requests.post(url, data=data)
     auth_reps = json.loads(reps.content)
     # print auth_reps["MasterKey"]
     if auth_reps["Code"] == "0":
@@ -83,7 +86,7 @@ def dealResNcc(auth_reps, Rs, Ru, PIDu, Hu):
         msg = "ReqUserInfo" + str(timestamp) + PIDu + Hu
         MAC = getHmac(MAC_key, msg)
         # 请求用户身份信息
-        url = "http://" + ncc_ip + ":7543/reqUserInfo"
+        url = "http://" + userInfo['ncc_ip'] + ":7543/reqUserInfo"
         data = json.dumps({
             "ReqAuth":"ReqUserInfo",
             "Ts":str(timestamp),

@@ -50,7 +50,10 @@ def getReqAuthData():
 # 用户向卫星发起第一次请求
 def reqAuth():
     # url = "http://127.0.0.1:2333/reqAuth"
-    url = "http://" + satallite_ip +":2333/reqAuth"
+    # 读取用户信息
+    with open("userInfo.json", "r") as userInfo:
+        userInfo = json.load(userInfo)
+    url = "http://" + userInfo['satallite_ip'] +":2333/reqAuth"
     reqData = getReqAuthData()
     resp = requests.post(url, data=reqData)
     data =  json.loads(resp.content)

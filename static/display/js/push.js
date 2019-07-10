@@ -199,12 +199,17 @@ function updateUserCount() {
 // 计算接入成功率
 function changeSuccessRatio(successCount) {
     userCount = Number(document.getElementById("userCount").innerHTML);
-    succ_ratio = Math.round(successCount / userCount * 100) + "%";
-    document.getElementById("succ_ratio").innerHTML = succ_ratio;
+    // 判断userCount
+    if(userCount!=0){
+        succ_ratio = Math.round(successCount / userCount * 100) + "%";
+        document.getElementById("succ_ratio").innerHTML = succ_ratio;
+    }
 }
 // 认证失败时更新接入成功率
 function changeFailRatio(failCount) {
     userCount = Number(document.getElementById("userCount").innerHTML);
-    succ_ratio = Math.round((userCount - failCount) / userCount * 100) + "%";
-    document.getElementById("succ_ratio").innerHTML = succ_ratio;
+    if(userCount!=0){
+        succ_ratio = Math.round((userCount - failCount) / userCount * 100) + "%";
+        document.getElementById("succ_ratio").innerHTML = succ_ratio;
+    }
 }

@@ -49,8 +49,8 @@ def client_msg(msg):
 # 用户请求卫星图片
 @app.route('/reqImg', methods=['GET', 'POST'])
 def reqImg():
-    if request.method == 'POST':
-        sessionId = request.form.get('sessionId')
+    if(request.data):
+        sessionId = json.loads(request.data)["sessionId"]
 
         sessions = get_sessions()
         try:
@@ -79,7 +79,6 @@ def success():
     if(request.data):
         try:
             sessionId = json.loads(request.data)["sessionId"]
-            sessionId = str(sessionId)
             temp_sessions = get_sessions()
             # session_data = temp_sessions[sessionId]
             session_data = temp_sessions.get(sessionId)

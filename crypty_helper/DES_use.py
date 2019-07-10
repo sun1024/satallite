@@ -13,7 +13,7 @@ def des_encrypt(s,key):
     :param s: 原始字符串
     :return: 加密后字符串，16进制
     """
-    key = key[0:8]
+    key = bytes(key.decode('hex'))[0:8]
     secret_key = key
     iv = secret_key
     k = des(secret_key, CBC, iv, pad=None, padmode=PAD_PKCS5)
@@ -27,7 +27,7 @@ def des_decrypt(s, key):
     :param s: 加密后的字符串，16进制
     :return:  解密后的字符串
     """
-    key = key[0:8]
+    key = bytes(key.decode('hex'))[0:8]
     secret_key = key
     iv = secret_key
     k = des(secret_key, CBC, iv, pad=None, padmode=PAD_PKCS5)

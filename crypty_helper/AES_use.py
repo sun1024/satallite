@@ -20,7 +20,8 @@ def padding(text):
 
 # 加密函数
 def aes_encrypt(text, key):
-    key = bytes(key.decode('hex'))
+    key = bytes(key.decode('hex'))[0:16]
+    # print len(key)
     # key = '9999999999999999'
     mode = AES.MODE_CBC
     # iv = b'0000000000000000'
@@ -35,7 +36,7 @@ def aes_encrypt(text, key):
 
 # 解密后，去掉补足的空格用strip() 去掉
 def aes_decrypt(text, key):
-    key = bytes(key.decode('hex'))
+    key = bytes(key.decode('hex'))[0:16]
     # key = '9999999999999999'
     # iv = b'0000000000000000'
     iv = key[0:16]

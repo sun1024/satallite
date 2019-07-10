@@ -75,7 +75,7 @@ def identityCheck():
 
         # 处理认证选项
         try:
-            new_options = userData['options']
+            new_options = userData['Options']
             # new_options = {
             #     'Hash_option': 1,
             #     'Key_option': 1,

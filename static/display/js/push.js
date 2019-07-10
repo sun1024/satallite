@@ -12,6 +12,9 @@ $(document).ready(function () {
 
     var tmp = '';
     var table = [];
+    // 接入成功数
+    var successCount = 0;
+    var failCount = 0;
     socket.on('server_response', function (msg) {
         // console.log(msg);
         if (msg.data.length != 0 && tmp != msg.data[0]) {
@@ -83,6 +86,9 @@ $(document).ready(function () {
                 var status = '认证成功';
                 // 获取table中的该user行，并将status修改
                 changeTable(user, status);
+
+                changeSuccCount();
+                changeSuccessRatio(successCount);
             }
 
             //错误处理
@@ -96,6 +102,9 @@ $(document).ready(function () {
                 var status = '认证失败';
                 // 获取table中的该user行，并将status修改
                 changeTable(user, status);
+
+                changeFailCount();
+                changeFailRatio(failCount);
             }
         }
     });
@@ -132,9 +141,25 @@ $(document).ready(function () {
             }
         })
     }
+    function changeSuccCount(data) {
+        $.ajax({
+            async: false,
+            success: function () {
+                successCount += 1;
+            }
+        })
+    }
+    function changeFailCount(data) {
+        $.ajax({
+            async: false,
+            success: function () {
+                failCount += 1;
+            }
+        })
+    }
 
     function changeTable(user, status) {
-        var v = "";
+        // var v = "";
         var key = 0;
         $("#table tr td:nth-child(1)").each(function () {
             // console.log($(this).text());
@@ -169,4 +194,17 @@ function showTable() {
 function updateUserCount() {
     userCount = document.getElementById("userCount").innerHTML;
     document.getElementById("userCount").innerHTML = Number(userCount) + 1;
+}
+
+// 计算接入成功率
+function changeSuccessRatio(successCount) {
+    userCount = Number(document.getElementById("userCount").innerHTML);
+    succ_ratio = Math.round(successCount / userCount * 100) + "%";
+    document.getElementById("succ_ratio").innerHTML = succ_ratio;
+}
+// 认证失败时更新接入成功率
+function changeFailRatio(failCount) {
+    userCount = Number(document.getElementById("userCount").innerHTML);
+    succ_ratio = Math.round((userCount - failCount) / userCount * 100) + "%";
+    document.getElementById("succ_ratio").innerHTML = succ_ratio;
 }

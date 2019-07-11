@@ -143,7 +143,12 @@ def reqAuthFromUser():
 # 二次认证
 @app.route('/secondAuth', methods=['GET', 'POST'])
 def secondAuth():
-    pass
+    # 接收认证数据
+    if request.data:
+        data = json.loads(request.data)
+        return '200'
+    else:
+        return 'method error', 500
 
 if __name__ == "__main__":
     webbrowser.open("http://127.0.0.1:2333")

@@ -68,9 +68,9 @@ def reqImg():
                 return reps
             except Exception, e:
                 print e
-                return "0", 500
+                return "img crypty error", 500
 
-    return "1", 500
+    return "method error", 500
 
 # 认证成功访问页面
 @app.route('/success', methods=['GET', 'POST'])
@@ -82,9 +82,12 @@ def success():
             temp_sessions = get_sessions()
             # session_data = temp_sessions[sessionId]
             session_data = temp_sessions.get(sessionId)
-            # session_data = get_sessionkey(sessionId)
+            # 判断session是否过期
+            now = int(time.time())
+            if now-session_data['time'] < 60*30:
+                return '200'
 
-            return "200"
+            return "expire", 401
 
             # data = {
             #     "sessions": temp_sessions.keys(),

@@ -88,14 +88,6 @@ def success():
                 return '200'
 
             return "expire", 401
-
-            # data = {
-            #     "sessions": temp_sessions.keys(),
-            #     "session_data":session_data,
-            #     "sessionId": sessionId
-            # }
-            # return json.dumps(data)
-
         except Exception, e:
             print e
             return "500", 500

@@ -74,6 +74,12 @@ def reqImg():
                 return imgRepo(data, img_content)
             except Exception, e:
                 print e
+                imgError = json.dumps({
+                    'error': e,
+                    'ReqAuth': 'imgError',
+                    'IDu': IDu
+                })
+                clear_and_add(imgError)
                 return "img crypty error", 500
 
     return "method error", 500

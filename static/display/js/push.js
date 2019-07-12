@@ -107,9 +107,8 @@ $(document).ready(function () {
                 changeFailRatio(failCount);
             }
 
-            // 用户请求图片
+            // 用户发起图片请求
             else if(obj.ReqAuth == 'reqImg') {
-                console.log(obj);
                 var user = obj.IDu.substring(0, 5) + "****";
                 simple1.innerHTML = "<h3>" + time + "</h3><br>用户:<h3>" + user + "</h3><font color='#FF0000'>发起图片请求</font>";
                 simpleResult1.innerHTML = "</h6>";
@@ -118,12 +117,21 @@ $(document).ready(function () {
             }
             // 用户请求图片成功
             else if(obj.ReqAuth == 'rspImg') {
-                console.log(obj);
                 var user = obj.IDu.substring(0, 5) + "****";
                 simple1.innerHTML = "<h3>" + time + "</h3><br>用户:<h3>" + user + "</h3><font color='#FF0000'>请求图片成功</font>";
                 simpleResult1.innerHTML = "</h6>";
+                simpleResult1.innerHTML += '<img src="static/img/sate.png" alt="satallite" width="145" height="145">';
 
                 $('#log').prepend('<br>' + $('<div/>').text('\n # ' + time + ' ---------- 用户请求图片成功：\n' + tmp).html());
+            }
+            // 用户请求图片失败
+            else if(obj.ReqAuth == 'imgError') {
+                var user = obj.IDu.substring(0, 5) + "****";
+                simple1.innerHTML = "<h3>" + time + "</h3><br>用户:<h3>" + user + "</h3><font color='#FF0000'>请求图片失败</font>";
+                simpleResult1.innerHTML = "</h6>";
+                simpleResult1.innerHTML += '<img src="static/img/sate.png" alt="satallite" width="145" height="145">';
+
+                $('#log').prepend('<br>' + $('<div/>').text('\n # ' + time + ' ---------- 用户请求图片失败：\n' + tmp).html());
             }
         }
     });

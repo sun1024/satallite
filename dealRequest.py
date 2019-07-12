@@ -193,17 +193,14 @@ def imgRepo(data, img_content):
     MAC = getHmac(MACKey, content)
 
     # 传递给用户
-    url = "http://" + user_ip + ":8888/reqImg"
+    # url = "http://" + user_ip + ":8888/reqImg"
     data = json.dumps({
         "sessionId":sessionId,
         "content":content,
         "MAC":str(MAC)
     })
-    # proxies = {'http': 'http://127.0.0.1:8080'}
-    # reps = requests.post(url, data=data, proxies=proxies, timeout=3)
-    reps = requests.post(url, data=data, timeout=3)
 
-    return reps.content
+    return data
 
 # 处理options['Len_Ru']
 def getRandom():

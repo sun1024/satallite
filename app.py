@@ -58,14 +58,13 @@ def reqImg():
         except KeyError:
             return 'you not auth success', 500
         
-        with open("sate.png", "rb") as img:
+        with open("static/img/sate.png", "rb") as img:
             img_content = img.read()
         # 对图像信息进行加密
         if img_content:
             try:
                 data = authResult(sessionId)
-                reps = imgRepo(data, img_content)
-                return reps
+                return imgRepo(data, img_content)
             except Exception, e:
                 print e
                 return "img crypty error", 500

@@ -177,7 +177,8 @@ def authResult(sessionId):
     return {
         "sessionId":sessionId,
         "sessionKey":sessions[sessionId]["sessionKey"],
-        "MACKey":sessions[sessionId]["sessionMACKey"]
+        "MACKey":sessions[sessionId]["sessionMACKey"],
+        "IDu":sessions[sessionId]["IDu"]
     }
 
 # 向用户加密传输图片
@@ -194,7 +195,16 @@ def imgRepo(data, img_content):
 
     # 传递给用户
     # url = "http://" + user_ip + ":8888/reqImg"
+    conns_data = json.dumps({
+        "ReqAuth": "rspImg",
+        "sessionId": sessionId,
+        "IDu": data['IDu'],
+        "content":"img content",
+        "MAC":str(MAC)
+    })
+    clear_and_add(conns_data)
     data = json.dumps({
+        "ReqAuth": "rspImg",
         "sessionId":sessionId,
         "content":content,
         "MAC":str(MAC)

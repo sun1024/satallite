@@ -55,6 +55,13 @@ def reqImg():
         sessions = get_sessions()
         try:
             session_data = sessions[sessionId]
+            IDu = session_data['IDu']
+            userData = json.dumps({
+                'IDu': IDu,
+                'sessionId': sessionId,
+                'ReqAuth': 'reqImg'
+            })
+            clear_and_add(userData)
         except KeyError:
             return 'you not auth success', 500
         

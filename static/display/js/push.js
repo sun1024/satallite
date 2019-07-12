@@ -106,6 +106,25 @@ $(document).ready(function () {
                 changeFailCount();
                 changeFailRatio(failCount);
             }
+
+            // 用户请求图片
+            else if(obj.ReqAuth == 'reqImg') {
+                console.log(obj);
+                var user = obj.IDu.substring(0, 5) + "****";
+                simple1.innerHTML = "<h3>" + time + "</h3><br>用户:<h3>" + user + "</h3><font color='#FF0000'>发起图片请求</font>";
+                simpleResult1.innerHTML = "</h6>";
+
+                $('#log').prepend('<br>' + $('<div/>').text('\n # ' + time + ' ---------- 用户发起图片请求：\n' + tmp).html());
+            }
+            // 用户请求图片成功
+            else if(obj.ReqAuth == 'rspImg') {
+                console.log(obj);
+                var user = obj.IDu.substring(0, 5) + "****";
+                simple1.innerHTML = "<h3>" + time + "</h3><br>用户:<h3>" + user + "</h3><font color='#FF0000'>请求图片成功</font>";
+                simpleResult1.innerHTML = "</h6>";
+
+                $('#log').prepend('<br>' + $('<div/>').text('\n # ' + time + ' ---------- 用户请求图片成功：\n' + tmp).html());
+            }
         }
     });
     function fnDate() {

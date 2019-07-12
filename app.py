@@ -57,7 +57,7 @@ def reqImg():
             session_data = sessions[sessionId]
             # 判断session是否过期
             now = int(time.time())
-            if now-session_data['time'] < 60*30:
+            if now-session_data['time'] > 60*30:
                 return "expire", 401
 
             IDu = session_data['IDu']

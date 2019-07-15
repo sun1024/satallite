@@ -32,19 +32,7 @@ def client_msg(msg):
         global conns
         emit('server_response', {'data': conns})
         time.sleep(0.5)
-
     
-# @socketio.on('table_event')
-# def connected_msg(msg):
-#     table = {
-#         'user':'IgpX****',
-#         'time':'2019-06-27 09:52:38',
-#         'status':'请求卫星'
-#     }
-#     while 1:
-#         emit('table_response', {'data': table})
-#         time.sleep(0.5)
-
 
 # 用户请求卫星图片
 @app.route('/reqImg', methods=['GET', 'POST'])
@@ -166,6 +154,12 @@ def secondAuth():
         return '200'
     else:
         return 'method error', 500
+
+@app.route('/getUserList', methods=['GET', 'POST'])
+def getUserList():
+    temp_sessions = get_sessions()
+    return json.dumps(temp_sessions)
+
 
 if __name__ == "__main__":
     webbrowser.open("http://127.0.0.1:2333")

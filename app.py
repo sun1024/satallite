@@ -106,6 +106,30 @@ def identityCheck():
     else:
         return 'invalide method', 500
 
+# 用户注册
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.data:
+        IDcard = json.loads(request.data)["Idcard"]
+        # 生成user注册信息
+        random18 = str(random.randint(100000000000000000, 999999999999999999))
+        userId = hashlib.sha1(IDcard + random18).hexdigest()
+        preRandom = str(random.randint(10000000000000000000000000000000, 99999999999999999999999999999999))
+        userKey = hashlib.sha1(IDcard + preRandom).hexdigest()
+        # 存入数据库
+        try:
+            new_user = User('1', userId, userKey, preRandom)
+            db.session.add(new_user)
+        except:
+            return 'database error', 500
+        # 返回给用户
+        return json.dumps({
+            "userId": userId,
+            "userKey": userKey,
+            "preRandom": preRandom
+        })
+    return 'method error', 500
+
 
 if __name__ == "__main__":
     # webbrowser.open("http://127.0.0.1:2333")

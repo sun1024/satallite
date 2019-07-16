@@ -1,0 +1,3 @@
+transcoding.exe 1 lena.j2k enc.j2k lena.key
+transcoding.exe 2 enc.j2k part.j2k 3
+transcoding.exe 3 part.j2k dec.j2k lena.key

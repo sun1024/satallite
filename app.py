@@ -7,7 +7,7 @@ import webbrowser
 
 from dealRequest import *
 from gl import *
-
+from imgCompress import imgCompress
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
@@ -32,7 +32,7 @@ def client_msg(msg):
         global conns
         emit('server_response', {'data': conns})
         time.sleep(0.5)
-    
+
 
 # 用户请求卫星图片
 @app.route('/reqImg', methods=['GET', 'POST'])
@@ -57,14 +57,19 @@ def reqImg():
             clear_and_add(userData)
         except KeyError:
             return 'you not auth success', 500
-        
-        with open("static/img/sate.png", "rb") as img:
+        # encode img
+        if imgCompress.img_encode() == 1:
+            return 'img encode error', 500
+        # part.j2k lena.key ==> user
+        with open("imgCompress/transcoding/transcoding/Client/part.j2k", "rb") as img:
             img_content = img.read()
+        with open("imgCompress/transcoding/transcoding/Client/lena.key", "rb") as key:
+            img_key = key.read()
         # 对图像信息进行加密
-        if img_content:
+        if img_content and img_key:
             try:
                 data = authResult(sessionId)
-                return imgRepo(data, img_content)
+                return imgRepo(data, img_content, img_key)
             except Exception, e:
                 print e
                 imgError = json.dumps({
@@ -162,7 +167,7 @@ def getUserList():
 
 
 if __name__ == "__main__":
-    webbrowser.open("http://127.0.0.1:2333")
+    # webbrowser.open("http://127.0.0.1:2333")
     socketio.run(
         app,
         # debug=True,

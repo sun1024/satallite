@@ -123,13 +123,13 @@ def sendToUser(auth_reps, sk, MAC_key, Ru, PIDu):
 
 
         # 生成sessionId 并保存session
-        # sessionId = random.randint(10000000000000000000000000000000, 99999999999999999999999999999999)   
+        # sessionId = random.randint(10000000000000000000000000000000, 99999999999999999999999999999999)
         sessionId = str(getRandom())
 
         # 读取用户信息
         with open("userInfo.json", "r") as userInfo:
             userInfo = json.load(userInfo)
-    
+
         # 生成 Ts
         timestamp = int(time.time())
 
@@ -162,7 +162,7 @@ def sendToUser(auth_reps, sk, MAC_key, Ru, PIDu):
             "time":int(time.time())
         }
         add_session(sessionId, sessionDatas)
-        
+
         # 返回用户认证成功
         return data
     else:
@@ -182,7 +182,7 @@ def authResult(sessionId):
     }
 
 # 向用户加密传输图片
-def imgRepo(data, img_content):
+def imgRepo(data, img_content, img_key):
 
     sessionId = data['sessionId']
     sessionKey = data['sessionKey']
@@ -190,6 +190,7 @@ def imgRepo(data, img_content):
 
     # key_use = bytes(sessionKey.decode('hex'))
     content = encryptData(img_content, sessionKey)
+    img_key = encryptData(img_key, sessionKey)
 
     MAC = getHmac(MACKey, content)
 
@@ -207,6 +208,7 @@ def imgRepo(data, img_content):
         "ReqAuth": "rspImg",
         "sessionId":sessionId,
         "content":content,
+        "img_key":img_key,
         "MAC":str(MAC)
     })
 

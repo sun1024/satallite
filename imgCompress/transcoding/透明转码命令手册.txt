@@ -1,0 +1,26 @@
+透明转码命令手册
+
+0 引言
+为了实现透明转码功能的演示，使用三个文件夹以模拟分发过程所涉及的三种设备。
+Service Provider是存储原始图片的服务器，里面存放明文J2K图片。Transcoding Server是负责分发的转码服务器，存放转换为密文的J2K图片。Client是分发的服务对象，接收转码后的J2K图片。
+J2K图像的显示主流软件尚未支持，需要专门的软件，如kakadu等。因此，当需要展示时，可以通过将其转码成通用格式如PNG等。
+
+1 准备工作
+使用OpenJPEG开源软件实现图片格式的转码，支持PNG、BMP、TIFF等格式转换为J2K图片，不支持JPEG。除了将其转换成J2K图片，还需要在转码时加上-TP命令，将每个拼接块的数据包分成拼接块部分，以方便图像的按需截取。
+例如：opj_compress.exe -i lena.png -o lena.j2k -TP R
+
+2、加密
+1+“需要加密的j2k文件名”+“加密后的文件名”+“密钥文件名”
+例如：transcoding.exe 1 lena.j2k enc.j2k lena.key
+
+3、转码
+1+需要转码的j2k文件名”+“转码后的文件名”+“需要保存的分辨率级别”
+例如：transcoding.exe 2 enc.j2k part.j2k 3
+
+4、解密
+1+需要解密的j2k文件名”+“解密后的文件名”+“密钥文件名”
+例如：transcoding.exe 3 part.j2k dec.j2k lena.key
+
+5、图片显示
+当需要展示J2K格式图片的时候，使用OpenJPEG开源软件实现图片格式的转码，支持将J2K图片转换为PNG、BMP、TIFF等格式，不支持JPEG。
+例如：opj_decompress.exe -i lena.j2k -o lena.png

@@ -243,12 +243,12 @@ def dealSecondAuth(data):
     # 验证MAC
     MAC_Key = bytes(getHash(Ku + IDu + Ru))
     msg = encode_data + Ru + Tu + sessionId
-    if getHmac(MAC_Key, msg) == MACu:
-        print 'MAC通过。。。'
+    if getHmac(MAC_Key, msg) != MACu:
+        raise Exception('MAC not compare.')
     # 比对信息
     compare_data = decryptData(encode_data, Ku)
-    if compare_data == IDu + sessionKey + MACKey:
-        print 'compare通过。。。'
+    if compare_data != IDu + sessionKey + MACKey:
+        raise Exception('crypt data not compare.')
     
     # 生成二次认证需要的东西
     new_sessionId = str(getRandom())

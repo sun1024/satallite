@@ -155,6 +155,10 @@ def secondAuth():
             return dealSecondAuth(data)
         except Exception, e:
             print e
+            data = json.dumps({
+                "RepAuth":"500",
+                })
+            clear_and_add(data)
             return 'auth error', 500
     else:
         return 'method error', 500

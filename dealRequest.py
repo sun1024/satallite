@@ -228,6 +228,18 @@ def dealSecondAuth(data):
     sessionKey = session_data['sessionKey']
     MACKey = session_data['MACKey']
 
+    # clear_and_add
+    add_conns = json.dumps({
+        "ReqAuth": "second",
+        "sessionId": sessionId,
+        "Ru": Ru,
+        "Tu": Tu,
+        "encode_data": encode_data,
+        "MAC": MACu,
+        "IDu": IDu
+    })
+    clear_and_add(add_conns)
+
     # 验证MAC
     MAC_Key = bytes(getHash(Ku + IDu + Ru))
     msg = encode_data + Ru + Tu + sessionId
@@ -258,13 +270,16 @@ def dealSecondAuth(data):
     add_session(new_sessionId, sessionDatas)
     # del_session(sessionId)
 
-    return json.dumps({
+    return_data = json.dumps({
         "ResAuth": "rspSecondAuth",
         "Rs": Rs,
         "Ts": str(Ts),
         'sessionId': new_sessionId,
-        "MAC": return_MAC
+        "MAC": return_MAC,
+        "IDu": IDu
     })
+    clear_and_add(return_data)
+    return return_data
     
 
 

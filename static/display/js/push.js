@@ -33,7 +33,7 @@ $(document).ready(function () {
 
             time = fnDate();
 
-            if (obj.Ru) { //收到用户信息
+            if (obj.Options) { //收到用户信息
                 var user = obj.PIDu.substring(0, 5) + "****";
                 simple1.innerHTML = "<h3>" + time + "</h3><br>接收到用户:<h3>" + user + "</h3>发起的身份认证请求\n";
                 simpleResult1.innerHTML = "<br><br>即将进行转发处理 </h6>";
@@ -132,6 +132,30 @@ $(document).ready(function () {
                 simpleResult1.innerHTML += '<img src="static/img/sate.png" alt="satallite" width="145" height="145">';
 
                 $('#log').prepend('<br>' + $('<div/>').text('\n # ' + time + ' ---------- 用户请求图片失败：\n' + tmp).html());
+            }
+            // 用户请求二次认证
+            else if(obj.ReqAuth == 'second') {
+                var user = obj.IDu.substring(0, 5) + "****";
+                simple1.innerHTML = "<h3>" + time + "</h3><br>用户:<h3>" + user + "</h3><font color='#FF0000'>发起二次认证请求</font>";
+                simpleResult1.innerHTML = "</h6>";
+
+                $('#log').prepend('<br>' + $('<div/>').text('\n # ' + time + ' ---------- 用户请求二次认证：\n' + tmp).html());
+            }
+            // 返回二次认证成功
+            else if(obj.ResAuth == 'rspSecondAuth') {
+                var user = obj.IDu.substring(0, 5) + "****";
+                simple1.innerHTML = "<h3>" + time + "</h3><br>用户:<h3>" + user + "</h3><font color='#FF0000'>二次认证成功</font>";
+                simpleResult1.innerHTML = "</h6>";
+
+                $('#log').prepend('<br>' + $('<div/>').text('\n # ' + time + ' ---------- 用户二次认证成功：\n' + tmp).html());
+            }
+            // 返回二次认证失败
+            else if(obj.RepAuth == '500') {
+                simple1.innerHTML = "<h3>" + time + "</h3><br>当前用户:<h3>" + "</h3><font color='#FF0000'>二次认证失败</font>";
+                simpleResult1.innerHTML = "</h6>";
+                simpleResult1.innerHTML += '<img src="static/img/sate.png" alt="satallite" width="145" height="145">';
+
+                $('#log').prepend('<br>' + $('<div/>').text('\n # ' + time + ' ---------- 用户二次认证失败：\n' + tmp).html());
             }
         }
     });

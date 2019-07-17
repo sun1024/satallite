@@ -178,7 +178,8 @@ def authResult(sessionId):
         "sessionId":sessionId,
         "sessionKey":sessions[sessionId]["sessionKey"],
         "MACKey":sessions[sessionId]["sessionMACKey"],
-        "IDu":sessions[sessionId]["IDu"]
+        "IDu":sessions[sessionId]["IDu"],
+        "Ku":sessions[sessionId]["Ku"],
     }
 
 # 向用户加密传输图片
@@ -211,6 +212,61 @@ def imgRepo(data, img_content):
     })
 
     return data
+
+# 处理二次认证
+def dealSecondAuth(data):
+    # 验证用户
+    sessionId = data['sessionId']
+    Ru = data['Ru']
+    Tu = data['Tu']
+    encode_data = data['encode_data']
+    MACu = data['MAC']
+
+    session_data = authResult(sessionId)
+    Ku = session_data['Ku']
+    IDu = session_data['IDu']
+    sessionKey = session_data['sessionKey']
+    MACKey = session_data['MACKey']
+
+    # 验证MAC
+    MAC_Key = bytes(getHash(Ku + IDu + Ru))
+    msg = encode_data + Ru + Tu + sessionId
+    if getHmac(MAC_Key, msg) == MACu:
+        print 'MAC通过。。。'
+    # 比对信息
+    compare_data = decryptData(encode_data, Ku)
+    if compare_data == IDu + sessionKey + MACKey:
+        print 'compare通过。。。'
+    
+    # 生成二次认证需要的东西
+    new_sessionId = str(getRandom())
+    Rs = str(getRandom())
+    Ts = int(time.time())
+    msg = Rs + Ts + sessionId
+    return_MAC = getHmac(MAC_Key, msg)
+
+    # 更新sessions
+    new_sessionKey = getHash(Ku + Ru + Rs + sessionKey)
+    new_MACKey = getHash(IDu + Ku + Ru + MACKey)
+    sessionDatas = {
+        "IDu":IDu,
+        "Ku":Ku,
+        "sessionKey":new_sessionKey,
+        "sessionMACKey":new_MACKey,
+        "time":int(time.time())
+    }
+    add_session(new_sessionId, sessionDatas)
+    del_session(sessionId)
+
+    return json.dumps({
+        "ResAuth": "rspSecondAuth",
+        "Rs": Rs,
+        "Ts": str(Ts),
+        'sessionId': new_sessionId,
+        "MAC": return_MAC
+    })
+    
+
 
 # 处理options['Len_Ru']
 def getRandom():

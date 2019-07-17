@@ -155,8 +155,12 @@ def reqAuthFromUser():
 def secondAuth():
     # 接收认证数据
     if request.data:
-        data = json.loads(request.data)
-        return '200'
+        try:
+            data = json.loads(request.data)
+            return dealSecondAuth(data)
+        except Exception, e:
+            print e
+            return 'auth error', 500
     else:
         return 'method error', 500
 

@@ -37,6 +37,10 @@ def get_sessions():
 def get_sessionkey(key):
     return sessions.get(key)
 
+def del_session(key):
+    if sessions.has_key(key):
+        sessions.pop(key)
+
 # 处理全局变量options
 def get_options():
     return options

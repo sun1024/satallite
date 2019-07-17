@@ -256,7 +256,7 @@ def dealSecondAuth(data):
         "time":int(time.time())
     }
     add_session(new_sessionId, sessionDatas)
-    del_session(sessionId)
+    # del_session(sessionId)
 
     return json.dumps({
         "ResAuth": "rspSecondAuth",

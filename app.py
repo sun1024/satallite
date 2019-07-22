@@ -38,7 +38,11 @@ def client_msg(msg):
 @app.route('/reqImg', methods=['GET', 'POST'])
 def reqImg():
     if(request.data):
-        sessionId = json.loads(request.data)["sessionId"]
+        request_data = json.loads(request.data)
+        sessionId = request_data["sessionId"]
+
+        imgId = request_data["imgId"] # 图片1/2/3
+        ratioId = request_data['ratioId'] # 分辨率 1/2/3 低/中/高
 
         sessions = get_sessions()
         try:
@@ -52,13 +56,15 @@ def reqImg():
             userData = json.dumps({
                 'IDu': IDu,
                 'sessionId': sessionId,
+                'imgId': imgId,
+                'ratioId': ratioId,
                 'ReqAuth': 'reqImg'
             })
             clear_and_add(userData)
         except KeyError:
             return 'you not auth success', 500
         # encode img
-        if imgCompress.img_encode() == 1:
+        if imgCompress.img_encode(imgId, ratioId) == 1:
             return 'img encode error', 500
         # part.j2k lena.key ==> user
         with open("imgCompress/transcoding/transcoding/Client/part.j2k", "rb") as img:

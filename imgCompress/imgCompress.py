@@ -29,7 +29,7 @@ def set_img(imgId):
     return png2j2k
 
     
-
+# 选择图片分辨率
 def set_ratio(ratioId):
     if ratioId == 1:
         j2k2part = 'cd ' + path + '\\imgCompress\\transcoding\\transcoding && transcoding.exe 2 enc.j2k part.j2k 3'
@@ -37,7 +37,7 @@ def set_ratio(ratioId):
         j2k2part = 'cd ' + path + '\\imgCompress\\transcoding\\transcoding && transcoding.exe 2 enc.j2k part.j2k 5'
     elif ratioId == 3:        
         j2k2part = 'cd ' + path + '\\imgCompress\\transcoding\\transcoding && transcoding.exe 2 enc.j2k part.j2k 10'
-            
+
     return j2k2part
 
 # lena.png -> part.j2k lena.key

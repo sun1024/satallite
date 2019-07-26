@@ -47,7 +47,8 @@ $(document).ready(function () {
                 toTable = '<tr><td>' + user + '</td><td>' + time + '</td><td>' + status + '</td></tr>';
                 $('#table tbody').prepend(toTable);
                 showTable();
-                $('#user_icon').style.setProperty('display','inline');
+                $('#user_icon').style.setProperty('display', 'inline');
+                user2sata();
                 // 接入用户总数加一
                 updateUserCount();
             }
@@ -61,18 +62,8 @@ $(document).ready(function () {
                 var status = '转发NCC';
                 // 获取table中的该user行，并将status修改
                 changeTable(user, status);
+                sata2ncc();
 
-            }
-            else if (obj.ReqAuth == "ReqUserInfo") { //向ncc请求用户身份
-                var user = obj.PIDu.substring(0, 5) + "****";
-                simple2.innerHTML = "<h3>" + time + "</h3><br>正在向NCC请求用户:<h3>" + user + "</h3>的身份信息\n";
-                simpleResult2.innerHTML = "<br></h6>";
-
-                $('#log').prepend('<br>' + $('<div/>').text('\n# ' + time + ' ---------- 向NCC请求用户信息：\n' + tmp).html());
-
-                var status = '请求用户';
-                // 获取table中的该user行，并将status修改
-                changeTable(user, status);
             }
 
             else if (obj.ReqAuth == "200") { //ncc回复卫星，用户认证成功
@@ -86,9 +77,23 @@ $(document).ready(function () {
                 var status = '认证成功';
                 // 获取table中的该user行，并将status修改
                 changeTable(user, status);
+                ncc2sata();
 
                 changeSuccCount();
                 changeSuccessRatio(successCount);
+            }
+
+            else if (obj.ReqAuth == "ReqUserInfo") { //向ncc请求用户身份
+                var user = obj.PIDu.substring(0, 5) + "****";
+                simple2.innerHTML = "<h3>" + time + "</h3><br>正在向NCC请求用户:<h3>" + user + "</h3>的身份信息\n";
+                simpleResult2.innerHTML = "<br></h6>";
+
+                $('#log').prepend('<br>' + $('<div/>').text('\n# ' + time + ' ---------- 向NCC请求用户信息：\n' + tmp).html());
+
+                var status = '请求用户';
+                // 获取table中的该user行，并将status修改
+                changeTable(user, status);
+                sata2ncc();
             }
 
             //错误处理
@@ -108,7 +113,7 @@ $(document).ready(function () {
             }
 
             // 用户发起图片请求
-            else if(obj.ReqAuth == 'reqImg') {
+            else if (obj.ReqAuth == 'reqImg') {
                 var user = obj.IDu.substring(0, 5) + "****";
                 simple1.innerHTML = "<h3>" + time + "</h3><br>用户:<h3>" + user + "</h3><font color='#FF0000'>发起图片请求</font>";
                 simpleResult1.innerHTML = "</h6>";
@@ -116,7 +121,7 @@ $(document).ready(function () {
                 $('#log').prepend('<br>' + $('<div/>').text('\n # ' + time + ' ---------- 用户发起图片请求：\n' + tmp).html());
             }
             // 用户请求图片成功
-            else if(obj.ReqAuth == 'rspImg') {
+            else if (obj.ReqAuth == 'rspImg') {
                 var user = obj.IDu.substring(0, 5) + "****";
                 simple1.innerHTML = "<h3>" + time + "</h3><br>用户:<h3>" + user + "</h3><font color='#FF0000'>请求图片成功</font>";
                 simpleResult1.innerHTML = "</h6>";
@@ -125,7 +130,7 @@ $(document).ready(function () {
                 $('#log').prepend('<br>' + $('<div/>').text('\n # ' + time + ' ---------- 用户请求图片成功：\n' + tmp).html());
             }
             // 用户请求图片失败
-            else if(obj.ReqAuth == 'imgError') {
+            else if (obj.ReqAuth == 'imgError') {
                 var user = obj.IDu.substring(0, 5) + "****";
                 simple1.innerHTML = "<h3>" + time + "</h3><br>用户:<h3>" + user + "</h3><font color='#FF0000'>请求图片失败</font>";
                 simpleResult1.innerHTML = "</h6>";
@@ -134,7 +139,7 @@ $(document).ready(function () {
                 $('#log').prepend('<br>' + $('<div/>').text('\n # ' + time + ' ---------- 用户请求图片失败：\n' + tmp).html());
             }
             // 用户请求二次认证
-            else if(obj.ReqAuth == 'second') {
+            else if (obj.ReqAuth == 'second') {
                 var user = obj.IDu.substring(0, 5) + "****";
                 simple1.innerHTML = "<h3>" + time + "</h3><br>用户:<h3>" + user + "</h3><font color='#FF0000'>发起二次认证请求</font>";
                 simpleResult1.innerHTML = "</h6>";
@@ -142,7 +147,7 @@ $(document).ready(function () {
                 $('#log').prepend('<br>' + $('<div/>').text('\n # ' + time + ' ---------- 用户请求二次认证：\n' + tmp).html());
             }
             // 返回二次认证成功
-            else if(obj.ResAuth == 'rspSecondAuth') {
+            else if (obj.ResAuth == 'rspSecondAuth') {
                 var user = obj.IDu.substring(0, 5) + "****";
                 simple1.innerHTML = "<h3>" + time + "</h3><br>用户:<h3>" + user + "</h3><font color='#FF0000'>二次认证成功</font>";
                 simpleResult1.innerHTML = "</h6>";
@@ -150,7 +155,7 @@ $(document).ready(function () {
                 $('#log').prepend('<br>' + $('<div/>').text('\n # ' + time + ' ---------- 用户二次认证成功：\n' + tmp).html());
             }
             // 返回二次认证失败
-            else if(obj.RepAuth == '500') {
+            else if (obj.RepAuth == '500') {
                 simple1.innerHTML = "<h3>" + time + "</h3><br>当前用户:<h3>" + "</h3><font color='#FF0000'>二次认证失败</font>";
                 simpleResult1.innerHTML = "</h6>";
                 simpleResult1.innerHTML += '<img src="static/img/sate.png" alt="satallite" width="145" height="145">';
@@ -251,7 +256,7 @@ function updateUserCount() {
 function changeSuccessRatio(successCount) {
     userCount = Number(document.getElementById("userCount").innerHTML);
     // 判断userCount
-    if(userCount!=0){
+    if (userCount != 0) {
         succ_ratio = Math.round(successCount / userCount * 100) + "%";
         document.getElementById("succ_ratio").innerHTML = succ_ratio;
     }
@@ -259,8 +264,78 @@ function changeSuccessRatio(successCount) {
 // 认证失败时更新接入成功率
 function changeFailRatio(failCount) {
     userCount = Number(document.getElementById("userCount").innerHTML);
-    if(userCount!=0){
+    if (userCount != 0) {
         succ_ratio = Math.round((userCount - failCount) / userCount * 100) + "%";
         document.getElementById("succ_ratio").innerHTML = succ_ratio;
     }
 }
+
+// 画线
+// 控制line的路径展示
+var line1 = document.getElementById("line1");
+var line2 = document.getElementById("line2");
+var line3 = document.getElementById("line3");
+var line4 = document.getElementById("line4");
+line1.parentNode.removeChild(line1);
+line2.parentNode.removeChild(line2);
+line3.parentNode.removeChild(line3);
+line4.parentNode.removeChild(line4);
+// runLine();
+
+
+function lineRun() {
+    // 触发线条运动
+    var svg = document.getElementById("svg_1");
+    svg.appendChild(line1);
+    setTimeout(function () {
+        line1.parentNode.appendChild(line3);
+        setTimeout(function () {
+            line1.parentNode.removeChild(line1);
+            line3.parentNode.appendChild(line4);
+            line3.parentNode.removeChild(line3);
+            setTimeout(function () {
+                line4.parentNode.append(line2);
+                setTimeout(function () {
+                    line4.parentNode.removeChild(line4);
+                    line2.parentNode.removeChild(line2);
+                }, 4000)
+            }, 4000)
+        }, 4000);
+    }, 4000);
+}
+// lineRun();
+
+// user to sata
+function user2sata() {
+    var svg = document.getElementById("svg_1");
+    svg.appendChild(line1);
+}
+user2sata();
+
+// sata to ncc
+function sata2ncc() {
+    var svg = document.getElementById("svg_1");
+    svg.appendChild(line3);
+}
+
+// sata2ncc();
+
+// ncc to sata
+function ncc2sata() {
+    var svg = document.getElementById("svg_1");
+    svg.appendChild(line3);
+    svg.appendChild(line2);
+    line1.parentNode.removeChild(line1);
+    line3.parentNode.appendChild(line4);
+    line3.parentNode.removeChild(line3);
+}
+// sata to user
+function sata2user() {
+    var svg = document.getElementById("svg_1");
+    svg.appendChild(line2);
+}
+
+// setTimeout(function () {
+// ncc2sata();
+// sata2user();
+// }, 4500)

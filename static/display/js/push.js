@@ -93,7 +93,7 @@ $(document).ready(function () {
                 var status = '请求用户';
                 // 获取table中的该user行，并将status修改
                 changeTable(user, status);
-                sata2ncc();
+                sata2user();
             }
 
             //错误处理
@@ -310,7 +310,7 @@ function user2sata() {
     var svg = document.getElementById("svg_1");
     svg.appendChild(line1);
 }
-user2sata();
+// user2sata();
 
 // sata to ncc
 function sata2ncc() {

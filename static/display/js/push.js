@@ -352,8 +352,8 @@ function sata2user() {
     svg.appendChild(line2);
 }
 
-setTimeout(function () {
-user2sata();
-ncc2sata();
-sata2user();
-}, 4500)
+// setTimeout(function () {
+// user2sata();
+// ncc2sata();
+// sata2user();
+// }, 4500)

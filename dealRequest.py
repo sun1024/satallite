@@ -254,7 +254,7 @@ def dealSecondAuth(data):
     new_sessionId = str(getRandom())
     Rs = str(getRandom())
     Ts = int(time.time())
-    msg = Rs + str(Ts) + sessionId
+    msg = Rs + str(Ts) + new_sessionId
     return_MAC = getHmac(MAC_Key, msg)
 
     # 更新sessions

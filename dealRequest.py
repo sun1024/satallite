@@ -142,7 +142,7 @@ def sendToUser(auth_reps, sk, MAC_key, Ru, PIDu):
         secretHsat = encryptData(Hsat, Ku)
         secretSessionId = encryptData(str(sessionId), Ku)
         msg = "ReqUserSuccess" + secretHsat + secretSessionId
-        MAC = getHmac(MAC_user_key, secretHsat)
+        MAC = getHmac(MAC_user_key, msg)
         data = {
             "ReqAuth":"200",
             "secretHsat":secretHsat,

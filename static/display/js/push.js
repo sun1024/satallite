@@ -47,9 +47,9 @@ $(document).ready(function () {
                 toTable = '<tr><td>' + user + '</td><td>' + time + '</td><td>' + status + '</td></tr>';
                 $('#table tbody').prepend(toTable);
                 showTable();
-                if(successCount == 0){
-                    $('#user_icon').style.setProperty('display','inline');
-                }
+                // if(successCount == 0){
+                //     $('#user_icon').style.setProperty('display','inline');
+                // }
                 user2data();
                 // 接入用户总数加一
                 updateUserCount();

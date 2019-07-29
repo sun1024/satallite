@@ -48,6 +48,7 @@ $(document).ready(function () {
                 $('#table tbody').prepend(toTable);
                 showTable();
                 $('#user_icon').style.setProperty('display','inline');
+                user2data();
                 // 接入用户总数加一
                 updateUserCount();
             }
@@ -61,18 +62,8 @@ $(document).ready(function () {
                 var status = '转发NCC';
                 // 获取table中的该user行，并将status修改
                 changeTable(user, status);
+                sata2ncc();
 
-            }
-            else if (obj.ReqAuth == "ReqUserInfo") { //向ncc请求用户身份
-                var user = obj.PIDu.substring(0, 5) + "****";
-                simple2.innerHTML = "<h3>" + time + "</h3><br>正在向NCC请求用户:<h3>" + user + "</h3>的身份信息\n";
-                simpleResult2.innerHTML = "<br></h6>";
-
-                $('#log').prepend('<br>' + $('<div/>').text('\n# ' + time + ' ---------- 向NCC请求用户信息：\n' + tmp).html());
-
-                var status = '请求用户';
-                // 获取table中的该user行，并将status修改
-                changeTable(user, status);
             }
 
             else if (obj.ReqAuth == "200") { //ncc回复卫星，用户认证成功
@@ -86,9 +77,23 @@ $(document).ready(function () {
                 var status = '认证成功';
                 // 获取table中的该user行，并将status修改
                 changeTable(user, status);
+                ncc2sata();
 
                 changeSuccCount();
                 changeSuccessRatio(successCount);
+            }
+
+            else if (obj.ReqAuth == "ReqUserInfo") { //向ncc请求用户身份
+                var user = obj.PIDu.substring(0, 5) + "****";
+                simple2.innerHTML = "<h3>" + time + "</h3><br>正在向NCC请求用户:<h3>" + user + "</h3>的身份信息\n";
+                simpleResult2.innerHTML = "<br></h6>";
+
+                $('#log').prepend('<br>' + $('<div/>').text('\n# ' + time + ' ---------- 向NCC请求用户信息：\n' + tmp).html());
+
+                var status = '请求用户';
+                // 获取table中的该user行，并将status修改
+                changeTable(user, status);
+                sata2user();
             }
 
             //错误处理
@@ -273,3 +278,73 @@ function changeFailRatio(failCount) {
         document.getElementById("succ_ratio").innerHTML = succ_ratio;
     }
 }
+
+// 画线
+// 控制line的路径展示
+var line1 = document.getElementById("line1");
+var line2 = document.getElementById("line2");
+var line3 = document.getElementById("line3");
+var line4 = document.getElementById("line4");
+line1.parentNode.removeChild(line1);
+line2.parentNode.removeChild(line2);
+line3.parentNode.removeChild(line3);
+line4.parentNode.removeChild(line4);
+// runLine();
+
+
+function lineRun() {
+    // 触发线条运动
+    var svg = document.getElementById("svg_1");
+    svg.appendChild(line1);
+    setTimeout(function () {
+        line1.parentNode.appendChild(line3);
+        setTimeout(function () {
+            line1.parentNode.removeChild(line1);
+            line3.parentNode.appendChild(line4);
+            line3.parentNode.removeChild(line3);
+            setTimeout(function () {
+                line4.parentNode.append(line2);
+                setTimeout(function () {
+                    line4.parentNode.removeChild(line4);
+                    line2.parentNode.removeChild(line2);
+                }, 4000)
+            }, 4000)
+        }, 4000);
+    }, 4000);
+}
+// lineRun();
+
+// user to sata
+function user2sata() {
+    var svg = document.getElementById("svg_1");
+    svg.appendChild(line1);
+}
+// user2sata();
+
+// sata to ncc
+function sata2ncc() {
+    var svg = document.getElementById("svg_1");
+    svg.appendChild(line3);
+}
+
+// sata2ncc();
+
+// ncc to sata
+function ncc2sata() {
+    var svg = document.getElementById("svg_1");
+    svg.appendChild(line3);
+    svg.appendChild(line2);
+    line1.parentNode.removeChild(line1);
+    line3.parentNode.appendChild(line4);
+    line3.parentNode.removeChild(line3);
+}
+// sata to user
+function sata2user() {
+    var svg = document.getElementById("svg_1");
+    svg.appendChild(line2);
+}
+
+// setTimeout(function () {
+// ncc2sata();
+// sata2user();
+// }, 4500)

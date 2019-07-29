@@ -221,6 +221,55 @@
                     " id="user_icon">
                         <img src="static/display/images/user.png" style="width: 42px;" title="用户">    
                     </div>
+                    <!-- 线条 -->
+                    <div style="
+                            position: relative;
+                            left: -12%;
+                            top: -120%;
+                            margin-top: .2rem;
+                            z-index: 6;
+                    ">
+                        <svg class="svg1" version="1.1" id="svg_1" xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1334 615"
+                            style="enable-background:new 0 0 1334 622; " xml:space="preserve">
+
+                             <style type="text/css">
+                                .st1 {
+                                    fill: #FFFFFF;
+                                    stroke: #000000;
+                                    stroke-dasharray: 20;
+                                }
+                                 .path {
+                                     stroke-dasharray: 1000;
+                                    stroke-dashoffset: 1000;
+                                    stroke: #fcf8e3;
+                                    stroke-width: 4px;
+                                    animation: dash 4.5s linear forwards;
+                                 }
+                                 .path1 {
+                                    transition: all 5s;
+                                }
+                                 @keyframes dash {
+                                    from {
+                                        stroke-dashoffset: 1000;
+                                    }
+                                     to {
+                                        stroke-dashoffset: 0;
+                                    }
+                                }
+                            </style>
+                            <line class="st0 path" id="line1" x1="660" y1="260" x2="322" y2="342"></line>
+                            <line class="st0 path" id="line2" x1="322" y1="342" x2="660" y2="260"></line>
+                            <line class="st0 path" id="line3" x1="322" y1="355" x2="984" y2="373"></line>
+                            <line class="st0 path" id="line4" x1="984" y1="373" x2="322" y2="355"></line>
+
+                             <!-- <line class="st1" x1="536" y1="474" x2="754.7" y2="186" /> -->
+                        </svg>
+                        <div>
+                            <!-- <button type="button" class="btn btn-success btn-lg" onclick="lineRun()">开始认证</button> -->
+                        </div>
+                    </div>
+                    
                 </div>
             </li>
             <li>

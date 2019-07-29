@@ -336,6 +336,7 @@ function sata2user() {
 }
 
 // setTimeout(function () {
-// ncc2sata();
-// sata2user();
-// }, 4500)
+//     user2sata();
+//     ncc2sata();
+//     sata2user();
+//     }, 4500)

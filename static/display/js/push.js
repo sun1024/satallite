@@ -95,7 +95,6 @@ $(document).ready(function () {
                 var status = '请求用户';
                 // 获取table中的该user行，并将status修改
                 changeTable(user, status);
-                sata2user();
             }
 
             //错误处理
@@ -109,6 +108,7 @@ $(document).ready(function () {
                 var status = '认证失败';
                 // 获取table中的该user行，并将status修改
                 changeTable(user, status);
+                clearLine();
 
                 changeFailCount();
                 changeFailRatio(failCount);
@@ -121,9 +121,11 @@ $(document).ready(function () {
                 simpleResult1.innerHTML = "</h6>";
 
                 $('#log').prepend('<br>' + $('<div/>').text('\n # ' + time + ' ---------- 用户发起图片请求：\n' + tmp).html());
+                user2sata2();
             }
             // 用户请求图片成功
             else if(obj.ReqAuth == 'rspImg') {
+                console.log(obj)
                 var user = obj.IDu.substring(0, 5) + "****";
                 simple1.innerHTML = "<h3>" + time + "</h3><br>用户:<h3>" + user + "</h3><font color='#FF0000'>请求图片成功</font>";
                 simpleResult1.innerHTML = "</h6>";
@@ -155,6 +157,7 @@ $(document).ready(function () {
                 }
 
                 $('#log').prepend('<br>' + $('<div/>').text('\n # ' + time + ' ---------- 用户请求图片失败：\n' + tmp).html());
+                sata2user();
             }
             // 用户请求二次认证
             else if(obj.ReqAuth == 'second') {
@@ -163,6 +166,7 @@ $(document).ready(function () {
                 simpleResult1.innerHTML = "</h6>";
 
                 $('#log').prepend('<br>' + $('<div/>').text('\n # ' + time + ' ---------- 用户请求二次认证：\n' + tmp).html());
+                user2sata();
             }
             // 返回二次认证成功
             else if(obj.ResAuth == 'rspSecondAuth') {
@@ -171,6 +175,7 @@ $(document).ready(function () {
                 simpleResult1.innerHTML = "</h6>";
 
                 $('#log').prepend('<br>' + $('<div/>').text('\n # ' + time + ' ---------- 用户二次认证成功：\n' + tmp).html());
+                sata2user();
             }
             // 返回二次认证失败
             else if(obj.RepAuth == '500') {
@@ -178,7 +183,11 @@ $(document).ready(function () {
                 simpleResult1.innerHTML = "</h6>";
 
                 $('#log').prepend('<br>' + $('<div/>').text('\n # ' + time + ' ---------- 用户二次认证失败：\n' + tmp).html());
-            }            
+                sata2user();
+            }    
+            setTimeout(function () {
+                clearLine();
+            }, 4500)    
         }
     });
     function fnDate() {
@@ -340,11 +349,10 @@ function sata2ncc() {
 // ncc to sata
 function ncc2sata() {
     var svg = document.getElementById("svg_1");
-    svg.appendChild(line3);
-    svg.appendChild(line2);
-    line1.parentNode.removeChild(line1);
-    line3.parentNode.appendChild(line4);
-    line3.parentNode.removeChild(line3);
+    svg.appendChild(line4);
+    setTimeout(function () {
+        sata2user();
+    }, 2500)
 }
 // sata to user
 function sata2user() {
@@ -352,8 +360,32 @@ function sata2user() {
     svg.appendChild(line2);
 }
 
-// setTimeout(function () {
-// user2sata();
+function clearLine() {
+    if(document.getElementById("line1"))
+    line1.parentNode.removeChild(line1);
+    if(document.getElementById("line2"))
+    line2.parentNode.removeChild(line2);
+    if(document.getElementById("line3"))
+    line3.parentNode.removeChild(line3);
+    if(document.getElementById("line4"))
+    line4.parentNode.removeChild(line4);
+}
+
+// user to sata
+function user2sata2() {
+    var svg = document.getElementById("svg_1");
+    svg.appendChild(line1);
+    setTimeout(function () {
+        svg.removeChild(line1);
+        svg.appendChild(line2);
+    }, 2500)
+}
+
+// user2sata2();
 // ncc2sata();
 // sata2user();
+// ncc2sata();
+
+// setTimeout(function () {
+//     clearLine();
 // }, 4500)

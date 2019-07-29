@@ -50,7 +50,7 @@ $(document).ready(function () {
                 // if(successCount == 0){
                 //     $('#user_icon').style.setProperty('display','inline');
                 // }
-                user2data();
+                user2sata();
                 // 接入用户总数加一
                 updateUserCount();
             }

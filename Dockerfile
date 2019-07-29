@@ -1,15 +1,14 @@
-FROM python:2.7-alpine
+FROM ubuntu:latest
 
 ADD . /code
 WORKDIR /code
 
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
+RUN  sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list
 
-RUN apk update \
-    && apk add --no-cache bash gcc g++
+RUN apt update \
+&& apt install -y gcc g++ python python-pip
+RUN  apt-get clean
 
-RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir -r requirements.txt
-
-EXPOSE 2333
+RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
 
 CMD ["python", "app.py"]

@@ -47,7 +47,9 @@ $(document).ready(function () {
                 toTable = '<tr><td>' + user + '</td><td>' + time + '</td><td>' + status + '</td></tr>';
                 $('#table tbody').prepend(toTable);
                 showTable();
-                $('#user_icon').style.setProperty('display','inline');
+                if(successCount == 0){
+                    $('#user_icon').style.setProperty('display','inline');
+                }
                 user2data();
                 // 接入用户总数加一
                 updateUserCount();
@@ -125,7 +127,15 @@ $(document).ready(function () {
                 var user = obj.IDu.substring(0, 5) + "****";
                 simple1.innerHTML = "<h3>" + time + "</h3><br>用户:<h3>" + user + "</h3><font color='#FF0000'>请求图片成功</font>";
                 simpleResult1.innerHTML = "</h6>";
-                simpleResult1.innerHTML += '<img src="static/img/sate.png" alt="satallite" width="145" height="145">';
+                if(obj.imgId == "1") {
+                    simpleResult1.innerHTML += '<img src="static/img/lena1.png" alt="satallite" width="145" height="145">';
+                } 
+                else if(obj.imgId == "2"){
+                    simpleResult1.innerHTML += '<img src="static/img/lena2.png" alt="satallite" width="145" height="145">';
+                }
+                else if(obj.imgId == "3"){
+                    simpleResult1.innerHTML += '<img src="static/img/lena3.png" alt="satallite" width="145" height="145">';
+                }
 
                 $('#log').prepend('<br>' + $('<div/>').text('\n # ' + time + ' ---------- 用户请求图片成功：\n' + tmp).html());
             }
@@ -138,12 +148,10 @@ $(document).ready(function () {
                     simpleResult1.innerHTML += '<img src="static/img/lena1.png" alt="satallite" width="145" height="145">';
                 } 
                 else if(obj.imgId == "2"){
-                simpleResult1.innerHTML += '<img src="static/img/lena2.png" alt="satallite" width="145" height="145">';
-
+                    simpleResult1.innerHTML += '<img src="static/img/lena2.png" alt="satallite" width="145" height="145">';
                 }
                 else if(obj.imgId == "3"){
-                simpleResult1.innerHTML += '<img src="static/img/lena3.png" alt="satallite" width="145" height="145">';
-
+                    simpleResult1.innerHTML += '<img src="static/img/lena3.png" alt="satallite" width="145" height="145">';
                 }
 
                 $('#log').prepend('<br>' + $('<div/>').text('\n # ' + time + ' ---------- 用户请求图片失败：\n' + tmp).html());
@@ -344,7 +352,8 @@ function sata2user() {
     svg.appendChild(line2);
 }
 
-// setTimeout(function () {
-// ncc2sata();
-// sata2user();
-// }, 4500)
+setTimeout(function () {
+user2sata();
+ncc2sata();
+sata2user();
+}, 4500)

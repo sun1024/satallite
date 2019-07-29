@@ -75,7 +75,7 @@ def reqImg():
         if img_content and img_key:
             try:
                 data = authResult(sessionId)
-                return imgRepo(data, img_content, img_key)
+                return imgRepo(data, img_content, img_key, imgId)
             except Exception, e:
                 print e
                 imgError = json.dumps({

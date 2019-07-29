@@ -183,7 +183,7 @@ def authResult(sessionId):
     }
 
 # 向用户加密传输图片
-def imgRepo(data, img_content, img_key):
+def imgRepo(data, img_content, img_key, img_id):
 
     sessionId = data['sessionId']
     sessionKey = data['sessionKey']
@@ -202,6 +202,7 @@ def imgRepo(data, img_content, img_key):
         "sessionId": sessionId,
         "IDu": data['IDu'],
         "content":"img content",
+        "imgId": img_id,
         "MAC":str(MAC)
     })
     clear_and_add(conns_data)

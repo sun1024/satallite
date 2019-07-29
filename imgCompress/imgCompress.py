@@ -19,23 +19,23 @@ j2k2png = path + '\\imgCompress\\transcoding\\openjpeg\\bin\\opj_decompress.exe 
 
 # 选择返回的图片
 def set_img(imgId):
-    if imgId == 1:
-        png2j2k = path + '\\imgCompress\\transcoding\\openjpeg\\bin\\opj_compress.exe -i ' + path + '\\imgCompress\\transcoding\\openjpeg\\bin\\lena1.png -o "' + path + '\\imgCompress\\transcoding\\transcoding\\Service Provider\\lena.j2k" -TP R'
-    elif imgId == 2:
-        png2j2k = path + '\\imgCompress\\transcoding\\openjpeg\\bin\\opj_compress.exe -i ' + path + '\\imgCompress\\transcoding\\openjpeg\\bin\\lena2.png -o "' + path + '\\imgCompress\\transcoding\\transcoding\\Service Provider\\lena.j2k" -TP R'
-    elif imgId == 3:
-        png2j2k = path + '\\imgCompress\\transcoding\\openjpeg\\bin\\opj_compress.exe -i ' + path + '\\imgCompress\\transcoding\\openjpeg\\bin\\lena3.png -o "' + path + '\\imgCompress\\transcoding\\transcoding\\Service Provider\\lena.j2k" -TP R'
-    
+    if imgId == "1":
+        png2j2k = path + '\\imgCompress\\transcoding\\openjpeg\\bin\\opj_compress.exe -i ' + path + '\\static\\img\\lena1.png -o "' + path + '\\imgCompress\\transcoding\\transcoding\\Service Provider\\lena.j2k" -TP R'
+    elif imgId == "2":
+        png2j2k = path + '\\imgCompress\\transcoding\\openjpeg\\bin\\opj_compress.exe -i ' + path + '\\static\\img\\lena2.png -o "' + path + '\\imgCompress\\transcoding\\transcoding\\Service Provider\\lena.j2k" -TP R'
+    elif imgId == "3":
+        png2j2k = path + '\\imgCompress\\transcoding\\openjpeg\\bin\\opj_compress.exe -i ' + path + '\\static\\img\\lena3.png -o "' + path + '\\imgCompress\\transcoding\\transcoding\\Service Provider\\lena.j2k" -TP R'
+
     return png2j2k
 
-    
+
 # 选择图片分辨率
 def set_ratio(ratioId):
-    if ratioId == 1:
+    if ratioId == "1":
         j2k2part = 'cd ' + path + '\\imgCompress\\transcoding\\transcoding && transcoding.exe 2 enc.j2k part.j2k 3'
-    elif ratioId == 2:        
+    elif ratioId == "2":
         j2k2part = 'cd ' + path + '\\imgCompress\\transcoding\\transcoding && transcoding.exe 2 enc.j2k part.j2k 5'
-    elif ratioId == 3:        
+    elif ratioId == "3":
         j2k2part = 'cd ' + path + '\\imgCompress\\transcoding\\transcoding && transcoding.exe 2 enc.j2k part.j2k 10'
 
     return j2k2part

@@ -129,7 +129,17 @@ $(document).ready(function () {
                 var user = obj.IDu.substring(0, 5) + "****";
                 simple1.innerHTML = "<h3>" + time + "</h3><br>用户:<h3>" + user + "</h3><font color='#FF0000'>请求图片失败</font>";
                 simpleResult1.innerHTML = "</h6>";
-                simpleResult1.innerHTML += '<img src="static/img/sate.png" alt="satallite" width="145" height="145">';
+                if(obj.imgId == "1") {
+                    simpleResult1.innerHTML += '<img src="static/img/lena1.png" alt="satallite" width="145" height="145">';
+                } 
+                else if(obj.imgId == "2"){
+                simpleResult1.innerHTML += '<img src="static/img/lena2.png" alt="satallite" width="145" height="145">';
+
+                }
+                else if(obj.imgId == "3"){
+                simpleResult1.innerHTML += '<img src="static/img/lena3.png" alt="satallite" width="145" height="145">';
+
+                }
 
                 $('#log').prepend('<br>' + $('<div/>').text('\n # ' + time + ' ---------- 用户请求图片失败：\n' + tmp).html());
             }
@@ -153,7 +163,6 @@ $(document).ready(function () {
             else if(obj.RepAuth == '500') {
                 simple1.innerHTML = "<h3>" + time + "</h3><br>当前用户:<h3>" + "</h3><font color='#FF0000'>二次认证失败</font>";
                 simpleResult1.innerHTML = "</h6>";
-                simpleResult1.innerHTML += '<img src="static/img/sate.png" alt="satallite" width="145" height="145">';
 
                 $('#log').prepend('<br>' + $('<div/>').text('\n # ' + time + ' ---------- 用户二次认证失败：\n' + tmp).html());
             }            

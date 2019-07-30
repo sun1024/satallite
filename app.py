@@ -34,6 +34,12 @@ def create_db():
         'ff4b43ede3bfdaa52ea7f97593f8897fd9a41645', 
         '124640bf2792a0cdce2c04e13326d67bf013bac6ce546616b04888e7c4e68631',
         '93103486375219430322734306483245'
+        ),
+        User(
+            '1',
+            '7a338dd86b660d873e90ba6cbcb3cf67a8db5cbf',
+            '10a3453913174f9dac3fb7dd1515fa9372c15e38',
+            '99981830598725463316889816604354'
         )]
     db.session.add_all(users)
     db.session.commit()
@@ -120,6 +126,7 @@ def register():
         try:
             new_user = User('1', userId, userKey, preRandom)
             db.session.add(new_user)
+            db.session.commit()
         except:
             return 'database error', 500
         # 返回给用户

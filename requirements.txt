@@ -1,0 +1,7 @@
+Flask==1.1.1
+Flask-Cors==3.0.8
+Flask-SocketIO==4.1.0
+pycrypto==2.6.1
+pyDes==2.0.1
+python-socketio==4.2.0
+requests==2.22.0

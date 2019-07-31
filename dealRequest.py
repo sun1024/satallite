@@ -30,6 +30,10 @@ def authCheck(userData, satalliteData):
     PIDs = satalliteData['PIDs']
     Hs = satalliteData['Hs']
 
+    # 验证timestamp
+    if is_timeout(Ts):
+        raise Exception('timeout')
+
     # 计算出IDu、IDs
     IDu = xor_decrypt(PIDu, Hu) 
     IDs = xor_decrypt(PIDs, Hs) 
@@ -76,6 +80,11 @@ def getUserInfo(data):
     PIDu = data['PIDu']
     Hu = data['Hu']
     Ts = data['Ts']
+
+    # 验证timestamp
+    if is_timeout(Ts):
+        raise Exception('timeout')
+
     # 通过PIDu拿到sk、MAC_key
     sk, MAC_key = get_sessions(PIDu)
     # 验证MAC

@@ -12,9 +12,6 @@ $(document).ready(function () {
 
     var tmp = '';
     var table = [];
-    // 接入成功数
-    var successCount = 0;
-    var failCount = 0;
     socket.on('server_response', function (msg) {
         // console.log(msg);
         if (msg.data.length != 0 && tmp != msg.data[0]) {
@@ -50,7 +47,7 @@ $(document).ready(function () {
                 $('#user_icon').style.setProperty('display', 'inline');
                 user2sata();
                 // 接入用户总数加一
-                updateUserCount();
+                updateUserCount(obj.conn_user, obj.succ_user);
             }
             else if (obj.userData) { //转发用户信息到ncc
                 var user = obj.userData.PIDu.substring(0, 5) + "****";
@@ -79,8 +76,7 @@ $(document).ready(function () {
                 changeTable(user, status);
                 ncc2sata();
 
-                changeSuccCount();
-                changeSuccessRatio(successCount);
+                updateUserCountAndratio(obj.conn_user, obj.succ_user);
             }
 
             else if (obj.ReqAuth == "ReqUserInfo") { //向ncc请求用户身份
@@ -108,8 +104,7 @@ $(document).ready(function () {
                 // 获取table中的该user行，并将status修改
                 changeTable(user, status);
 
-                changeFailCount();
-                changeFailRatio(failCount);
+                updateUserCountAndratio(obj.conn_user, obj.succ_user);
             }
 
             // 用户发起图片请求
@@ -197,22 +192,6 @@ $(document).ready(function () {
             }
         })
     }
-    function changeSuccCount(data) {
-        $.ajax({
-            async: false,
-            success: function () {
-                successCount += 1;
-            }
-        })
-    }
-    function changeFailCount(data) {
-        $.ajax({
-            async: false,
-            success: function () {
-                failCount += 1;
-            }
-        })
-    }
 
     function changeTable(user, status) {
         // var v = "";
@@ -247,25 +226,18 @@ function showTable() {
 }
 
 //接入用户总数更新
-function updateUserCount() {
-    userCount = document.getElementById("userCount").innerHTML;
-    document.getElementById("userCount").innerHTML = Number(userCount) + 1;
+function updateUserCount(conn_user, succ_user) {
+    document.getElementById("userCount").innerHTML = Number(conn_user);
 }
 
 // 计算接入成功率
-function changeSuccessRatio(successCount) {
-    userCount = Number(document.getElementById("userCount").innerHTML);
+function updateUserCountAndratio(conn_user, succ_user) {
+    document.getElementById("userCount").innerHTML = Number(conn_user);
+    userCount = Number(conn_user);
+    successCount = Number(succ_user);
     // 判断userCount
-    if (userCount != 0) {
+    if(userCount!=0){
         succ_ratio = Math.round(successCount / userCount * 100) + "%";
-        document.getElementById("succ_ratio").innerHTML = succ_ratio;
-    }
-}
-// 认证失败时更新接入成功率
-function changeFailRatio(failCount) {
-    userCount = Number(document.getElementById("userCount").innerHTML);
-    if (userCount != 0) {
-        succ_ratio = Math.round((userCount - failCount) / userCount * 100) + "%";
         document.getElementById("succ_ratio").innerHTML = succ_ratio;
     }
 }

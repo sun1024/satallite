@@ -73,10 +73,7 @@ def sendToNcc(satalliteData, userData):
         # 通过auth_reps判断认证是否成功
         return dealResNcc(auth_reps, satalliteData["Rs"], userData["Ru"], userData["PIDu"], userData['Hu'])
     else:
-        return {
-            "ReqAuth":"500",
-            "PIDu":userData["PIDu"]
-            }
+        raise Exception('ncc auth error')
 
 
 # 处理Ncc返回信息

@@ -122,7 +122,13 @@ def reqAuthFromUser():
         # 粗糙的验证用户信息
         if not user_valid(userData):
             return Response(status=500)
-        clear_and_add(request.data)
+        # 统计接入用户
+        global conn_user
+        global succ_user
+        conn_user += 1
+        userData['conn_user'] = conn_user
+        userData['succ_user'] = succ_user
+        clear_and_add(json.dumps(userData))
         # 处理认证选项
         try:
             new_options = userData['Options']
@@ -145,6 +151,10 @@ def reqAuthFromUser():
         # sendToNcc
         try:
             data = sendToNcc(satalliteData, userData)
+            # 统计成功信息
+            succ_user += 1
+            data['conn_user'] = conn_user
+            data['succ_user'] = succ_user
             data = json.dumps(data)
             clear_and_add(data)
             return data
@@ -152,7 +162,9 @@ def reqAuthFromUser():
             print e
             data = json.dumps({
                 "ReqAuth":"500",
-                "PIDu":userData["PIDu"]
+                "PIDu":userData["PIDu"],
+                "conn_user": conn_user,
+                "succ_user": succ_user
                 })
             clear_and_add(data)
             return Response(status=500, response=data)

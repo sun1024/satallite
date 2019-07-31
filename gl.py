@@ -20,6 +20,10 @@ options = {
     'Zip': 0
 }
 
+# 记录接入用户
+conn_user = 0
+succ_user = 0
+
 # 处理全局变量conns
 def clear_and_add(data):
     if len(conns) != 0:

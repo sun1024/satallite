@@ -160,7 +160,8 @@ def sendToUser(auth_reps, sk, MAC_key, Ru, PIDu):
             "secretHsat":secretHsat,
             "sessionId":secretSessionId,
             "MAC":MAC,
-            "PIDu":PIDu
+            "PIDu":PIDu,
+            "Ts":str(timestamp)
         }
         # 生成会话密钥 sessionKey sessionMACKey
         sessionKey = getHash(Hsat + Ku)

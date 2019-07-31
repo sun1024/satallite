@@ -118,8 +118,11 @@ def reqAuthFromUser():
 
     # 这里要对用户信息做出判断
     if(request.data):
-        clear_and_add(request.data)
         userData = json.loads(request.data)
+        # 粗糙的验证用户信息
+        if not user_valid(userData):
+            return Response(status=500)
+        clear_and_add(request.data)
         # 处理认证选项
         try:
             new_options = userData['Options']

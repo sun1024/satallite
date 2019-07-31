@@ -40,6 +40,18 @@ def getReqAuthData():
         }
     )
 
+def has_keys(dic, *keys):
+    for k in keys:
+        if k not in dic.keys():
+            return False
+    return True
+
+def user_valid(userData):
+    if has_keys(userData, 'Ru', 'MACu', 'Tu', 'Hu', 'PIDu'):
+        if not is_timeout(userData['Tu']):
+            return True
+    return False
+
 def sendToNcc(satalliteData, userData):
     #将认证信息传递给ncc
     data = json.dumps({
@@ -224,6 +236,10 @@ def dealSecondAuth(data):
     Tu = data['Tu']
     encode_data = data['encode_data']
     MACu = data['MAC']
+
+    # 验证时间戳
+    if is_timeout(Tu):
+        raise Exception('timeout')
 
     session_data = authResult(sessionId)
     Ku = session_data['Ku']

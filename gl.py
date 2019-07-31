@@ -51,3 +51,9 @@ def set_options(key, value):
 def change_options(new_options):
     global options
     options = new_options
+
+# 判断timestamp
+def is_timeout(timestamp):
+    if int(time.time()) - int(timestamp) <= 60:
+        return False
+    return True

@@ -121,7 +121,7 @@ def reqAuthFromUser():
         userData = json.loads(request.data)
         # 粗糙的验证用户信息
         if not user_valid(userData):
-            return Response(status=500)
+            return 'timeout', 500
         # 统计接入用户
         global conn_user
         global succ_user

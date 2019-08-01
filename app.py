@@ -16,7 +16,7 @@ db.init_app(app)
 CORS(app, supports_credentials=True)
 
 # 创建表格、插入数据
-@app.before_first_request
+# @app.before_first_request
 def create_db():
     # Recreate database each time for demo
     db.drop_all()
@@ -99,7 +99,8 @@ def identityCheck():
             masterKey = authCheck(userData, satalliteData)
             if masterKey == '0':
                 return json.dumps({
-                    'Code':"1"
+                    'Code':"1",
+                    'status':"MAC error"
                 }), 500
             
             retData = retSatallite(masterKey)
@@ -107,7 +108,8 @@ def identityCheck():
         except Exception, e:
             print e
             return json.dumps({
-                'Code':"1"
+                'Code':"1",
+                'status':"auth error"
             }), 500
     else:
         return 'invalide method', 500

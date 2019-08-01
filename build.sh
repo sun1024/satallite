@@ -1,1 +1,1 @@
-docker build -t flask:v1 .
+docker build -t ncc:v1 .

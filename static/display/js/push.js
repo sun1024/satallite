@@ -182,7 +182,7 @@ $(document).ready(function () {
             }    
             setTimeout(function () {
                 clearLine();
-            }, 4500)    
+            }, 5000)    
         }
     });
     function fnDate() {

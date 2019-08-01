@@ -58,6 +58,7 @@ def change_options(new_options):
 
 # 判断timestamp
 def is_timeout(timestamp):
-    if int(time.time()) - int(timestamp) <= 180:
+    now = int(time.time())
+    if now>int(timestamp) and now-int(timestamp)<=180:
         return False
     return True

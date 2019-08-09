@@ -1,3 +1,9 @@
+'''
+@Author: b1ng0
+@Date: 2019-05-29 21:26:25
+@LastEditors: b1ng0
+@LastEditTime: 2019-08-09 10:40:50
+'''
 # -*- coding:utf-8 -*-
 from flask import Flask, jsonify, request, render_template, Response, send_from_directory, abort
 from flask_socketio import SocketIO, emit
@@ -185,7 +191,7 @@ def getUserList():
 
 
 if __name__ == "__main__":
-    webbrowser.open("http://127.0.0.1:2333")
+    # webbrowser.open("http://127.0.0.1:2333")
     socketio.run(
         app,
         # debug=True,

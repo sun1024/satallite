@@ -5,3 +5,4 @@ pycrypto==2.6.1
 pyDes==2.0.1
 python-socketio==4.2.0
 requests==2.22.0
+flask_sqlalchemy

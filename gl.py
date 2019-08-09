@@ -1,3 +1,9 @@
+'''
+@Author: b1ng0
+@Date: 2019-06-19 17:47:04
+@LastEditors: b1ng0
+@LastEditTime: 2019-08-09 10:37:40
+'''
 #!/usr/bin/python
 # -*- coding:utf-8 -*-
 # author : b1ng0
@@ -61,4 +67,4 @@ def is_timeout(timestamp):
     now = int(time.time())
     if now>=int(timestamp) and now-int(timestamp)<=180:
         return False
-    return True
+    return False
